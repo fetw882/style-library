@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#e9e5df;overflow:hidden}canvas{display:block}</style></head><body><canvas id="c"></canvas><script>
+// 红线火柴人 Redline Stickman — demo. Every frame = pure function of t; randomness seeded; line "boil" re-seeded 12x/s.
+const W=1080,H=1920,FPS=30;window.DUR=8.0;
+const cv=document.getElementById('c');cv.width=W;cv.height=H;const X=cv.getContext('2d');
+const PAPER='#e9e5df',INK='#241e1d',RED='#c9262f',BLUE='#50adf2',GREY='#8a8580',SUB='#9a948d';
+const SANS='"PingFang SC","Noto Sans CJK SC","Helvetica Neue",sans-serif',SERIF='"Songti SC","Noto Serif CJK SC",serif';
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),EO=x=>1-Math.pow(1-cl(x),3),EB=x=>{x=cl(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let BOIL=0,SID=0; // boil frame index, per-stroke id
+function wob(){const r=rng(BOIL*7919+(SID++)*104729);return ()=> (r()-.5)}
+// hand line through points, partial reveal p (0..1), width w; jitter 1.6px re-seeded per boil frame
+function hline(pts,p=1,w=7,col=INK,j=1.6){const r=wob();const q=[];for(let i=0;i<pts.length-1;i++){const[a,b]=[pts[i],pts[i+1]];const n=Math.max(2,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/40));for(let k=0;k<n;k++){const f=k/n;q.push([a[0]+(b[0]-a[0])*f+r()*j*2,a[1]+(b[1]-a[1])*f+r()*j*2])}}q.push([pts.at(-1)[0]+r()*j,pts.at(-1)[1]+r()*j]);
+ const m=Math.max(1,Math.floor((q.length-1)*cl(p)));if(p<=0)return;X.strokeStyle=col;X.lineWidth=w;X.lineCap=X.lineJoin='round';X.beginPath();X.moveTo(...q[0]);
+ for(let i=1;i<=m;i++){const[a,b]=[q[i-1],q[i]];X.quadraticCurveTo(a[0],a[1],(a[0]+b[0])/2,(a[1]+b[1])/2)}
+ const fr=(q.length-1)*cl(p)-m;if(m<q.length-1&&fr>0){X.lineTo(q[m][0]+(q[m+1][0]-q[m][0])*fr,q[m][1]+(q[m+1][1]-q[m][1])*fr)}X.stroke()}
+function hcirc(cx,cy,r,p=1,w=7,col=INK,fill=null){const R=wob();const pts=[];const N=22,a0=-1.9+R()*.3;for(let i=0;i<=N*1.06;i++){const a=a0+i/N*6.283;const rr=r*(1+R()*.06);pts.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr])}
+ if(fill&&p>=1){X.fillStyle=fill;X.beginPath();pts.forEach((q,i)=>i?X.lineTo(...q):X.moveTo(...q));X.fill()}hline(pts,p,w,col,.6)}
+// stick figure: pose params, reveal p
+function stick(x,y,s,pose,p=1,col=INK){const P=k=>cl(p*5-k); // head,body,arms,legs sequential
+ const hy=y-170*s;hcirc(x,hy,30*s,P(0),7,col,PAPER);
+ const neck=[x,hy+32*s],hip=[x+pose.lean*s,y-60*s];hline([neck,hip],P(1),7,col);
+ const sh=[x+pose.lean*.3*s,hy+60*s];
+ for(const[ang,len]of pose.arms){const e=[sh[0]+Math.cos(ang)*len*s,sh[1]+Math.sin(ang)*len*s];hline([sh,e],P(2),7,col)}
+ for(const ang of pose.legs){hline([hip,[hip[0]+Math.cos(ang)*70*s,hip[1]+Math.sin(ang)*70*s]],P(3),7,col)}
+ // face: two dots + mouth
+ if(P(4)>0){X.fillStyle=col;X.beginPath();X.arc(x-10*s,hy-4*s,3.5*s,0,7);X.arc(x+10*s,hy-4*s,3.5*s,0,7);X.fill();hline(pose.sad?[[x-9*s,hy+16*s],[x,hy+11*s],[x+9*s,hy+16*s]]:[[x-9*s,hy+11*s],[x,hy+16*s],[x+9*s,hy+11*s]],P(4),4,col,.4)}}
+const lerp=(a,b,t)=>a+(b-a)*t;
+function txt(s,x,y,font,col,a=1,sx=1){X.save();X.globalAlpha=a;X.font=font;X.fillStyle=col;X.translate(x,y);X.scale(sx,1);X.fillText(s,0,0);X.restore();X.font=font;return X.measureText(s).width*sx}
+// karaoke caption: words appear on their onset (from the narration timing table), key word red italic serif
+const CAP=[[0.2,'蚊子'],[0.55,'为什么'],[0.95,'总咬',1],[1.35,'你？'],[2.4,'先看'],[2.75,'第一个',],[3.15,'原因',1],[4.6,'你呼出的'],[5.2,'二氧化碳',1],[6.3,'它'],[6.55,'追着',1],[7.0,'就来了']];
+function caption(t){const line=t<2.2?CAP.slice(0,4):t<4.4?CAP.slice(4,7):CAP.slice(7);let x=120,y=262;
+ for(const[o,w,k]of line){const a=EO((t-o)/.12);if(a<=0)break;const dy=(1-a)*10;x+=txt(w,x,y+dy,k?`italic 600 62px ${SERIF}`:`500 56px ${SANS}`,k?RED:INK,a)+8}}
+function headline(t){const H1=t<4.4?['别再',' 瞎猜了']:['原因 ','1：二氧化碳'];const t0=t<4.4?0.3:4.45;const a=EO((t-t0)/.18);X.save();X.globalAlpha=a;const y=470;
+ let x=110;x+=txt(H1[0],x,y,`900 104px ${SANS}`,INK,a,.82);txt(H1[1],x,y,`900 104px ${SANS}`,RED,a,.82);X.restore();
+ hline([[108,512],[400,520],[700,516],[930,508]],EO((t-t0-.25)/.45),7,RED,2.2)}
+function draw(t){BOIL=Math.floor(t*12);SID=0;X.fillStyle=PAPER;X.fillRect(0,0,W,H);
+ // paper grain (static seed) + very faint
+ X.drawImage(GRAIN,0,0);
+ txt('@handle · 样片',110,148,`400 30px Menlo,monospace`,SUB);const pw=txt('第 1 招',830,148,`700 30px Menlo,monospace`,RED);
+ caption(t);headline(t);
+ hline([[80,1229],[1000,1231]],1,5,GREY,.8);
+ // scene A 0–4.4: man stands, scratches arm (mosquito), falls at "原因"
+ if(t<4.4){const p=EO((t-.9)/.6);const fall=EB((t-3.15)/.35);
+  const pose=fall>0?{lean:lerp(0,60,fall),arms:[[-2.4,85],[-0.6,85]],legs:[1.9,1.3],sad:1}:{lean:0,arms:[[2.0+Math.sin(t*14)*.25*(t>1.8),80],[0.9,80]],legs:[[1.95],[1.2]].map(a=>a[0]),sad:t>1.8};
+  X.save();X.translate(540,1130);X.rotate(fall*-.0);X.translate(-540,-1130);stick(540,1150,1.6,pose,p);X.restore();
+  // mosquito: small ink scribble with red dot, buzzing loop 0.5s
+  if(t>1.4&&t<3.15){const mt=t-1.4,mx=640+Math.sin(mt*5.3)*60,my=760+Math.cos(mt*7.1)*30;hline([[mx-14,my],[mx+14,my]],1,5);hcirc(mx,my-4,7,1,4,INK,RED);hline([[mx-6,my-8],[mx-20,my-22]],1,3);hline([[mx+6,my-8],[mx+20,my-22]],1,3)}
+  // "1 2 3" red numbers pop on 第一个 原因
+  [[2.75,420,'1'],[2.95,560,'2'],[3.15,700,'3']].forEach(([o,x,s])=>{const a=EB((t-o)/.25);if(a>0)txt(s,x-18,680-30*a+30,`italic 700 ${Math.round(70*cl(a,0,1.3))}px ${SERIF}`,RED,cl(a))})}
+ else{ // scene B: red CO2 cloud lines draw from man to mosquito; man then runs
+  const p=EO((t-4.45)/.5);stick(380,1150,1.6,{lean:10,arms:[[2.3,80],[0.7,80]],legs:[1.95,1.25]},1);
+  // breath puffs: 3 red hand circles ripple each 0.6s
+  for(let i=0;i<3;i++){const ph=cl((t-5.2-i*.25)/.9);if(ph>0)hcirc(460+ph*260,880-ph*90,18+ph*40,1,5,`rgba(201,38,47,${1-ph*.7})`)}
+  txt('CO₂',520,820,`italic 700 64px ${SERIF}`,RED,EO((t-5.2)/.2));
+  const mt=t-4.4,arr=EO((t-6.55)/.4),mx=lerp(900,560,arr),my=760+Math.sin(mt*9)*14;hline([[mx-14,my],[mx+14,my]],1,5);hcirc(mx,my-4,7,1,4,INK,RED);hline([[mx-6,my-8],[mx-20,my-22]],1,3);hline([[mx+6,my-8],[mx+20,my-22]],1,3);
+  if(arr>0)hline([[900,700],[760,680],[600,720]],arr,6,RED,2);
+  const a=EB((t-4.5)/.3);txt('1',95,1530,`italic 400 ${Math.round(240*cl(a,0,1.2))}px ${SERIF}`,INK,cl(a));txt('/3',235,1530,`italic 400 70px ${SERIF}`,RED,cl(a));hline([[120,1580],[340,1584]],EO((t-4.7)/.3),4,RED,1)}
+ presenter(t)}
+// presenter: our own character (frog-hood kid), bottom-right, cropped by frame edge; mouth from speech envelope; blink every ~3.1s; bob 0.5Hz
+const SPEECH=[[0.2,1.8],[2.4,3.6],[4.6,7.6]];
+function presenter(t){const talk=SPEECH.some(([a,b])=>t>a&&t<b);const env=talk?(.5+.5*Math.sin(t*2*Math.PI*4.3))*(.6+.4*Math.sin(t*7.7)):0;
+ const by=Math.sin(t*Math.PI)*4,cx=780,cy=1590+by;
+ // body stick
+ hline([[cx,cy+200],[cx,cy+340]],1,7);hline([[cx,cy+250],[cx-90,cy+330]],1,7);
+ // hood
+ hcirc(cx-150,cy-190,55,1,7,INK,BLUE);hcirc(cx+150,cy-190,55,1,7,INK,BLUE);hcirc(cx-150,cy-195,22,1,6,INK,'#fff');hcirc(cx+150,cy-195,22,1,6,INK,'#fff');
+ const bl=((t+.4)%3.1)<.12;X.fillStyle=INK;if(!bl){X.beginPath();X.arc(cx-146,cy-192,9,0,7);X.arc(cx+154,cy-192,9,0,7);X.fill()}else{hline([[cx-165,cy-193],[cx-128,cy-193]],1,5);hline([[cx+135,cy-193],[cx+172,cy-193]],1,5)}
+ hcirc(cx,cy-20,230,1,8,INK,BLUE);hcirc(cx,cy+30,175,1,7,INK,'#fff');
+ // fringe
+ for(let i=0;i<5;i++)hline([[cx-170+i*85,cy-120],[cx-130+i*85,cy-40+(i%2)*20]],1,6);
+ // eyes
+ const ey=cy+30;for(const s of[-1,1]){hcirc(cx+s*65,ey,34,1,6,INK,'#fff');if(!bl){X.fillStyle=BLUE;X.beginPath();X.arc(cx+s*65,ey+4,22,0,7);X.fill();X.fillStyle=INK;X.beginPath();X.arc(cx+s*65,ey+4,10,0,7);X.fill();X.fillStyle='#fff';X.beginPath();X.arc(cx+s*65+8,ey-6,6,0,7);X.fill()}else hline([[cx+s*65-28,ey+4],[cx+s*65+28,ey+4]],1,6)}
+ // mouth
+ const mh=6+env*34;X.fillStyle=INK;X.beginPath();X.ellipse(cx,cy+120,26,mh/2+2,0,0,7);X.fill();if(mh>16){X.fillStyle=RED;X.beginPath();X.ellipse(cx,cy+120+mh/4,16,mh/5,0,0,7);X.fill()}}
+const GRAIN=(()=>{const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d'),d=g.createImageData(W,H),r=rng(7);for(let i=0;i<d.data.length;i+=4){const v=r()<.5?0:255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=r()*7}g.putImageData(d,0,0);return c})();
+window.render=draw;document.fonts.ready.then(()=>{window.READY=true});
+</script></body></html>
