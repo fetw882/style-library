@@ -1,6 +1,6 @@
 {
- "hash": "021f060c2ebf",
- "count": 3,
+ "hash": "5e50d96ac9a3",
+ "count": 2,
  "styles": [
   {
    "slug": "film-direct-engrave",
@@ -71,36 +71,7 @@
     "render_mac.sh",
     "still.mjs"
    ]
-  },
-  {
-   "slug": "film-direct-engrave",
-   "en": "Direct-Etched Film",
-   "cn": "胶片直刻",
-   "based_on": "none (technique base: hand-drawn canvas 2D + post compositing)",
-   "borrows": [],
-   "size": "1920x1080",
-   "test_size": "960x540",
-   "fps": 24,
-   "library_version": "n/a (own style, not derived from a library style)",
-   "created": "2026-11-01",
-   "status": "draft",
-   "line": "Warm white lines scratched into dark film, each subject dyed one glowing colour, redrawn on twos so the whole frame breathes.",
-   "line_cn": "像直接在黑胶片上刻出的暖白线条，每个主角只染一种发光颜色，一拍二重画，整幅画面都在轻轻颤动。",
-   "source": "Style study of Lemomo THE NIGHT CLIMB (https://x.com/lemomo_ai/status/2116717173934825841) — style learning only",
-   "approved_by": "owner, 2026-11-01",
-   "id": "zz-sync-test",
-   "name": "ZZ同步测试",
-   "dir": "zz-sync-test",
-   "poster": null,
-   "video": null,
-   "styleframe": null,
-   "md": {
-    "STYLE.md": "",
-    "CHANGES.md": "",
-    "DEMO.md": ""
-   },
-   "demo_files": []
   }
  ],
- "built": "2026-11-01 21:55:31"
+ "built": "2026-11-01 21:56:41"
 }
