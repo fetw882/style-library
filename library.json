@@ -1,0 +1,77 @@
+{
+ "hash": "5e50d96ac9a3",
+ "count": 2,
+ "styles": [
+  {
+   "slug": "film-direct-engrave",
+   "en": "Direct-Etched Film",
+   "cn": "胶片直刻",
+   "based_on": "none (technique base: hand-drawn canvas 2D + post compositing)",
+   "borrows": [],
+   "size": "1920x1080",
+   "test_size": "960x540",
+   "fps": 24,
+   "library_version": "n/a (own style, not derived from a library style)",
+   "created": "2026-11-01",
+   "status": "approved",
+   "line": "Warm white lines scratched into dark film, each subject dyed one glowing colour, redrawn on twos so the whole frame breathes.",
+   "line_cn": "像直接在黑胶片上刻出的暖白线条，每个主角只染一种发光颜色，一拍二重画，整幅画面都在轻轻颤动。",
+   "source": "Style study of Lemomo THE NIGHT CLIMB (https://x.com/lemomo_ai/status/2116717173934825841) — style learning only",
+   "approved_by": "owner, 2026-11-01",
+   "dir": "film-direct-engrave",
+   "poster": "film-direct-engrave/test.jpg",
+   "video": "film-direct-engrave/test.mp4",
+   "styleframe": "film-direct-engrave/styleframe.jpg",
+   "md": {
+    "STYLE.md": "# Direct-Etched Film 胶片直刻 — Style Prompt\n\n> Lines scratched straight into dark film stock, dyed by hand, glowing on projection.\n> Source: style study of Lemomo *THE NIGHT CLIMB* (https://x.com/lemomo_ai/status/2116717173934825841) — style learning only; never reuse its footage, frames, characters or story.\n\n## 1. Essence, and what it is not\nA dark, warm-black film frame where every drawing is an **engraved warm-white line**, and each subject carries **one saturated dye** laid in hatching that glows. Everything is redrawn **on twos**, so lines, dye and scratches boil together: it feels hand-made and projected.\n\nNot: a neon/cyberpunk glow look (no clean vector lines, no gradients), not a \"vintage film\" filter over footage (no sprocket holes, no frame borders, no sepia), not flat motion graphics, not chalkboard (lines are thin and luminous, ground is warm black, not green/grey).\n\n## 2. Materials & rendering\n- Ground: warm black `#130f10`; mean frame luma ≈ 29/255, lit area only 1–17 % of the frame.\n- Line: warm white `#f5efe2`, median width ≈ 2 px @1080 (detail), outlines 4–10 px; line ends left open, pressure varies.\n- Dye: per subject, −60° parallel hatching over a translucent base of the same colour that **spills past the outline**.\n- Overlaps brighten (additive / screen), never darken.\n- Glow: 6–10 px blur bloom on lines and dye.\n- Film damage: many short curved white hair scratches + dust specks, **20–40 per redraw, re-scattered every redraw**.\n- Vignette + a warm light leak. No sprocket holes, no frame border.\n\n## 3. Colour logic\n- Constants: warm black ground, warm white line.\n- **One subject = one dye**: cyan `#3be6d6`, blue `#3585e2`, red `#df3e30`, gold `#e7bc27`. Never two dyes on one subject; never a large dye area that out-weighs the lead (keep secondary fills small).\n- The accent the story follows gets the most saturated dye; dim non-leads to 40–60 %.\n\n## 4. Type & subtitles\n- Subtitles: warm white, light weight, small glow, bottom centre, never over the lead.\n- On-screen words are etched like lines (stroke reveal), not pasted type. Size floors from the director rules (main ≥120 px, sub ≥56, label ≥34 @1080).\n\n## 5. Motion quality\n- Boil **on twos**: random seed = floor(frame/2). Lemomo measured at 15 redraws/s; our 24 fps test is 12/s (15/s needs 30 fps — decide per film).\n- Motion slow and sparse; one lead at a time, ≤3 moving regions.\n- **Keyword hit rule**: the element tied to a spoken keyword moves on that word (±1 frame) with a clearly visible change. Never let the boil hide a weak hit (e.g. test's 「他」 Δ+2 is too weak).\n\n## 6. Camera grammar\n- Mostly locked or slow push; hard cuts between ideas; left/right split screen for comparison (you vs him).\n\n## 7. Sound palette\n- Loudness −14 LUFS integrated, true peak ≤ −1.5 dBTP. Reference ran ≈129 BPM; motion does not need to sit on beats (reference r = −0.07), but keyword hits must sit on speech.\n- No whispering, no sudden silence (user rule).\n\n## 8. Native moves\n- Hard cut (reference cuts at 14.30 / 23.37 / 30.97 s).\n- Left/right split screen for comparisons (reference 15–31 s).\n- A line etching itself in, then being dyed with hatching.\n\n## 9. Pitfalls of the medium\n- Too much dye area (the test's quilt) steals the lead.\n- Hatching too sparse loses the scratched feel; keep it dense, with dark gaps.\n- Thin lines vanish at small sizes (mosquitoes): thicken small subjects' outlines.\n- Even, uniform glow looks digital; vary it.\n- Unseeded randomness breaks parallel rendering.\n\n## 10. Engine\n- Canvas 2D hand-drawn per frame + post compositing (glow, scratches, vignette, leak) in the same page; every frame a pure function of t; seeded randomness.\n- Render: on the cloud box ≤2 workers (software WebGL, 8 cores); **official renders on the Mac mini** (user rule 2026-11-01).\n- H.264 yuv420p bt709 tv, faststart.\n\n## 11. Variation space / known gaps for next version\n- Characters: move from round-head stick figures to designed characters with expressions.\n- Denser hatching with black gaps; smaller dye areas; varied glow.\n- Boil 15/s (30 fps) vs 12/s (24 fps) to decide.\n- Add graphic language (rulers, ticks, diagrams) of our own.\n",
+    "CHANGES.md": "# Changes — Direct-Etched Film 胶片直刻 (from a blank page)\n\n| Section | Base | Now | Why |\n|---|---|---|---|\n| 1 Essence | — | engraved warm-white lines on warm black, one dye per subject, boil on twos | user approved the 10 s test (2026-11-01) |\n| 2 Ground | — | `#130f10`, luma ≈29, lit 1–17 % | measured in style teardown |\n| 2 Line | — | `#f5efe2`, ≈2 px median @1080, outline 4–10 px, open ends | measured |\n| 2 Dye | — | −60° hatching + translucent same-colour base spilling past outline; overlaps brighten | measured |\n| 2 Glow / damage | — | 6–10 px bloom; 20–40 hair scratches + dust re-scattered each redraw; vignette + warm leak; no sprockets/border | measured |\n| 3 Palette | — | cyan #3be6d6 / blue #3585e2 / red #df3e30 / gold #e7bc27 | measured |\n| 5 Boil | — | seed=floor(frame/2); 12/s at 24 fps (reference 15/s) | test used 24 fps |\n| 5 Keyword hits | — | element moves on the spoken keyword, visibly | user iron rule |\n| 6/8 Camera | — | hard cuts, left/right split | reference grammar |\n| 7 Sound | — | −14 LUFS, TP ≤ −1.5 dBTP | house standard |\n| 10 Engine | — | canvas 2D + post; box ≤2 workers, final on Mac mini | box stability; user rule |\n",
+    "DEMO.md": "# Demo — Direct-Etched Film 胶片直刻\n\nOne example among many. Don't reuse its story, arc, shots, props or timings.\n\n- Story: first 10 s of our film 《为什么蚊子总是咬你不咬他？》 v9 (narration + subtitles from v9).\n- Output: test.mp4, 960×540, 24 fps, 10.000 s, H.264+AAC, −14.1 LUFS, peak −1.9 dBTP. Smoke render on box, 2 workers, 44 s.\n- Files (demo/): `index.html` draws every frame (`render(t)`, seeded boil, lines, dye, scratches, post); `render.mjs` captures frames with headless Chrome; `render_mac.sh` concat + 2-pass loudnorm + mux; `build.sh` one command on the Mac mini; `audio_10s.wav` narration; `subs_10s.srt`; `verify_kw.mjs` checks keyword hits (region mean luma 0.25 s before vs 0.4 s after).\n\n## Keyword hits (verify_kw.mjs)\n| Word | t (s) | Element | Δ luma |\n|---|---|---|---|\n| 屋 | 0.69 | window frame etched | +19 |\n| 晚上 | 1.59 | moon | +18 |\n| 蚊子 | 1.99 | mosquito enters | — |\n| 你 | 2.49 | head selected | +6 |\n| 他 | 2.97 | head pulses | +2 (weak) |\n| 睡 | 3.97 | Zzz | — |\n| 天亮 | 4.17 | sun rises | — |\n| 腿 | 4.59 | leg | +24 |\n| 包 | 5.19 | red bump swells | — |\n| 痒 | 5.37 | scratch marks | — |\n| 爬起来 | 5.97 | sits up, eyes open | +17 |\n| 开灯 | 6.41 | light cone | +26 |\n| 错觉 | 7.95 | red cross over \"?\" | — |\n| 总有人 | 8.25 | him dimmed, you glow | — |\n| 招蚊子 | 9.03 | four mosquitoes circle | — |\n| 你妈 | 9.81 | speech bubble | — |\n\n## Known gaps\nRound-head stick figures; quilt dye area too big; hatching too sparse; glow too uniform; mosquito lines thin; 「他」 hit weak; boil 12/s not 15/s; kickoff/shots/checklist were not fully written for this test, so no self-score.\n"
+   },
+   "demo_files": [
+    "CREDITS",
+    "audio_10s.wav",
+    "build.sh",
+    "index.html",
+    "render.mjs",
+    "render_mac.sh",
+    "subs_10s.srt",
+    "verify_kw.mjs"
+   ]
+  },
+  {
+   "slug": "light-dot-particles",
+   "en": "Breathing Light Particles",
+   "cn": "光点粒子",
+   "based_on": "none (technique base: canvas 2D additive sprite particles + blur glow)",
+   "borrows": [],
+   "size": "1920x1080",
+   "test_size": "960x540",
+   "fps": 24,
+   "library_version": "n/a (own style, not derived from a library style)",
+   "created": "2026-11-01",
+   "status": "draft",
+   "line": "Everything on a near-black night is made of soft breathing light dots; scenes change by dots scattering and regathering into the next thing.",
+   "line_cn": "近黑的夜里，人物、房子、月亮全由会呼吸的柔和光点组成；换场靠光点散开、再聚成下一样东西。",
+   "source": "Style study of Lemomo 光点粒子 (https://x.com/lemomo_ai/status/2116748566479921576) — style learning only, no original footage kept",
+   "dir": "light-dot-particles",
+   "poster": "light-dot-particles/test.jpg",
+   "video": "light-dot-particles/test.mp4",
+   "styleframe": "light-dot-particles/styleframe.jpg",
+   "md": {
+    "STYLE.md": "# 光点粒子 Breathing Light Particles — STYLE (invariants only)\nLearned from Lemomo's 光点粒子 post (style study only). Measurements: /workspace/mosquito-film/styletest2/dots/REPORT.md.\n\n## 1. Essence\nNight picture-book. Every subject (people, animals, land, moon, grass) is a cloud of soft glowing dots on near-black. Dots breathe; subjects form by gathering and leave by scattering. Best for lyrical / character stories, nature, night, crowds, migration. **Not**: steps, numbers, dense facts, product UI.\n## 2. Materials & rendering\nAdditive point sprites (bright white core → coloured halo → transparent), `lighter` blending so overlaps brighten. Core radius median 3.5 px @1080 (p25 3.0, p90 5.0); a few big \"firefly\" dots 1.5×. Extra glow pass: ¼-res blur ≈ 6–10 px @1080 added at 0.5. Faint coloured haze behind dense areas. Vignette.\n## 3. Colour\nGround near-black with a cool-green cast, rgb ≈ (4–11, 5–13, 8–12), mean frame luma 12–38/255, pixels >90 only 0.3–12 %. Two-family palette: warm gold/cream for characters, moon, light (#f0dba0 / #e5e3d2 / #c2b28e); muted sage-olive for land, grass, animals, haze (#a7b47f / #9da17e / #777a5a). One accent only when the story needs it (our addition: red #ff6a4a). No saturated rainbow.\n## 4. Type\nSmall bilingual subtitle at bottom centre, cream, no box; titles may be formed of dots at the end. In our films: subtitle ≥56 px @1080, typed 35 ms/char.\n## 5. Motion\nEvery dot: per-dot twinkle ≈1.2 Hz random phase (luma ±2–3 %) + slow global breath ≈0.4 Hz (size ±12 %). Forming: dots fly in on bowed arcs with per-dot delay (0–0.35 s), ease-out. Leaving: dots scatter outward & upward, dim, ease-in. Shape morph = same dots re-targeted (never fade-swap). Outline sampling dense (~30 dots / 100×100 px @1080 on figures) vs ambient (2–5 / 100×100).\n## 6. Camera\nMostly locked or very slow push/drift; no hard cuts in the reference (0 detected cuts in 50.6 s) — transitions are particle dispersal / regathering and fades to near-black.\n## 7. Sound\nSoft music, ~−14 LUFS, motion only loosely follows loudness (r ≈ 0.29). In our films: narration + BGM, keyword → element moves on the word.\n## 8. Native moves\nScatter-and-regather transition; firefly stream / comet tail of dots; whole figure breathing; dots shiver = itch/anxiety; dots condense = attention.\n## 9. Layout\nBig negative space; horizon low (bottom 20–30 % land/grass); subject on thirds.\n## 10. Engine\ncanvas 2D, pure function of t, seeded mulberry32; renders via headless Chrome + ffmpeg on the Mac mini (`demo/render_mac.sh`).\n## 11. Don'ts\nNo line strokes (only dots); no hard cuts; no flat fills; don't copy the reference's girl/deer/moon composition.\n",
+    "CHANGES.md": "| Section | Base (Lemomo reference, measured) | Now (ours) | Why |\n|---|---|---|---|\n| §3 colour | gold + sage only | + one red accent for story beats | keyword must be visible (mosquito bites) |\n| §4 type | tiny subtitles | ≥56 px @1080, typed 35 ms/char | our type floor and subtitle rule |\n| §5 motion | movement loosely tied to music | keyword → element moves on the word | user iron rule |\n| §6 camera | mostly locked | slow push 1.00→1.07 + drift | our camera-variable rule |\n| §2 rendering | dense haze/grass field, ~3000 dots | demo uses ~2,300 dots + 230 dust | first draft; density to be raised |\n",
+    "DEMO.md": "# DEMO — 光点粒子 test (8 s, 960×540, 24 fps)\nOne example among many. Don't reuse its story, arc, shots, props or timings.\n\nStory: opening of our mosquito film — \"为什么同一间屋、同一个晚上，蚊子只咬你，不咬他？他一觉睡到天亮，你腿上全是包，痒得你半夜爬起来开灯找蚊子。\"\nShots (single continuous shot): dust → dots gather into a house (屋 1.03) → moon gathers in the window (晚上 1.59) → white mosquito swarm flies in (蚊子 1.99) → dives to you, you pulse (你 2.49) → hovers at him, he pulses, it turns back (他 2.97) → Z's float (睡 3.97) → moon sinks (天亮 4.17) → red dots swell on your leg (包 5.19) → your dots shiver (痒 5.37) → your dots re-gather sitting up (爬起来 5.97) → lamp cone of dots (开灯 6.27) → mosquito scatters (找蚊子 6.55) → everything disperses (7.2–8.0).\nPalette: BG #050608, GOLD #f0dba0, SAGE #a7b47f, RED #ff6a4a, COOL #e2ece8. Score: our v9 narration+BGM, −14 LUFS.\nFiles: demo/index.html draws everything (samplers poly/circ/rectFill, keyframes per particle, render(t)); render.mjs frame capture; render_mac.sh mux + loudnorm; build.sh one command.\n"
+   },
+   "demo_files": [
+    "CREDITS",
+    "audio_8s.wav",
+    "build.sh",
+    "index.html",
+    "render.mjs",
+    "render_mac.sh",
+    "still.mjs"
+   ]
+  }
+ ],
+ "built": "2026-11-01 21:43:37"
+}

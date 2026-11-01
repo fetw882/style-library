@@ -1,0 +1,178 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#130f10;overflow:hidden}canvas{display:block}</style></head><body><canvas id="c"></canvas><script>
+// 胶片直刻 v2 — every frame is a pure function of t; all randomness seeded by hold=floor(frame/2)
+const W=960,H=540,FPS=24,cv=document.getElementById('c');cv.width=W;cv.height=H;const M=cv.getContext('2d',{willReadFrequently:true});
+window.DUR=10.0;
+const BG='#130f10',INK='#f5efe2',CYAN='#3be6d6',BLUE='#3585e2',RED='#df3e30',GOLD='#e7bc27';
+const EASE=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, EO=x=>1-Math.pow(1-cl(x),3), EI=x=>cl(x)**3;
+const T_S=.4,T_M=.8,T_L=1.6;
+function cl(x,a=0,b=1){return Math.max(a,Math.min(b,x))}
+const lerp=(a,b,t)=>a+(b-a)*t, rmp=(t,a,d)=>cl((t-a)/d);
+function hs(n){n=Math.sin(n*127.1+311.7)*43758.5453;return n-Math.floor(n)}
+function h2(a,b){return hs(a*13.17+b*71.31+.123)}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+// layers: L = emissive (black bg), S = small for glow
+const L=document.createElement('canvas');L.width=W;L.height=H;const g=L.getContext('2d');
+const S1=document.createElement('canvas');S1.width=W/4;S1.height=H/4;const s1=S1.getContext('2d');
+const S2=document.createElement('canvas');S2.width=W/2;S2.height=H/2;const s2=S2.getContext('2d');
+let HOLD=0,T=0,TR;
+// grain tiles
+const tiles=[];{const R=rng(7);for(let k=0;k<6;k++){const c=document.createElement('canvas');c.width=480;c.height=270;const x=c.getContext('2d');const im=x.createImageData(480,270);for(let i=0;i<im.data.length;i+=4){const v=R()*255;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=22}x.putImageData(im,0,0);tiles.push(c)}}
+// densify + jitter (re-sampled every hold)
+function dens(p,step=9){const o=[];for(let i=0;i<p.length;i++){if(i){const[a,b]=p[i-1],[c,d]=p[i];const n=Math.max(1,Math.floor(Math.hypot(c-a,d-b)/step));for(let k=1;k<n;k++)o.push([lerp(a,c,k/n),lerp(b,d,k/n)])}o.push(p[i])}return o}
+function jit(p,seed,amp){return p.map((q,i)=>[q[0]+(h2(seed*31+i*7,HOLD)-.5)*2*amp,q[1]+(h2(seed*31+i*7+3,HOLD)-.5)*2*amp])}
+// scratched line: variable width, broken by dark seams, overshooting ends, partial growth p
+function scr(pts0,seed,o={}){const p=o.p??1;if(p<=0)return;let pts=dens(pts0);
+ // overshoot
+ const ext=(a,b,k)=>{const dx=a[0]-b[0],dy=a[1]-b[1],l=Math.hypot(dx,dy)||1;return[a[0]+dx/l*k,a[1]+dy/l*k]};
+ if(pts.length>1&&!o.closed){pts.unshift(ext(pts[0],pts[1],3+h2(seed,HOLD)*5));pts.push(ext(pts[pts.length-1],pts[pts.length-2],3+h2(seed+1,HOLD)*5))}
+ pts=jit(pts,seed,o.amp??1.3);const w=o.w??1.1,col=o.col||INK;
+ let Ls=[0];for(let i=1;i<pts.length;i++)Ls.push(Ls[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));const end=Ls[Ls.length-1]*p;
+ g.strokeStyle=col;g.lineCap='round';g.globalAlpha=o.a??1;
+ for(let i=1;i<pts.length&&Ls[i-1]<end;i++){const r=h2(seed*5+i,HOLD);if(r<.05)continue; // seam gap
+  let[x,y]=pts[i];if(Ls[i]>end){const f=(end-Ls[i-1])/(Ls[i]-Ls[i-1]);x=lerp(pts[i-1][0],x,f);y=lerp(pts[i-1][1],y,f)}
+  g.lineWidth=w*(.55+h2(seed*9+i,HOLD)*.9);g.beginPath();g.moveTo(pts[i-1][0],pts[i-1][1]);g.lineTo(x,y);g.stroke()}
+ // second thin scratch pass slightly offset
+ g.globalAlpha=(o.a??1)*.5;g.lineWidth=w*.4;g.beginPath();for(let i=0;i<pts.length&&Ls[i]<=end;i++){const x=pts[i][0]+1.4,y=pts[i][1]-1;i?g.lineTo(x,y):g.moveTo(x,y)}g.stroke();g.globalAlpha=1}
+function ell(cx,cy,rx,ry,a0=0,a1=Math.PI*2,rot=0,n=40){const p=[];for(let i=0;i<=n;i++){const a=lerp(a0,a1,i/n),x=Math.cos(a)*rx,y=Math.sin(a)*ry;p.push([cx+x*Math.cos(rot)-y*Math.sin(rot),cy+x*Math.sin(rot)+y*Math.cos(rot)])}return p}
+function pathOf(p,seed,amp){const q=jit(dens(p,12),seed+500,amp);g.beginPath();q.forEach((v,i)=>i?g.lineTo(v[0],v[1]):g.moveTo(v[0],v[1]));g.closePath()}
+// occluder (black on emissive layer)
+function occ(p,seed){pathOf(p,seed,1);g.fillStyle='#000';g.globalAlpha=1;g.fill()}
+// dye: clip to jagged expanded shape, translucent base + -60° hatch with random width/alpha/gaps; reveal = sweep 0..1
+function dye(p,col,seed,o={}){const rev=o.rev??1,a=o.a??1;if(rev<=0||a<=0)return;g.save();pathOf(p,seed,o.edge??3.2);g.clip();
+ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;p.forEach(([x,y])=>{x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y)});x0-=12;y0-=12;x1+=12;y1+=12;
+ const sweep=lerp(x0,x1,EO(rev));g.beginPath();g.rect(x0,y0,sweep-x0+30,y1-y0);g.clip();
+ g.globalCompositeOperation='lighter';g.fillStyle=col;g.globalAlpha=.2*a;g.fillRect(x0,y0,x1-x0,y1-y0);
+ const R=rng(seed*977+HOLD*13+1),dx=.5,dy=-.866,nx=.866,ny=.5,diag=(x1-x0)+(y1-y0);g.strokeStyle=col;
+ let off=-diag;while(off<diag){off+=2.2+R()*2.6;const cx=(x0+x1)/2+nx*off,cy=(y0+y1)/2+ny*off;let s=-diag;
+  while(s<diag){const len=20+R()*90;g.globalAlpha=(.3+R()*.55)*a;g.lineWidth=.5+R()*1.6;g.beginPath();g.moveTo(cx+dx*s,cy+dy*s);g.lineTo(cx+dx*(s+len),cy+dy*(s+len));g.stroke();s+=len+R()*7}}
+ g.globalCompositeOperation='source-over';
+ // dark seams scratched through the dye
+ g.strokeStyle='#000';for(let k=0;k<6;k++){const o2=(R()-.5)*diag;g.globalAlpha=.7;g.lineWidth=.6+R();const cx=(x0+x1)/2+nx*o2,cy=(y0+y1)/2+ny*o2;g.beginPath();g.moveTo(cx-dx*diag,cy-dy*diag);g.lineTo(cx+dx*diag,cy+dy*diag);g.stroke()}
+ g.restore();g.globalAlpha=1}
+// ---------- camera keys (cx,cy,scale) ----------
+const CAM=[[0,480,275,1.0],[3.0,480,270,1.05],[4.4,520,290,1.06],[5.4,560,300,1.07],[6.6,520,270,1.04],[7.3,540,265,1.05],[8.6,590,250,1.1],[9.6,560,262,1.06],[10,550,265,1.05]];
+function cam(t){for(let i=1;i<CAM.length;i++)if(t<=CAM[i][0]){const a=CAM[i-1],b=CAM[i],f=EASE((t-a[0])/(b[0]-a[0]));return[lerp(a[1],b[1],f),lerp(a[2],b[2],f),lerp(a[3],b[3],f)]}return CAM[CAM.length-1].slice(1)}
+// ---------- mosquito path ----------
+const MK=[[1.75,-70,110],[2.2,290,120],[2.49,600,135],[2.8,450,175],[2.97,330,150],[3.3,470,95],[3.9,650,120],[4.6,740,190],[5.0,800,330],[5.19,822,384],[5.6,770,330],[6.41,700,240],[6.7,430,90],[7.25,-90,40]];
+function cr(p0,p1,p2,p3,f){const f2=f*f,f3=f2*f;return .5*((2*p1)+(-p0+p2)*f+(2*p0-5*p1+4*p2-p3)*f2+(-p0+3*p1-3*p2+p3)*f3)}
+function mpos(t){if(t<MK[0][0]||t>MK[MK.length-1][0])return null;let i=1;while(MK[i][0]<t)i++;const a=MK[Math.max(0,i-2)],b=MK[i-1],c=MK[i],d=MK[Math.min(MK.length-1,i+1)];const f=EASE((t-b[0])/(c[0]-b[0]));let x=cr(a[1],b[1],c[1],d[1],f),y=cr(a[2],b[2],c[2],d[2],f);
+ // hover wobble
+ x+=Math.sin(t*5.1)*6;y+=Math.sin(t*7.3)*5;return[x,y]}
+function orbit(t,k){const st=9.03+k*.07;if(t<st)return null;const e=EO((t-st)/.9),ang=t*1.6+k*1.57,r=lerp(260,105+k*8,e);const hx=625,hy=175;return[hx+Math.cos(ang)*r*1.25,hy+Math.sin(ang)*r*.75]}
+function mosquito(x,y,dir,s,seed,a=1){const sc=s;const P=(pts)=>pts.map(([u,v])=>[x+u*sc*dir,y+v*sc]);
+ const flap=(HOLD%2)?-1:1;
+ // wings (translucent gold hatch)
+ const w1=ell(0,0,16,6,0,Math.PI*2,-.9+flap*.25).map(([u,v])=>[u-4,v-10]);const w2=ell(0,0,14,5,0,Math.PI*2,-.5-flap*.2).map(([u,v])=>[u+4,v-9]);
+ dye(P(w1),GOLD,seed+1,{a:.55*a,edge:1.5});dye(P(w2),GOLD,seed+2,{a:.45*a,edge:1.5});
+ const body=ell(0,0,7,4.5,0,Math.PI*2,.15),abd=ell(-15,3,12,3.8,0,Math.PI*2,.18);
+ dye(P(body),GOLD,seed+3,{a:a,edge:1.5});dye(P(abd),GOLD,seed+4,{a:a,edge:1.5});
+ const o={w:.9,amp:.7,a};scr(P(ell(0,0,7,4.5,.3,6.6,.15)),seed+5,o);scr(P(ell(-15,3,12,3.8,.2,6.5,.18)),seed+6,o);
+ for(let k=-1;k<=1;k++){scr(P([[-2+k*4,3],[-6+k*6,14],[-12+k*7,24]]),seed+7+k,{w:.7,amp:.6,a});}
+ scr(P([[6,1],[12,6],[22,9]]),seed+12,{w:.8,amp:.4,a}); // proboscis
+ scr(P([[5,-3],[11,-11],[16,-14]]),seed+13,{w:.6,amp:.4,a:a*0.8});
+ scr(P(w1),seed+14,{w:.6,amp:.6,a:.8*a});scr(P(w2),seed+15,{w:.6,amp:.6,a:.8*a});
+ g.globalAlpha=a;g.fillStyle=INK;g.beginPath();g.arc(x+8*sc*dir,y-2*sc,1.6,0,7);g.fill();g.globalAlpha=1}
+// ---------- head ----------
+function head(cx,cy,rot,col,seed,o){ // o: p (draw), eyes 0 closed..1 open, glow, frown
+ const R=(u,v)=>[cx+u*Math.cos(rot)-v*Math.sin(rot),cy+u*Math.sin(rot)+v*Math.cos(rot)],P=a=>a.map(([u,v])=>R(u,v));
+ const face=[];for(let i=0;i<=36;i++){const a=-1.3+i/36*6.0;const r=1+.06*Math.sin(a*3+seed);face.push([Math.cos(a)*54*r,Math.sin(a)*62*r+ (Math.sin(a)>0?Math.sin(a)*6:0)])}
+ occ(P(face),seed);dye(P(face),col,seed,{rev:o.rev,a:.75*o.da});
+ const p=o.p,lw={w:2.6,amp:1.5};
+ scr(P(face),seed+1,{...lw,p});
+ // hair scribble
+ const hair=[];for(let i=0;i<=22;i++){const a=Math.PI*1.05+i/22*Math.PI*.95;const r=58+(i%2?10:-2);hair.push([Math.cos(a)*r,Math.sin(a)*r*1.05-4])}
+ scr(P(hair),seed+2,{w:1.6,amp:1.8,p:cl(p*1.3-.3)});
+ // ears
+ scr(P(ell(-56,6,8,13,-1.9,1.9)),seed+3,{w:1.8,p});scr(P(ell(56,6,8,13,Math.PI-1.9,Math.PI+1.9).reverse()),seed+4,{w:1.8,p});
+ const e=o.eyes;
+ for(const sx of[-1,1]){const ex=sx*20,ey=-2;
+  if(e<.5){scr(P(ell(ex,ey-4,11,7,.25,Math.PI-.25)),seed+5+sx,{w:2,p});for(let k=0;k<3;k++)scr(P([[ex-6+k*6,ey+3],[ex-8+k*7,ey+9]]),seed+8+k+sx*3,{w:1,p,amp:.6})}
+  else{scr(P(ell(ex,ey,11,10*(e),0,6.4)),seed+5+sx,{w:1.8,p});g.fillStyle=INK;const q=R(ex+(o.look||0)*4,ey+1);g.beginPath();g.arc(q[0],q[1],3.4,0,7);g.fill()}}
+ scr(P([[2,6],[-4,22],[4,24]]),seed+12,{w:1.6,p}); // nose
+ const fr=o.frown||0;scr(P([[-12,38+fr*2],[0,36-fr*4+ (1-fr)*4],[12,38+fr*2]]),seed+13,{w:1.8,p}); // mouth
+}
+// ---------- subtitles ----------
+const SUB=[[0.31,1.89,'为什么同一间屋、同一个晚上'],[1.91,3.265,'蚊子只咬你，不咬他？'],[3.587,5.267,'他一觉睡到天亮，你腿上全是包'],[5.287,7.037,'痒得你半夜爬起来开灯找蚊子。'],[7.269,8.149,'而且这不是你的错觉'],[8.169,9.599,'总有人就是更招蚊子。'],[9.732,10.5,'你妈说……']];
+function subs(t){M.font='600 26px "Noto Sans CJK SC","Noto Serif CJK SC",sans-serif';M.textAlign='center';M.textBaseline='middle';
+ for(const[a,b,s]of SUB){if(t<a||t>b)continue;const w=M.measureText(s).width,x0=480-w/2;const rev=EO((t-a)/T_S),out=1;
+  M.save();M.beginPath();M.rect(x0-4,490,(w+8)*rev,40);M.clip();M.globalAlpha=out;M.fillStyle='rgba(0,0,0,.35)';M.fillText(s,481.5,511.5);M.fillStyle=INK;M.fillText(s,480,510);M.restore()}M.globalAlpha=1}
+// ---------- scene ----------
+window.render=function(t){T=t;const fr=Math.round(t*FPS);HOLD=Math.floor(fr/2);
+ g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';g.globalAlpha=1;g.fillStyle='#000';g.fillRect(0,0,W,H);
+ const[ccx,ccy,cs]=cam(t);const bre=1+Math.sin(t*1.1)*.004;g.setTransform(cs*bre,0,0,cs*bre,480-ccx*cs*bre,275-ccy*cs*bre);
+ const intro=EO(t/0.6);
+ // --- room: wall line + window (同一间屋 0.69–1.23) ---
+ const room=EO(rmp(t,0.69,0.6));
+ scr([[-40,40],[930,30]],301,{w:1.6,p:room,a:.8});scr([[930,30],[960,600]],302,{w:1.4,p:room,a:.6});
+ const win=[[70,60],[220,55],[225,180],[72,186],[70,62]];scr(win,303,{w:2.2,p:EO(rmp(t,0.81,0.5)),closed:false});
+ scr([[147,58],[149,184]],304,{w:1.4,p:EO(rmp(t,1.0,.3))});scr([[71,120],[223,118]],305,{w:1.4,p:EO(rmp(t,1.03,.3))});
+ // moon (同一个晚上 1.59) – sinks at 天亮 4.25, sun-line rises, moon back at 半夜 5.77
+ const dayOut=EASE(rmp(t,4.17,T_M))*(1-EASE(rmp(t,5.69,T_S)));
+ const mo=EO(rmp(t,1.59,T_M));if(mo>0){const my=100+dayOut*90;g.save();g.beginPath();g.rect(72,57,152,127);g.clip();
+  const moon=ell(110,my,22*mo,22*mo,.9,5.4).concat(ell(122,my-4,17*mo,17*mo,4.6,1.6+0,0).reverse());
+  dye(ell(110,my,22*mo,22*mo),GOLD,310,{a:1-dayOut*.8,rev:mo});occ(ell(124,my-5,18*mo,18*mo),311);scr(ell(110,my,22*mo,22*mo,.7,5.6),312,{w:1.8,p:mo});
+  if(dayOut>0){const sy=200-dayOut*55;dye(ell(185,sy,30,30),GOLD,313,{a:dayOut});scr(ell(185,sy,30,30,3.3,6.2),314,{w:1.8});for(let k=0;k<5;k++){const a=3.5+k*.55;scr([[185+Math.cos(a)*38,sy+Math.sin(a)*38],[185+Math.cos(a)*52,sy+Math.sin(a)*52]],315+k,{w:1.4,p:dayOut})}}
+  g.restore()}
+ // --- lamp (开灯 6.41) ---
+ const lamp=EO(rmp(t,6.41,T_S));
+ scr([[830,270],[925,270],[925,470]],320,{w:1.8,p:intro,a:.9});scr([[840,272],[840,470]],321,{w:1.6,p:intro,a:.9});
+ const shade=[[850,180],[902,180],[915,225],[838,225]];scr([[876,225],[876,268]],322,{w:1.6,p:intro});
+ if(lamp>0){const cone=[[842,225],[912,225],[1000,470],[700,470]];dye(cone,GOLD,323,{a:.42*lamp,rev:lamp,edge:6})}
+ dye(shade,GOLD,324,{a:.25+.75*lamp});scr(shade.concat([shade[0]]),325,{w:2.2,p:intro});
+ // --- leg of 你 (腿 4.59 slides out) bumps (包 5.19) ---
+ const leg=EO(rmp(t,4.59,T_M)),lx=lerp(-70,0,leg);
+ if(leg>0){const lg=[[740+lx,392],[860+lx,388],[880+lx,370],[905+lx,372],[908+lx,402],[870+lx,428],[740+lx,432]];occ(lg,330);dye(lg,CYAN,331,{rev:leg});scr(lg,332,{w:2.4,p:leg});scr([[884+lx,374],[890+lx,392]],333,{w:1.2,p:leg});}
+ // --- pillows ---
+ scr(ell(320,210,120,48,3.4,9.3),340,{w:1.6,p:intro,a:.85});scr(ell(620,210,120,48,3.5,9.4),341,{w:1.6,p:intro,a:.85});
+ // --- heads ---
+ const youGlow=1+.6*Math.sin(Math.max(0,t-8.25)*6)*rmp(t,8.25,.2)*(1-rmp(t,9.0,.6));
+ const himDim=1-.55*EASE(rmp(t,8.25,T_S));
+ // 他 (left, blue): pulses at 他 2.97; Zzz at 睡 3.97
+ const hePulse=Math.exp(-((t-3.05)**2)/.03)+Math.exp(-((t-3.75)**2)/.05)*.6;
+ head(320,205+Math.sin(t*1.3)*1.5,-.28-hePulse*.12,BLUE,350,{p:EO(t/0.7),rev:EO(rmp(t,.15,T_M)),da:himDim*(1+hePulse*.8),eyes:0,frown:0});
+ // 你 (right, cyan): picked at 你 2.49; sits up at 起 6.07; eyes open at 爬 5.97
+ const up=EASE(rmp(t,5.97,T_M)),youPick=Math.exp(-((t-2.6)**2)/.04),itch=rmp(t,5.37,.1)*(1-rmp(t,5.95,.2));
+ const ux=620+(HOLD%2?1:-1)*itch*3,uy=205-up*55-youPick*6;
+ head(ux,uy,.28*(1-up)+youPick*.08,CYAN,370,{p:EO(rmp(t,.1,.7)),rev:EO(rmp(t,.3,T_M)),da:youGlow*(1+youPick*.8),eyes:up,frown:itch+up*.6,look:Math.sin(t*3)*rmp(t,6.55,.2)});
+ // --- quilt (split dye 他 blue / 你 cyan); 你 side lifts when sitting up ---
+ const qy=262,lift=up*-18;
+ const quilt=[[175,qy+8],[300,qy-4],[470,qy+10],[620,qy-2+lift],[780,qy+6+lift*.5],[812,470],[150,478]];
+ occ(quilt,380);g.save();g.beginPath();g.rect(0,0,480+Math.sin(t)*4,H);g.clip();dye(quilt,BLUE,381,{rev:EO(rmp(t,.2,T_M)),a:.5*himDim});g.restore();
+ g.save();g.beginPath();g.rect(470,0,W,H);g.clip();dye(quilt,CYAN,382,{rev:EO(rmp(t,.35,T_M)),a:.5});g.restore();
+ scr(quilt.concat([quilt[0]]),383,{w:3.2,amp:1.6,p:EO(t/0.6)});
+ const folds=[[[230,300],[280,360],[262,440]],[[380,290],[400,380],[430,455]],[[520,300],[505,370],[540,450]],[[660,295+lift],[690,380],[680,455]],[[740,320],[760,400]]];
+ folds.forEach((f,i)=>scr(f,390+i,{w:1.4+(i%2),amp:1.7,p:EO(rmp(t,.2+i*.06,.6))}));
+ // bumps (red, big, pulsing) on leg + itch marks
+ const bump=EO(rmp(t,5.19,T_S));if(bump>0&&leg>0){[[832,410,15],[866,402,13],[895,394,10]].forEach(([bx,by,r],k)=>{const rr=r*bump*(1+.18*Math.sin(t*8+k)*rmp(t,5.5,.3));occ(ell(bx+lx,by,rr+2,rr*.85+2),399+k);dye(ell(bx+lx,by,rr,rr*.85),RED,400+k,{edge:1.6});scr(ell(bx+lx,by,rr,rr*.85,0,6.6),404+k,{w:1.6,amp:.7,col:'#ff8a7a'})});
+  if(itch>0)for(let k=0;k<4;k++){const a=k*1.6+HOLD*.7,bx=815+lx+Math.cos(a)*34,by=408+Math.sin(a)*24;scr([[bx-6,by-5],[bx,by+3],[bx+6,by-5]],410+k,{w:1.3,a:itch,col:'#ff8a7a'})}}
+ // Zzz of 他 (睡 3.97) — fades at 半夜
+ const zz=EO(rmp(t,3.97,T_M))*(1-EI(rmp(t,5.69,.5)));if(zz>0){for(let k=0;k<3;k++){const zx=250-k*28,zy=140-k*26-zz*10,s=8+k*3,pk=cl(zz*3-k);scr([[zx-s,zy-s],[zx+s,zy-s],[zx-s,zy+s],[zx+s,zy+s]],420+k,{w:1.6,p:pk})}}
+ // "?" (而且 7.35) struck out at 错觉 7.95
+ const q=EO(rmp(t,7.35,T_S))*(1-EI(rmp(t,8.6,.4)));if(q>0){const qx=700,qy2=95;scr([[qx-14,qy2-12],[qx-10,qy2-26],[qx+6,qy2-28],[qx+14,qy2-16],[qx+2,qy2-2],[qx,qy2+10]],430,{w:2.6,p:q});g.fillStyle=INK;g.globalAlpha=q;g.beginPath();g.arc(qx,qy2+24,3,0,7);g.fill();g.globalAlpha=1;
+  const st=EO(rmp(t,7.95,T_S));scr([[qx-26,qy2+28],[qx+28,qy2-34]],431,{w:3,p:st,col:RED});scr([[qx-26,qy2-30],[qx+26,qy2+28]],432,{w:3,p:EO(rmp(t,8.05,T_S)),col:RED})}
+ // speech bubble 你妈说 (9.81)
+ const sb=EO(rmp(t,9.81,T_S));if(sb>0){scr(ell(820,95,62,34,2.3,2.3+6.0*sb),440,{w:2});scr([[790,124],[772,150],[812,128]],441,{w:1.8,p:cl(sb*2-1)})}
+ // --- mosquitoes + light trail ---
+ const mp=mpos(t);if(mp){const tr=[];for(let k=0;k<14;k++){const q=mpos(t-k*.035);if(q)tr.push(q)}if(tr.length>1){g.globalCompositeOperation='lighter';g.strokeStyle=GOLD;g.lineCap='round';for(let k=1;k<tr.length;k++){g.globalAlpha=.85*(1-k/tr.length);g.lineWidth=3.2*(1-k/tr.length)+.6;g.beginPath();g.moveTo(tr[k-1][0],tr[k-1][1]);g.lineTo(tr[k][0]+(h2(k,HOLD)-.5)*2,tr[k][1]+(h2(k+9,HOLD)-.5)*2);g.stroke()}g.globalCompositeOperation='source-over';g.globalAlpha=1}
+  const nx=mpos(t+.03)||mp;mosquito(mp[0],mp[1],nx[0]>=mp[0]?1:-1,2.1,500,EO(rmp(t,1.75,.25)))}
+ for(let k=0;k<4;k++){const o=orbit(t,k);if(!o)continue;const o2=orbit(t+.03,k)||o;const tr=[];for(let j=0;j<10;j++){const q=orbit(t-j*.04,k);if(q)tr.push(q)}g.globalCompositeOperation='lighter';g.strokeStyle=GOLD;for(let j=1;j<tr.length;j++){g.globalAlpha=.7*(1-j/tr.length);g.lineWidth=2.4*(1-j/tr.length)+.5;g.beginPath();g.moveTo(tr[j-1][0],tr[j-1][1]);g.lineTo(tr[j][0],tr[j][1]);g.stroke()}g.globalCompositeOperation='source-over';g.globalAlpha=1;mosquito(o[0],o[1],o2[0]>=o[0]?1:-1,1.6,520+k*20,EO(rmp(t,9.03+k*.07,.3)))}
+ // ---------- composite ----------
+ M.setTransform(1,0,0,1,0,0);M.globalCompositeOperation='source-over';M.globalAlpha=1;M.fillStyle=BG;M.fillRect(0,0,W,H);
+ // warm leak top-left
+ const lk=M.createRadialGradient(60,40,0,60,40,520);lk.addColorStop(0,'rgba(150,80,40,'+(.11+.03*h2(1,HOLD))+')');lk.addColorStop(1,'rgba(150,80,40,0)');M.fillStyle=lk;M.fillRect(0,0,W,H);
+ M.globalCompositeOperation='lighter';M.drawImage(L,0,0);
+ s1.clearRect(0,0,W/4,H/4);s1.filter='blur(2.2px)';s1.drawImage(L,0,0,W/4,H/4);s1.filter='none';M.globalAlpha=.75;M.drawImage(S1,0,0,W,H);
+ s2.clearRect(0,0,W/2,H/2);s2.filter='blur(2px)';s2.drawImage(L,0,0,W/2,H/2);s2.filter='none';M.globalAlpha=.35;M.drawImage(S2,0,0,W,H);
+ // hairs + dust (re-thrown every hold)
+ const R=rng(HOLD*7919+3),nh=20+Math.floor(R()*21);M.strokeStyle='rgba(205,208,212,0.5)';M.lineWidth=.7;M.globalAlpha=1;M.globalCompositeOperation='source-over';
+ for(let i=0;i<nh;i++){const x=R()*W,y=R()*H,r=6+R()*24,a=R()*6.3;M.beginPath();M.arc(x,y,r,a,a+.6+R()*1.2);M.stroke()}
+ M.fillStyle='rgba(220,220,215,0.55)';const nd=30+Math.floor(R()*31);for(let i=0;i<nd;i++){M.beginPath();M.arc(R()*W,R()*H,.5+R()*1.1,0,7);M.fill()}
+ // grain (every frame)
+ M.globalCompositeOperation='overlay';M.drawImage(tiles[fr%6],0,0,W,H);M.globalCompositeOperation='source-over';
+ // vignette + flicker
+ const vg=M.createRadialGradient(480,270,180,480,270,600);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(5,3,3,0.55)');M.fillStyle=vg;M.fillRect(0,0,W,H);
+ const fl=(h2(77,HOLD)-.5)*.06;M.fillStyle=fl>0?'rgba(255,240,220,'+fl*.25+')':'rgba(0,0,0,'+(-fl)+')';M.fillRect(0,0,W,H);
+ subs(t);
+};
+document.fonts.ready.then(()=>{window.render(0);window.READY=true});
+</script></body></html>

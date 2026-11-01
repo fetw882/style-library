@@ -1,0 +1,122 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#050608;overflow:hidden}canvas{display:block}</style></head><body><canvas id="c"></canvas><script>
+// 光点粒子 Breathing Light Particles — demo. Every frame = pure function of t; all randomness seeded (mulberry32).
+const W=960,H=540,FPS=24;window.DUR=8.0;
+const cv=document.getElementById('c');cv.width=W;cv.height=H;const M=cv.getContext('2d',{willReadFrequently:true});
+// palette (measured from reference, see REPORT.md)
+const BG='#050608',GOLD=[240,219,160],SAGE=[167,180,127],RED=[255,106,74],COOL=[226,236,232],DUST=[120,128,100];
+const T_S=.4,T_M=.8,T_L=1.6;                       // durations
+const EASE_SIG=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; // Premium ease-in-out
+const EO=x=>1-Math.pow(1-cl(x),3), EI=x=>cl(x)**3;
+const DOT_R=1.75, HALO=4.2;                        // core radius px @540 (=3.5@1080), halo multiple
+const BREATH_HZ=0.43, TWINKLE_HZ=1.2;              // measured global / per-dot
+function cl(x,a=0,b=1){return Math.max(a,Math.min(b,x))}
+const lerp=(a,b,t)=>a+(b-a)*t;
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(20261101);
+// sprites
+function sprite(c){const s=document.createElement('canvas'),N=48;s.width=s.height=N;const x=s.getContext('2d');const g=x.createRadialGradient(N/2,N/2,0,N/2,N/2,N/2);
+ const [r,gg,b]=c;g.addColorStop(0,`rgba(255,255,245,1)`);g.addColorStop(.09,`rgba(${r},${gg},${b},.95)`);g.addColorStop(.22,`rgba(${r},${gg},${b},.35)`);g.addColorStop(.5,`rgba(${r},${gg},${b},.08)`);g.addColorStop(1,`rgba(${r},${gg},${b},0)`);
+ x.fillStyle=g;x.fillRect(0,0,N,N);return s}
+const SPR={gold:sprite(GOLD),sage:sprite(SAGE),red:sprite(RED),cool:sprite(COOL),dust:sprite(DUST)};
+// ---- shape samplers: outline dense + interior sparse (measured: contour ~3x interior density)
+function poly(pts,n,jit=1){const seg=[];let L=0;for(let i=1;i<pts.length;i++){const l=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(l);L+=l}
+ const o=[];for(let k=0;k<n;k++){let d=R()*L,i=0;while(i<seg.length-1&&d>seg[i]){d-=seg[i];i++}const f=seg[i]?d/seg[i]:0;o.push([lerp(pts[i][0],pts[i+1][0],f)+(R()-.5)*2*jit,lerp(pts[i][1],pts[i+1][1],f)+(R()-.5)*2*jit])}return o}
+function circ(cx,cy,r,n,fill=0){const o=[];for(let k=0;k<n;k++){const a=R()*6.283;if(R()<fill){const rr=r*Math.sqrt(R());o.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr])}else o.push([cx+Math.cos(a)*(r+(R()-.5)*2),cy+Math.sin(a)*(r+(R()-.5)*2)])}return o}
+function rectFill(x0,y0,x1,y1,n){const o=[];for(let k=0;k<n;k++)o.push([lerp(x0,x1,R()),lerp(y0,y1,R())]);return o}
+const scatter=()=>[R()*W*1.2-W*.1,R()*H*1.2-H*.1];
+// ---- poses (stick figures, side view, our own drawing)
+function lying(x,y,s=1){return [ [[x,y-14*s],[x+26*s,y-14*s]] ]} // unused placeholder
+function personLying(x,y,n){ // head at (x,y); body to the right on a bed
+ return [...circ(x,y,14,Math.round(n*.3),.25),...poly([[x+12,y+3],[x+80,y+5],[x+150,y+6]],Math.round(n*.35)),...poly([[x+80,y+5],[x+150,y-3],[x+165,y+2]],Math.round(n*.1)),...rectFill(x+14,y-6,x+150,y+12,Math.round(n*.25))]}
+function personSitting(x,y,n){ // sitting up on bed edge, head higher
+ return [...circ(x+40,y-58,14,Math.round(n*.3),.25),...poly([[x+40,y-46],[x+46,y-8],[x+110,y+2]],Math.round(n*.35)),...poly([[x+44,y-36],[x+70,y-60],[x+64,y-74]],Math.round(n*.1)),...rectFill(x+36,y-44,x+56,y-6,Math.round(n*.25))]}
+// ---- particles: each has keyframes {t,pos|fn,a,col}; travel EO over dur with per-particle delay + drift noise
+const P=[];
+function group(name,targets,col,kfs){targets.forEach((p,i)=>{P.push({g:name,i,col,ph:R()*6.283,sz:.7+R()*.75+(R()<.08?.6:0),dl:R(),seed:R()*1000,k:kfs.map(k=>({...k,p:typeof k.p==='function'?k.p:k.p==='T'?p:k.p==='S'?scatter():k.p}))})})}
+// key times (from v9 timeline.json word timings)
+const K={wu:1.03,wan:1.59,wen:1.99,ni:2.49,ta:2.97,shui:3.967,tianliang:4.167,tui:4.587,bao:5.187,yang:5.367,pa:5.967,kai:6.267,zhao:6.547,end:7.2};
+const room=[...poly([[120,440],[840,440]],260),...poly([[140,440],[140,150],[480,70],[820,150],[820,440]],300),...poly([[610,170],[730,170],[730,270],[610,270],[610,170]],110)];
+const beds=[...poly([[220,410],[440,410]],90),...poly([[520,410],[740,410]],90),...rectFill(220,410,440,440,40),...rectFill(520,410,740,440,40)];
+const ys=K.wu-.65;
+group('room',room,'sage',[{t:0,p:'S',a:.25},{t:ys,p:'T',a:.75,d:T_M}]);
+group('beds',beds,'sage',[{t:0,p:'S',a:.2},{t:ys+.1,p:'T',a:.65,d:T_M}]);
+const youL=personLying(250,394,220),youS=personSitting(250,394,220);
+group('you',youL,'gold',[{t:0,p:'S',a:.2},{t:1.23-.1,p:'T',a:.8,d:T_M}]);
+P.filter(q=>q.g==='you').forEach((q,i)=>q.k.push({t:K.pa-.08,p:youS[i],a:.8,d:T_M}));
+const taL=personLying(550,394,200);
+group('ta',taL,'gold',[{t:0,p:'S',a:.2},{t:1.23-.1,p:'T',a:.9,d:T_M},{t:K.shui-.05,p:'T',a:.45,d:T_M}]);
+const moon=circ(670,220,26,150,.55);
+group('moon',moon,'gold',[{t:0,p:[670,330],a:0},{t:K.wan-.12,p:'T',a:1,d:T_M}]);
+P.filter(q=>q.g==='moon').forEach((q,i)=>{const[x,y]=q.k[1].p;q.k.push({t:K.tianliang-.05,p:[x,y+70],a:.25,d:T_L})});
+// mosquito: tight swarm, path is fn of t
+function mosq(t){ if(t<K.ni-.05){const u=EASE_SIG(cl((t-K.wen)/.5));return[lerp(980,520,u)+Math.sin(t*9)*6,lerp(140,300,u)+Math.cos(t*13)*5]}
+ if(t<K.ta-.05){const u=EASE_SIG(cl((t-K.ni+.05)/T_S));return[lerp(520,285,u),lerp(300,382,u)]}
+ if(t<K.zhao){const u=EASE_SIG(cl((t-K.ta+.05)/T_S)),v=EASE_SIG(cl((t-K.ta-.45)/T_S));// toward 他, refuse, back to 你
+  return[lerp(lerp(285,560,u),330,v)+Math.sin(t*11)*7,lerp(lerp(382,350,u),384,v)+Math.cos(t*15)*5]}
+ const u=EO((t-K.zhao)/T_M);return[lerp(330,90,u)+Math.sin(t*11)*7,lerp(384,90,u)]}
+const mq=[];for(let i=0;i<28;i++)mq.push([(R()-.5)*26,(R()-.5)*16]);
+group('mosq',mq,'cool',[{t:0,p:[1100,140],a:0},{t:K.wen-.1,p:t=>null,a:1,d:T_S}]);
+// bites: 3 red swells on your leg
+const bites=[...circ(345,398,5,30,.6),...circ(372,400,5,30,.6),...circ(396,397,5,30,.6)];
+group('bite',bites,'red',[{t:0,p:[285,382],a:0},{t:K.bao-.12,p:'T',a:1,d:T_S}]);
+P.filter(q=>q.g==='bite').forEach((q,i)=>{const[x,y]=q.k[1].p;q.k.push({t:K.pa-.08,p:[x-30,y-2],a:.9,d:T_M})});
+// lamp cone (开灯)
+const lamp=[...circ(300,150,8,40,.7)];for(let i=0;i<260;i++){const v=R(),a=(R()-.5)*v*1.1;lamp.push([300+Math.sin(a)*v*260,150+Math.cos(a)*v*260])}
+group('lamp',lamp,'gold',[{t:0,p:[300,60],a:0},{t:K.kai-.06,p:'T',a:.55,d:T_M}]);
+// Z's of sleep (睡)
+const zz=[];[[600,340,10],[622,318,13],[648,290,16]].forEach(([x,y,s])=>zz.push(...poly([[x,y],[x+s,y],[x,y+s],[x+s,y+s]],22,.6)));
+group('zz',zz,'sage',[{t:0,p:[640,330],a:0},{t:K.shui-.06,p:'T',a:.8,d:T_M},{t:K.yang,p:'T',a:0,d:T_S}]);
+// ambient dust field (sky ~1.9 dots/1e4px @1080 => ~200 @540 incl. grass)
+const DU=[];for(let i=0;i<230;i++)DU.push({x:R()*W,y:R()*H,ph:R()*6.283,sp:.3+R()*.7,sz:.4+R()*.5});
+// ---- evaluation
+function pos(q,t){let cur=q.k[0],prevP=null,x,y,a=cur.a;let pp=typeof cur.p==='function'?cur.p(t):cur.p;
+ for(let j=1;j<q.k.length;j++){const k=q.k[j];const st=k.t+q.dl*.35;if(t<st)break;const u=EO((t-st)/(k.d||T_M));
+  let tp=typeof k.p==='function'?k.p(t):k.p;if(q.g==='mosq'){const m=mosq(t);tp=[m[0]+q.k[0].p.length*0+mq[q.i][0],m[1]+mq[q.i][1]];if(t>K.zhao)tp=[tp[0]+mq[q.i][0]*4*EO((t-K.zhao)/T_M),tp[1]+mq[q.i][1]*6*EO((t-K.zhao)/T_M)]}
+  // arc: travel bows sideways (no straight lines) — 1/3 rule
+  const dx=tp[0]-pp[0],dy=tp[1]-pp[1],bow=Math.sin(u*Math.PI)*(.18+.12*Math.sin(q.seed))*Math.hypot(dx,dy);
+  const nx=-dy/(Math.hypot(dx,dy)||1),ny=dx/(Math.hypot(dx,dy)||1);
+  pp=[lerp(pp[0],tp[0],u)+nx*bow*(q.seed%2<1?1:-1),lerp(pp[1],tp[1],u)+ny*bow*(q.seed%2<1?1:-1)];a=lerp(a,k.a,u)}
+ return[pp[0],pp[1],a]}
+function render(t){
+ const f=Math.round(t*FPS);
+ M.globalCompositeOperation='source-over';M.setTransform(1,0,0,1,0,0);M.fillStyle=BG;M.fillRect(0,0,W,H);
+ // faint green haze (bg measured rgb 6-10)
+ const hz=M.createRadialGradient(W*.5,H*.75,40,W*.5,H*.7,W*.7);hz.addColorStop(0,'rgba(40,52,36,.35)');hz.addColorStop(1,'rgba(0,0,0,0)');M.fillStyle=hz;M.fillRect(0,0,W,H);
+ // camera: slow push 1.00->1.07 + drift; small dip at 包 / 开灯 (weight layer)
+ const z=1+.07*EASE_SIG(t/8)+.012*Math.sin(cl((t-K.kai)/T_M)*Math.PI), cx=W/2+lerp(0,-40,EASE_SIG(cl((t-4)/4))), cy=H/2+8*Math.sin(t*.4);
+ M.setTransform(z,0,0,z,W/2-cx*z+ (cx-W/2)*0, H/2-cy*z);
+ M.globalCompositeOperation='lighter';
+ const breath=1+.12*Math.sin(t*6.283*BREATH_HZ);
+ // dust (environment layer, low contrast, drifts up slowly)
+ for(const d of DU){const y=((d.y-t*6*d.sp)%H+H)%H,x=d.x+Math.sin(t*.5+d.ph)*6,tw=.5+.5*Math.sin(t*6.283*TWINKLE_HZ*d.sp+d.ph);M.globalAlpha=.22*tw;const s=12*d.sz;M.drawImage(SPR.dust,x-s/2,y-s/2,s,s)}
+ for(const q of P){let [x,y,a]=pos(q,t);if(a<=.005)continue;
+  if(q.g==='mosq'&&t<K.wen-.1)continue;
+  // ending: everything disperses outward & dims (scene-change grammar of the style)
+  if(t>K.end){const u=EI((t-K.end)/T_M);const ang=q.seed*7.1;x+=Math.cos(ang)*u*(60+q.dl*120);y+=Math.sin(ang)*u*(40+q.dl*80)-u*30;a*=1-.85*u}
+  // 痒: your dots shiver
+  if(q.g==='you'&&t>K.yang&&t<K.pa+.1){const s=EO((t-K.yang)/.15)*(1-EO((t-K.pa)/.3));x+=Math.sin(t*41+q.seed)*2.2*s;y+=Math.cos(t*37+q.seed)*1.6*s}
+  // 包 swell: bite dots push outward then settle
+  let szb=1;
+  if(q.g==='bite'){szb=1+.8*Math.sin(cl((t-K.bao+.05)/T_M)*Math.PI)}
+  // 他: pulse on the word (others keep breathing)
+  if(q.g==='ta'){szb=1+.5*Math.sin(cl((t-K.ta+.03)/T_M)*Math.PI);a*=1+.9*Math.sin(cl((t-K.ta+.03)/T_M)*Math.PI)}
+  if(q.g==='you'){szb=1+.4*Math.sin(cl((t-K.ni+.03)/T_M)*Math.PI);a*=1+.8*Math.sin(cl((t-K.ni+.03)/T_M)*Math.PI)}
+  const tw=.72+.28*Math.sin(t*6.283*TWINKLE_HZ+q.ph);
+  const s=2*DOT_R*HALO*q.sz*breath*szb*(.85+.15*tw);
+  M.globalAlpha=cl(a*tw,0,1);M.drawImage(SPR[q.col],x-s/2,y-s/2,s,s)}
+ M.globalAlpha=1;M.setTransform(1,0,0,1,0,0);
+ // glow pass (measured halo ~6-10px@1080): blurred copy added
+ G.clearRect(0,0,W/4,H/4);G.filter='blur(3px)';G.drawImage(cv,0,0,W/4,H/4);G.filter='none';
+ M.globalCompositeOperation='lighter';M.globalAlpha=.55;M.drawImage(GC,0,0,W,H);M.globalAlpha=1;M.globalCompositeOperation='source-over';
+ // vignette
+ const vg=M.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.55)');M.fillStyle=vg;M.fillRect(0,0,W,H);
+ subs(t);
+}
+const GC=document.createElement('canvas');GC.width=W/4;GC.height=H/4;const G=GC.getContext('2d');
+const SUB=[[0.31,1.89,'为什么同一间屋、同一个晚上'],[1.91,3.265,'蚊子只咬你，不咬他？'],[3.587,5.267,'他一觉睡到天亮，你腿上全是包'],[5.287,7.037,'痒得你半夜爬起来开灯找蚊子。']];
+function subs(t){M.font='28px "PingFang SC","Noto Sans CJK SC","Noto Sans CJK JP",sans-serif';M.textAlign='center';M.textBaseline='middle';
+ for(let li=0;li<SUB.length;li++){const[a,b,s]=SUB[li];const nx=li+1<SUB.length?SUB[li+1][0]:9;if(t<a||t>=nx||t>b+.15)continue;const n=Math.min(s.length,Math.floor((t-a)/.035)+1),fo=1-cl((t-b)/Math.max(.01,Math.min(.15,nx-b)));
+  M.globalAlpha=.88*fo;M.fillStyle='#e8e2cf';M.shadowColor='rgba(240,219,160,.6)';M.shadowBlur=6;
+  const full=M.measureText(s).width;M.textAlign='left';M.fillText(s.slice(0,n),W/2-full/2,H-34);M.shadowBlur=0;M.globalAlpha=1}}
+window.render=render;window.READY=true;
+</script></body></html>

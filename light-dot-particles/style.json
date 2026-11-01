@@ -1,0 +1,16 @@
+{
+ "slug": "light-dot-particles",
+ "en": "Breathing Light Particles",
+ "cn": "光点粒子",
+ "based_on": "none (technique base: canvas 2D additive sprite particles + blur glow)",
+ "borrows": [],
+ "size": "1920x1080",
+ "test_size": "960x540",
+ "fps": 24,
+ "library_version": "n/a (own style, not derived from a library style)",
+ "created": "2026-11-01",
+ "status": "draft",
+ "line": "Everything on a near-black night is made of soft breathing light dots; scenes change by dots scattering and regathering into the next thing.",
+ "line_cn": "近黑的夜里，人物、房子、月亮全由会呼吸的柔和光点组成；换场靠光点散开、再聚成下一样东西。",
+ "source": "Style study of Lemomo 光点粒子 (https://x.com/lemomo_ai/status/2116748566479921576) — style learning only, no original footage kept"
+}
