@@ -1,0 +1,19 @@
+{
+ "slug": "paper-checklist-explainer",
+ "en": "Paper Checklist Explainer",
+ "cn": "清单讲解",
+ "based_on": "none (code-only canvas animation, paper red-and-black)",
+ "borrows": [],
+ "size": "1080x1920",
+ "test_size": "540x960",
+ "fps": 30,
+ "library_version": "n/a (own style)",
+ "created": "2026-11-03",
+ "status": "draft",
+ "replaces": "redline-stickman (archived outside the public site)",
+ "line": "Off-white paper, ink outlines with offset hard shadows and one red accent; UI checklist cards break a concept into steps while an original presenter explains from the bottom-right.",
+ "line_cn": "米白纸感底+墨黑描边错位硬投影+唯一正红，UI清单卡片把概念拆步讲清，右下原创主播讲解，逐字触发动作。",
+ "source": "Own finished films (rag-intro, cmg-taishan, mcp-meituan-luckin, sample_e), made with a privately licensed engine installed for the owner only — engine and its source are not shared",
+ "license": "Fonts: Smiley Sans 得意黑 (https://github.com/atelier-anchor/smiley-sans, SIL OFL 1.1); LXGW WenKai 霞鹜文楷 (https://github.com/lxgw/LxgwWenKai, SIL OFL 1.1). Download from the official repos.",
+ "audio": "public test.mp4 and all previews are muted"
+}
