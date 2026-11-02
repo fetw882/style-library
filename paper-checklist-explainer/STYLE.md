@@ -1,5 +1,5 @@
 # Paper Checklist Explainer 清单讲解 — Style Prompt
-Status: draft (not yet approved by the owner). Replaces 红线火柴人.
+Status: approved by the owner 2026-11-03. Replaces 红线火柴人.
 License boundary: this look is produced with an engine licensed to the owner only. The engine, its source code and its original docs are never shared or published; this entry holds only our own summary, muted previews and keyframes. To make a film in this style you still need the owner's locally installed engine.
 
 ## 1. Essence, and what it is not

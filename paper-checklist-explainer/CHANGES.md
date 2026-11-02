@@ -6,3 +6,5 @@
 | 4 Type | Anton | Smiley Sans + LXGW WenKai (OFL) | Chinese glyphs, open source |
 | 5 Motion | keyword hit | + numeric motion/originality gates | summarized from own films |
 | 10 Engine | own canvas | owner-licensed local engine | not shared |
+
+| 2026-11-03 | status | draft → approved | owner approved (批准) |
