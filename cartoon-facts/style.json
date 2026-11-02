@@ -1,0 +1,19 @@
+{
+ "slug": "cartoon-facts",
+ "en": "Cartoon Fun Facts",
+ "cn": "卡通冷知识",
+ "based_on": "none (technique base: canvas 2D cutout puppets over illustrated backgrounds)",
+ "borrows": [],
+ "size": "1080x1920",
+ "test_size": "540x960",
+ "fps": 30,
+ "library_version": "n/a (own style)",
+ "created": "2026-11-03",
+ "status": "draft",
+ "skill": "卡通冷知识短片 (skill-1793643373152)",
+ "kit": "/workspace/shared/cartoon-facts-kit/",
+ "line": "Flat 2D cartoon with thick brown outlines: cutout characters bounce across illustrated scenes, a cut every 1.5–3 s, white pill captions with one yellow keyword.",
+ "line_cn": "扁平 2D 卡通厚描边，抠图角色在插画背景上蹦跳移动，1.5–3 秒一切镜，白药丸字幕配黄色关键词，星芒红圈弧形箭头。",
+ "source": "口嗨导演《章鱼冷知识》短片（0–15 s 开头经用户通过）；结构参考 https://x.com/finnardley/status/2117033492332552696 的提示词 — style learning only",
+ "license": "Font ZCOOL KuaiLe 站酷快乐体, SIL OFL 1.1 (FONT_OFL.txt in kit)"
+}
