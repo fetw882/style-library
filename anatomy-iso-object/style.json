@@ -1,0 +1,25 @@
+{
+ "slug": "anatomy-iso-object",
+ "en": "Anatomy Iso Object",
+ "cn": "机关讲解 Anatomy",
+ "based_on": "Anatomy skill by Ryan (https://github.com/wheresryan22/anatomy, MIT License, Copyright (c) 2026 Ryan)",
+ "borrows": [
+  "concept-as-working-object metaphor (the machine IS the explanation)",
+  "isometric solids with four-tone shading, halo under base, 0.6px lines, one lit accent",
+  "framed card: Fig n / title / hint / live readout in the four corners",
+  "calm eased motion (exponential follow, real springs, idle tour)",
+  "every number from one small model that also drives the parts",
+  "self-verification by zooming into every joint (line ends, painter's order, audit)"
+ ],
+ "size": "1080x1920 or 1920x1080",
+ "test_size": "n/a (test.mp4 pending, to be rendered on the Mac mini)",
+ "fps": 30,
+ "library_version": "n/a (own adaptation of an MIT project)",
+ "created": "2026-11-03",
+ "status": "draft",
+ "line": "Explain a concept by building it as a real, working isometric machine of dozens of small shaded parts, in a framed card with a figure number, a hint and a live readout driven by the same model.",
+ "line_cn": "把概念造成一台真实可运转的等轴测小机器：几十个带明暗的零件、Fig 图题框卡、实时读数与零件同源，缓慢惯性运动。",
+ "source": "https://github.com/wheresryan22/anatomy — MIT License, Copyright (c) 2026 Ryan. demo/ keeps the original LICENSE; test.jpg/styleframe.jpg are screenshots of the project's own examples (dial-indicator-light, raptor-engine-light).",
+ "license": "MIT (see demo/LICENSE). Fonts: system monospace + sans in the original; for Chinese films use our OFL fonts.",
+ "audio": "none"
+}
