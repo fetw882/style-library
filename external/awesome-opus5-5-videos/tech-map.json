@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "evidence": "Mapped only from awesome-opus5-5-videos data/videos.json tech_tags. Style words are not treated as a stack.",
+  "stack": {
+    "canvas": "Canvas",
+    "svg": "SVG",
+    "threejs": "Three.js",
+    "gsap": "GSAP",
+    "css": "CSS",
+    "webgl": "WebGL"
+  },
+  "technique": {
+    "shader": "着色器",
+    "particles": "粒子",
+    "pixel": "像素",
+    "physics": "物理",
+    "ai-image": "AI 图像",
+    "audio": "音频",
+    "playable": "可交互"
+  }
+}

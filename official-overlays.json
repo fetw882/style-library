@@ -1,0 +1,1339 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-07T15:00:17.300289+08:00",
+  "shared_pipeline": {
+    "id": "lemo-shared-pipeline",
+    "scope": "根说明里的共用制作管线，不代表每一条都使用，也不用来填补未写明的渲染器",
+    "runtime": [
+      "Node.js 20+",
+      "Python 3.11+"
+    ],
+    "capture": [
+      "Headless Chrome（逐帧截图）"
+    ],
+    "media_tools": [
+      "FFmpeg 7+（编码与封装）"
+    ],
+    "optional_note": "配音和语音校验是可选能力，不能写成每条都在用"
+  },
+  "items": {
+    "caption-news": {
+      "summary_cn": "大字字幕压在真实影像上，黄色块抓住关键词，静音也能读懂。适合热点新闻、数据短讯和报告解读。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "大字分块入场",
+        "关键词色块",
+        "原文高亮"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "newsreel": {
+      "summary_cn": "黑白档案影像配旋转报纸、地点卡和老式播报节奏，像在影院看早期新闻。适合历史事件、年代回顾和社会风潮。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "银盐调色",
+        "片门抖动",
+        "划痕",
+        "旋转报纸"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "countdown": {
+      "summary_cn": "同一事件的多个视角与秒表同步，越接近关键时刻，分屏越密。适合发射、比赛终场和重大决定的临场回顾。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "真实时间同步",
+        "多格分屏",
+        "归零合屏"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "city-symphony": {
+      "summary_cn": "延时城市影像随音乐逐渐加速，再用慢动作和突然停顿制造反差。适合城市印象、交通、人群和一天的节律。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "延时",
+        "速度变化",
+        "音乐卡点剪辑"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "visual-investigation": {
+      "summary_cn": "把影像、文书、地图放在同一时间线上交叉核实，圈出关键证据。适合事件复盘、事实核查和调查报道。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "冻结标注",
+        "时间对齐",
+        "证据地图"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "Poppler / pdftoppm",
+        "FFmpeg",
+        "Pillow"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "kino-montage": {
+      "summary_cn": "真实照片和档案被剪成红黑纸张海报，斜线和机器般的切镜形成论述。适合历史、工业和观点型纪录短片。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "双色印刷",
+        "斜向构图",
+        "照片拼贴",
+        "碰撞蒙太奇"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "telestrator": {
+      "summary_cn": "先播放真实比赛，再倒带定格，用圈、箭头和区域色块解释发生了什么。适合体育战术、动作拆解和赛事复盘。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "倒带定格",
+        "跟随标注",
+        "战术平面图"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "news-package": {
+      "summary_cn": "统一角标、标题条、节目目录和全屏图表串成一套电视新闻包装。适合多条资讯、市场简报和科技新闻。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "包装系统",
+        "下三分之一字幕条",
+        "目录回收"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "satellite-briefing": {
+      "summary_cn": "真实卫星影像上叠加克制的测量线，镜头从高空一路放大到地面。适合地理变化、城市发展和空间调查。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "多层影像连续变焦",
+        "坐标测量",
+        "时间扫描"
+      ],
+      "tech_stack": [
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "briefing-board": {
+      "summary_cn": "真实照片、磁贴和手写线条落在有窗光的白板上，镜头沿关系移动。适合工程解释、方案比较和复杂因果梳理。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "白板材质",
+        "照片剪贴",
+        "引线运镜",
+        "全板揭示"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "lidar-survey": {
+      "summary_cn": "真实激光点云在暗处浮现，扫描经过后变成可测量的地表。适合地形、考古、测绘和建筑空间。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "点云",
+        "扫描剖切",
+        "点面转换"
+      ],
+      "tech_stack": [
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "white-model": {
+      "summary_cn": "暗室里的白色城市模型不动，数据像投影光一样逐层照到建筑上。适合城市规划、空间数据和建设方案。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "白模",
+        "投影映射",
+        "景深",
+        "数据分层"
+      ],
+      "tech_stack": [
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "data-physical": {
+      "summary_cn": "把数字变成可数的片、块或硬币，像棚拍产品一样展示高低与差距。适合能源、经济、规模比较和统计解释。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "单位实物化",
+        "精确比例",
+        "堆叠",
+        "微距光影"
+      ],
+      "tech_stack": [
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "teardown": {
+      "summary_cn": "从真实工程资料重建产品，让零件沿装配轴依次拆开，镜头穿过内部。适合硬件介绍、结构科普和工程规格。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "爆炸拆解",
+        "引线标签",
+        "微距景深"
+      ],
+      "tech_stack": [
+        "Three.js",
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "microscope": {
+      "summary_cn": "从载玻片一路进入真实显微图像，倍率和标尺随着尺度切换。适合细胞、生物样本和微观科学。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "连续尺度变焦",
+        "焦平面扫描",
+        "真实标尺"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "archive-lighttable": {
+      "summary_cn": "档案、底片和信件铺在冷光灯台上，放大镜落下时局部资料变得鲜活。适合博物馆、人物史和档案解读。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "背光灯台",
+        "放大镜",
+        "底片转正",
+        "局部视差"
+      ],
+      "tech_stack": [
+        "Canvas 2D",
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "crayon-book": {
+      "summary_cn": "暖纸上蜡笔线条一笔笔出现，涂色越过轮廓，水彩又显出隐藏内容。适合儿童故事、自然观察和温柔的无对白叙事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "纸齿",
+        "蜡笔压感",
+        "沸腾线",
+        "水彩抗蜡"
+      ],
+      "tech_stack": [
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "watercolor": {
+      "summary_cn": "透明水彩在棉纸上逐笔铺开，飞白和旁注保留手绘日记的轻松感。适合自然、旅行、植物与抒情科普。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "透明叠染",
+        "干笔飞白",
+        "纸纤维"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "ink-wash": {
+      "summary_cn": "宣纸留白构成空间，浓淡墨迹和飞白随动作生长，节奏疏朗。适合山水、传统文化和诗性故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "没骨",
+        "渗墨",
+        "飞白",
+        "留白"
+      ],
+      "tech_stack": [
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "Playwright"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "impasto": {
+      "summary_cn": "厚油彩像被画刀铺上画布，侧光照出隆起的颜料，主体轮廓保持清楚。适合街景、天气和强调情绪的短故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "画刀色块",
+        "高度场",
+        "侧向照明"
+      ],
+      "tech_stack": [
+        "WebGL",
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "one-line": {
+      "summary_cn": "一根不离纸的线不断画出人物和物体，场景通过线形变化衔接。适合关系、成长、概念联系和音乐小品。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "连续路径",
+        "线形变换",
+        "弧长绘制"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "geometry_formats": [
+        "SVG路径/单线字形数据（不是独立渲染框架）"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "whiteboard": {
+      "summary_cn": "字和图在同一块白板上逐笔出现，镜头沿着讲解移动而不是频繁切镜。适合原理、步骤和知识讲解。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "逐笔书写",
+        "擦除回溯",
+        "连续白板运镜"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "urban-sketch": {
+      "summary_cn": "细钢笔线略有抖动，透明淡彩与轮廓轻轻错开，像旅行速写本。适合城市观察、旅途和日常人物故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "钢笔线",
+        "淡彩错位",
+        "纸边溶解"
+      ],
+      "tech_stack": [
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "chalkboard": {
+      "summary_cn": "粉笔按笔顺写在真实黑板质感上，擦去误解后在原位写出答案。适合识字、词源、纠错和小课堂。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "粉笔颗粒",
+        "笔顺书写",
+        "擦除教学"
+      ],
+      "tech_stack": [
+        "WebGL2",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "shadow-puppet": {
+      "summary_cn": "染色皮影在背光布幕上表演，雕孔发亮，关节和操纵杆保留舞台感。适合民俗、寓言和传统故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "透光皮革",
+        "镂空",
+        "关节剪影",
+        "灯火闪动"
+      ],
+      "tech_stack": [
+        "Canvas 2D",
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "ukiyoe": {
+      "summary_cn": "平涂色版与细墨线叠在和纸上，分层景物像展开的版画长卷。适合旅行、四季和小人物的环境叙事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "木版套色",
+        "渐变印色",
+        "层间视差"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "papercut-red": {
+      "summary_cn": "红纸上的镂空就是细节，关节纸人以略带停顿的节奏在纸景中活动。适合节庆、民俗和寓言。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "阴阳剪",
+        "折叠对称",
+        "关节剪纸",
+        "逐格动作"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "paper-lantern": {
+      "summary_cn": "多层纸雕在暖色背光中产生柔和阴影，镜头像钻进一盏立体纸灯。适合夜景、旅程和温暖童话。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "层叠纸雕",
+        "背光",
+        "柔影",
+        "微距景深"
+      ],
+      "tech_stack": [
+        "Three.js",
+        "Canvas 2D",
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "risograph": {
+      "summary_cn": "两三种半透明油墨错位叠印，网点和墨粒让画面像活动的独立印刷小刊。适合日常幽默、人物和轻量解释。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "专色叠印",
+        "套印偏移",
+        "半调网点"
+      ],
+      "tech_stack": [
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "halftone-dossier": {
+      "summary_cn": "奶油色案卷纸上盖章、贴证物，粗标题和网点角色逐条呈现信息。适合冷知识、案件式解释和反转故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "半调网点",
+        "错版标题",
+        "印章",
+        "证物卡"
+      ],
+      "tech_stack": [
+        "Canvas 2D",
+        "SVG"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "Playwright"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "woodcut": {
+      "summary_cn": "黑色木版上逐刀刻出亮部，线条方向和疏密承担光影。适合强情绪、寓言和黑白叙事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "阴刻亮线",
+        "刀痕排线",
+        "限色印刷"
+      ],
+      "tech_stack": [
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "engraving": {
+      "summary_cn": "铜版上的轮廓和细排线逐层形成标本，再以局部放大和淡彩补充细节。适合博物展签、生物结构和收藏知识。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "铜版凹印",
+        "交叉排线",
+        "标本图版",
+        "手工着色"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "geometry_formats": [
+        "SVG路径/单线字形数据（不是独立渲染框架）"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "silkscreen-poster": {
+      "summary_cn": "少量不透明专色逐层刮印成海报，色带代替连续渐变。适合旅行目的地、活动介绍和系列主题。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "丝网分色",
+        "逐层揭示",
+        "套印留白"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "printed-long-take": {
+      "summary_cn": "黑白刻线构成有纵深的世界，镜头一镜到底穿过景物，一点红色锁定主角。适合自然旅程、迁徙和沉浸式叙事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "刮板刻线",
+        "三维分层",
+        "长镜头",
+        "单色强调"
+      ],
+      "tech_stack": [
+        "Three.js"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "swiss-motion": {
+      "summary_cn": "网格、统一字体和一处信号色严格对齐，每个动作像印刷机一样准确。适合数字信息、品牌理念和条理清晰的短解释。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "模块网格",
+        "字级对比",
+        "节拍对齐"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "spy-titles": {
+      "summary_cn": "剪纸剪影在由字幕搭成的场景里追逐，铜管重音推动切镜。适合悬疑开场、身份变化和轻巧追逐。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "剪纸剪影",
+        "文字造景",
+        "音乐切镜"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "art-deco": {
+      "summary_cn": "暖黑底上的金线和喷绘几何沿中轴展开，灯泡依次点亮。适合庆典、倒计时、发布和复古华丽主题。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "中轴对称",
+        "金色细线",
+        "机械展开",
+        "灯阵"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "blueprint": {
+      "summary_cn": "白色技术线在蓝晒纸上按制图顺序画出，标注和剖面跟着结构运动。适合机械、建筑、发明和工作原理。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "蓝晒质感",
+        "工程线描",
+        "尺寸标注",
+        "排线"
+      ],
+      "tech_stack": [
+        "WebGL2",
+        "WebGL",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "stained-glass": {
+      "summary_cn": "铅条分隔彩色玻璃，阳光照到哪里，哪里才发亮并在地面留下色影。适合神话、寓言和分章节的故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "彩窗拼片",
+        "透射光",
+        "灰彩描绘",
+        "光束"
+      ],
+      "tech_stack": [
+        "WebGL",
+        "WebGL2",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "pictogram-motion": {
+      "summary_cn": "几何图标、方格图案和大字按鼓点换卡，每张卡只让一个动作说清一件事。适合目录、步骤、分类和简洁故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "几何象形",
+        "模块图案",
+        "遮罩文字",
+        "节拍卡片"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "ascii-crt": {
+      "summary_cn": "所有画面都由等宽字符组成，在琥珀色或绿色老显示器上发光。适合技术故事、系统日志和复古科幻。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "字符密度成像",
+        "扫描线",
+        "荧光",
+        "终端打字"
+      ],
+      "tech_stack": [
+        "WebGL",
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "dataviz": {
+      "summary_cn": "真实数据逐笔变成图表，手写注释把关键数字变成叙事转折。适合趋势、比例、差距和统计科普。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "数据驱动",
+        "坐标变化",
+        "图表变形",
+        "手写标注"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "iso-infographic": {
+      "summary_cn": "固定等距视角的小系统会打开剖面，图标数量直接表达规模。适合流程、基础设施和系统原理。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "等距投影",
+        "三档色面",
+        "剖切",
+        "图标统计"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "dark-keynote": {
+      "summary_cn": "深色舞台上界面和大数字成为主角，细网格与扫光保持克制。适合软件发布、功能演示和效率工具。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "暗色界面",
+        "光扫揭示",
+        "网格吸附",
+        "数字强调"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "living-screencast": {
+      "summary_cn": "看起来像实机录屏，低分辨率吉祥物住在清晰界面里演出软件行为。适合产品导览、功能教程和工具发布。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "光标跟拍",
+        "自动放大",
+        "界面角色互动"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "hologram-hud": {
+      "summary_cn": "物体先被扫描成发光线框，再锁定部件、局部拆解并展开参数。适合硬件规格、结构展示和科幻屏幕。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "线框扫描",
+        "目标锁定",
+        "局部爆炸图",
+        "滚动参数"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "transit-map": {
+      "summary_cn": "线路像发光笔在纸面上生长，站点随笔尖亮起，镜头贴着地图穿行。适合网络扩展、路线和交通系统解释。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "八方向布线",
+        "线路绘制",
+        "纸面透视",
+        "景深"
+      ],
+      "tech_stack": [
+        "WebGL",
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "isometric-picture-book": {
+      "summary_cn": "无面小人在同一等距场景里按顺序行动，地面文字跟着步骤出现。适合排队、登机、公共规则和日常流程。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "等距平涂",
+        "动作排序",
+        "揭顶剖面",
+        "地面文字"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "circuit-board": {
+      "summary_cn": "世界变成绿色电路板，地点是焊盘，流动的信号沿铜线前进。适合能源、通信、物流和网络流程。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "铜线布路",
+        "阻焊绿",
+        "丝印文字",
+        "光流追踪"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "rubber-hose": {
+      "summary_cn": "黑白卡通的软管四肢没有肘膝，家具也随爵士乐呼吸。适合闹剧、追逐和音乐喜剧。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "橡皮管动作",
+        "挤压拉伸",
+        "沸腾墨线",
+        "旧胶片损伤"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "cel-anime-80s": {
+      "summary_cn": "平涂双层明暗角色压在喷绘背景上，霓虹逆光和录像带质感形成80年代动画感。适合都市情绪、科幻和音乐MV。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "赛璐璐色块",
+        "有限动画",
+        "霓虹背光",
+        "CRT后期"
+      ],
+      "tech_stack": [
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "scifi-toon": {
+      "summary_cn": "粗轮廓、平涂角色和破烂科幻装置演出日常小事的荒诞升级。适合思想实验、对白喜剧和反转科普。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "粗线沸腾",
+        "反应特写",
+        "口型",
+        "世界配色"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "midcentury-toon": {
+      "summary_cn": "线和色略微错位，身体少动而手部清楚示范，像50年代课堂动画。适合安装、操作、食谱和安全提示。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "有限动画",
+        "套色偏移",
+        "几何人物",
+        "步骤图卡"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "pixel-rpg": {
+      "summary_cn": "低分辨率小人、逐字对话框和菜单组成一部会按游戏规则行动的短片。适合选择、记忆、成长和思想实验。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "整数像素",
+        "索引调色板",
+        "抖动渐变",
+        "游戏界面"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "hd-2d": {
+      "summary_cn": "清晰像素人物站在受光照的三维微缩场景里，远近虚化让世界像桌面模型。适合冒险、旅行和情绪故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "像素精灵",
+        "立体沙盘",
+        "移轴景深",
+        "光晕"
+      ],
+      "tech_stack": [
+        "Three.js",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "microgame": {
+      "summary_cn": "一句命令接一个短小游戏，每关换一种画法，速度持续升级。适合互动挑战、知识测验和快速反应主题。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "多媒材切换",
+        "限时任务",
+        "节奏加速"
+      ],
+      "tech_stack": [
+        "WebGL2",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "game-show": {
+      "summary_cn": "糖果色舞台上的粗线吉祥物按提示回应，成功时弹出判定字。适合节奏挑战、知识串讲和综艺化科普。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "扁平矢量",
+        "问答节奏",
+        "判定字幕",
+        "舞台卡"
+      ],
+      "tech_stack": [
+        "SVG"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "style_media_tools": [
+        "Playwright",
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "silent-film": {
+      "summary_cn": "黑白插画像在影院幕布间放映，用动作和字幕卡代替对白。适合肢体笑料、误会和无语言故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "默片字幕卡",
+        "片门闪烁",
+        "全景动作",
+        "钢琴节奏"
+      ],
+      "tech_stack": [
+        "WebGL2",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "framework_note": "未提供明确框架名称",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "backrooms": {
+      "summary_cn": "空荡的荧光灯空间被手持录像机记录，规则和微小异常慢慢制造不安。适合规则怪谈、空间悬疑和心理恐怖。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "手持晃动",
+        "自动曝光",
+        "VHS噪声",
+        "空镜"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "brick-toy": {
+      "summary_cn": "塑料积木角色逐格行动，真实桌面和浅景深强调玩具的大小。适合搭建、失败重来和动手故事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "积木装配",
+        "定格姿态",
+        "玩具微距",
+        "接触阴影"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "paper-popup": {
+      "summary_cn": "真实桌面上的立体书弹起纸景，白边纸片角色在其中活动。适合冒险、儿童故事和章节式解释。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "立体折纸",
+        "纸片角色",
+        "微距光照",
+        "翻页"
+      ],
+      "tech_stack": [
+        "Three.js",
+        "Canvas 2D",
+        "WebGL",
+        "WebGL2"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "style_media_tools": [
+        "FFmpeg"
+      ],
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "tilt-shift": {
+      "summary_cn": "高处俯拍的城市只有窄窄一带清晰，快进的人车让真实世界像微缩模型。适合城市、交通和日常节律。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "移轴虚化",
+        "延时",
+        "饱和日光"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该风格说明未给出具体渲染器或框架",
+      "framework_note": "未提供明确框架名称",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "lowpoly-island": {
+      "summary_cn": "低面数几何构成漂浮的小世界，每一块搭建都带一点弹性和音符。适合建设、系统成长和季节变化。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "低多边形",
+        "等距正交",
+        "逐块生长",
+        "平面明暗"
+      ],
+      "tech_stack": [
+        "Three.js"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "glass-product": {
+      "summary_cn": "黑暗棚景里用长条光勾勒透明或磨砂产品，慢速拆解展示内部。适合产品发布、材料和精密结构。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "透射",
+        "色散",
+        "焦散",
+        "条形扫光",
+        "慢速拆解"
+      ],
+      "tech_stack": [
+        "Three.js",
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "memphis-diorama": {
+      "summary_cn": "明快几何色块和小图案搭成桌面景观，硬色阴影下有许多安静的小动作。适合四季、社区、场所和生活观察。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "孟菲斯图案",
+        "三档色面",
+        "微缩景观",
+        "季节波纹"
+      ],
+      "tech_stack": [
+        "Three.js"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "rendering_note": "未提供明确渲染器",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    },
+    "desktop-flythrough": {
+      "summary_cn": "软件界面像纸卡铺在桌上，体素小人搬运任务，镜头一镜到底追着走。适合工具链、工作流和软件发布。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该风格说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "桌面纸卡",
+        "像素转体素",
+        "长镜头",
+        "低角度日光"
+      ],
+      "tech_stack": [
+        "Three.js",
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "风格说明写明的框架或渲染 API",
+      "shared_pipeline_id": "lemo-shared-pipeline"
+    }
+  }
+}

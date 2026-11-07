@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "note": "Human-verified Chinese summaries and tech notes, keyed by slug. The daily sync does not write this file.",
+  "items": {}
+}

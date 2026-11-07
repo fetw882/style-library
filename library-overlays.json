@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-07T15:00:17.300289+08:00",
+  "items": {
+    "anatomy-iso-object": {
+      "summary_cn": "把概念做成能运转的等轴测机器，零件动作与读数来自同一模型。适合机构、系统和抽象原理解释。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该条目说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "等轴测实体",
+        "分层装配",
+        "同源读数",
+        "局部高亮"
+      ],
+      "tech_stack": [
+        "WebGL",
+        "SVG"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该条目说明写明的渲染方式",
+      "style_media_tools": [
+        "Node.js"
+      ],
+      "public_sources": [
+        "https://github.com/wheresryan22/anatomy"
+      ],
+      "rights_note": "保留approved/draft，不复制私有或付费引擎正文/源码；来源链接不等于素材可复用授权"
+    },
+    "cartoon-facts": {
+      "summary_cn": "厚描边小动物在插画背景中快速切换姿态，白色药丸字幕突出关键词。适合动物冷知识和短科普。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该条目说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "抠图角色",
+        "挤压弹跳",
+        "快切",
+        "关键词字幕"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该条目说明写明的渲染方式",
+      "style_media_tools": [
+        "Fish Audio",
+        "Playwright",
+        "FFmpeg",
+        "Headless Chrome"
+      ],
+      "public_sources": [
+        "https://x.com/finnardley/status/2117033492332552696"
+      ],
+      "rights_note": "保留approved/draft，不复制私有或付费引擎正文/源码；来源链接不等于素材可复用授权"
+    },
+    "film-direct-engrave": {
+      "summary_cn": "暖白刻线在暗色胶片上发光，每个主体只用一种染色，画面轻轻颤动。适合情绪故事和夜间叙事。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该条目说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "胶片刻线",
+        "单主体染色",
+        "隔帧重画",
+        "光晕"
+      ],
+      "tech_stack": [
+        "Canvas 2D",
+        "WebGL"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该条目说明写明的渲染方式",
+      "style_media_tools": [
+        "Headless Chrome"
+      ],
+      "public_sources": [
+        "https://x.com/lemomo_ai/status/2116717173934825841"
+      ],
+      "rights_note": "保留approved/draft，不复制私有或付费引擎正文/源码；来源链接不等于素材可复用授权"
+    },
+    "light-dot-particles": {
+      "summary_cn": "人物和景物由柔和光点聚散而成，近黑背景留出大片空间。适合自然、夜景和抒情故事，不适合密集数据。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该条目说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "加色粒子",
+        "聚散变形",
+        "呼吸闪烁",
+        "柔光"
+      ],
+      "tech_stack": [
+        "Canvas 2D"
+      ],
+      "tech_stack_status": "verified",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该条目说明写明的渲染方式",
+      "style_media_tools": [
+        "FFmpeg",
+        "Headless Chrome"
+      ],
+      "public_sources": [
+        "https://x.com/lemomo_ai/status/2116748566479921576"
+      ],
+      "rights_note": "保留approved/draft，不复制私有或付费引擎正文/源码；来源链接不等于素材可复用授权"
+    },
+    "paper-checklist-explainer": {
+      "summary_cn": "米白纸面、黑色粗线与红色重点构成清单卡，主播在角落逐步解释。适合工具教程和概念拆解。",
+      "summary_status": "verified",
+      "summary_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "summary_evidence": "根据该条目说明归纳的短句，不含原文",
+      "visual_techniques": [
+        "纸张质感",
+        "错位硬投影",
+        "清单卡片",
+        "逐字动作"
+      ],
+      "tech_stack_status": "unknown",
+      "tech_stack_checked_at": "2026-11-07T15:00:17.300289+08:00",
+      "tech_stack_evidence": "该条目说明未给出具体渲染器；私有引擎不公开",
+      "style_media_tools": [
+        "Whisper",
+        "Fish Audio",
+        "FFmpeg"
+      ],
+      "rights_note": "保留approved/draft，不复制私有或付费引擎正文/源码；来源链接不等于素材可复用授权"
+    }
+  }
+}

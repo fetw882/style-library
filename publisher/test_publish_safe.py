@@ -221,9 +221,17 @@ class PublishSafeTests(unittest.TestCase):
             video("bbb-2", "https://x.com/Ada/status/2"),
         ], "b" * 40), clock=clock)
         before = (self.pages_external / "catalog.json").read_bytes()
+        overlay = self.pages / "official-overlays.json"
+        personal = self.pages / "library-overlays.json"
+        overlay.write_text('{"items":{"caption-news":{"tech_stack_status":"unknown"}}}\n', encoding="utf-8")
+        personal.write_text('{"items":{"paper-checklist-explainer":{"tech_stack_status":"unknown"}}}\n', encoding="utf-8")
+        self.git(self.pages, "add", "official-overlays.json", "library-overlays.json")
+        self.git(self.pages, "commit", "-qm", "card overlays")
         result = self.run_publish()
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
         self.assertEqual((self.pages_external / "catalog.json").read_bytes(), before)
+        self.assertEqual(overlay.read_text(encoding="utf-8"), '{"items":{"caption-news":{"tech_stack_status":"unknown"}}}\n')
+        self.assertEqual(personal.read_text(encoding="utf-8"), '{"items":{"paper-checklist-explainer":{"tech_stack_status":"unknown"}}}\n')
         self.assert_protected_site()
         self.assertEqual(self.catalog_slugs(), ["aaa-1", "bbb-2"])
         sync(self.pages, FakeUpstream([

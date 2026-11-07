@@ -248,10 +248,70 @@ def build_item(raw: dict, commit: str) -> dict:
     }
     if title:
         item["title"] = title
+    stack, techniques, unknown = classify_tags(tags)
+    item["tech_stack"] = stack
+    item["tech_stack_status"] = "verified" if stack else "unknown"
+    item["tech_stack_evidence"] = "upstream videos.json tech_tags" if tags else "upstream videos.json has no tech_tags"
+    item["visual_techniques"] = techniques
+    item["unclassified_tags"] = unknown
+    item["format_label"] = "网页动画" if stack else ("公开视频" if has_remake else "格式未单独标明")
+    item["summary_status"] = "unverified"
     blob = json.dumps(item, ensure_ascii=False).lower()
     if "javascript:" in blob or "<script" in blob:
         raise ValueError("unsafe item")
     return item
+
+
+STACK_TAGS = {
+    "canvas": "Canvas",
+    "svg": "SVG",
+    "threejs": "Three.js",
+    "gsap": "GSAP",
+    "css": "CSS",
+    "webgl": "WebGL",
+}
+TECHNIQUE_TAGS = {
+    "shader": "着色器",
+    "particles": "粒子",
+    "pixel": "像素",
+    "physics": "物理",
+    "ai-image": "AI 图像",
+    "audio": "音频",
+    "playable": "可交互",
+}
+
+
+def classify_tags(tags: list) -> tuple[list, list, list]:
+    stack, techniques, unknown = [], [], []
+    for tag in tags or []:
+        if tag in STACK_TAGS and STACK_TAGS[tag] not in stack:
+            stack.append(STACK_TAGS[tag])
+        elif tag in TECHNIQUE_TAGS and TECHNIQUE_TAGS[tag] not in techniques:
+            techniques.append(TECHNIQUE_TAGS[tag])
+        elif tag not in unknown:
+            unknown.append(tag)
+    return stack, techniques, unknown
+
+
+def keep_verified(item: dict, previous: dict | None) -> None:
+    """Daily sync may refresh upstream tags, but not a human-checked summary or stack."""
+    if not previous:
+        return
+    if previous.get("summary_checked_at"):
+        for key in ("summary_cn", "summary_evidence", "summary_checked_at", "summary_status"):
+            if previous.get(key) not in (None, ""):
+                item[key] = previous[key]
+    if previous.get("tech_stack_checked_at"):
+        for key in (
+            "tech_stack",
+            "tech_stack_status",
+            "tech_stack_evidence",
+            "tech_stack_checked_at",
+            "visual_techniques",
+            "format_label",
+        ):
+            if key in previous:
+                item[key] = previous[key]
 
 
 def comparable(item: dict) -> tuple:
@@ -375,6 +435,7 @@ def merge(previous_items: list[dict], built: list[dict], duplicates: list[dict],
             changed += 1
         if previous and previous.get("review_state") not in (None, "", "unreviewed"):
             item["review_state"] = previous["review_state"]
+        keep_verified(item, previous)
         active.append(item)
     incoming_slugs = {item["slug"] for item in active}
     removed = 0
