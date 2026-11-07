@@ -1,0 +1,55 @@
+# External references only. Does not rebuild personal or official styles.
+# Once a day at 09:00 Asia/Shanghai (01:00 UTC), weekends included.
+# GitHub may start the job later; the log records schedule_delay_seconds.
+# There is no hourly schedule. An unchanged upstream HEAD does not commit.
+name: sync awesome opus references
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-awesome-opus
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Test sync rules
+        run: python3 scripts/test_sync_awesome_opus.py
+
+      - name: Sync when upstream main moves
+        env:
+          # Built-in Actions token only. No repository secret is required.
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/sync_awesome_opus.py
+
+      - name: Commit only if the external catalog changed
+        run: |
+          set -eu
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Upstream unchanged. Not committing."
+            exit 0
+          fi
+          git add external/awesome-opus5-5-videos
+          bad="$(git diff --cached --name-only | grep -v '^external/awesome-opus5-5-videos/' || true)"
+          if [ -n "$bad" ]; then
+            echo "Refusing to commit paths outside the external catalog:"
+            echo "$bad"
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "sync awesome-opus references"
+          git push
