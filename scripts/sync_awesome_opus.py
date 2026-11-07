@@ -251,11 +251,11 @@ def build_item(raw: dict, commit: str) -> dict:
     stack, techniques, unknown = classify_tags(tags)
     item["tech_stack"] = stack
     item["tech_stack_status"] = "verified" if stack else "unknown"
-    item["tech_stack_evidence"] = "upstream videos.json tech_tags" if tags else "upstream videos.json has no tech_tags"
     item["visual_techniques"] = techniques
     item["unclassified_tags"] = unknown
     item["format_label"] = "网页动画" if stack else ("公开视频" if has_remake else "格式未单独标明")
-    item["summary_status"] = "unverified"
+    item["summary_status"] = "missing"
+    item["summary_missing"] = "上游 videos.json 没有 title，也没有 description 字段" if not title else "上游有 title，还没有对应的中文短译"
     blob = json.dumps(item, ensure_ascii=False).lower()
     if "javascript:" in blob or "<script" in blob:
         raise ValueError("unsafe item")
@@ -291,6 +291,60 @@ def classify_tags(tags: list) -> tuple[list, list, list]:
         elif tag not in unknown:
             unknown.append(tag)
     return stack, techniques, unknown
+
+
+def title_mentions_renderer(title: str) -> bool:
+    return bool(re.search(r"webgl|three\.js|gsap|canvas|remotion|blender|manim|webgpu|\bsvg\b|\bhtml\b", title or "", re.I))
+
+
+def load_title_briefs(directory: Path) -> dict:
+    path = directory / "title-briefs.json"
+    if not path.exists():
+        return {}
+    data = read_json(path)
+    items = data.get("items") if isinstance(data, dict) else None
+    return items if isinstance(items, dict) else {}
+
+
+def apply_author_brief(item: dict, briefs: dict) -> None:
+    """Translate an upstream title when the wording still matches. Never lock it as a human note."""
+    title = item.get("title") or ""
+    brief = briefs.get(item.get("slug")) if isinstance(briefs, dict) else None
+    summary = ""
+    if isinstance(brief, dict) and brief.get("title") == title:
+        summary = one_line(brief.get("summary_cn"), 180)
+    if item.get("summary_checked_at"):
+        pass
+    elif title and summary:
+        item["summary_cn"] = summary
+        item["summary_status"] = "author"
+        item["summary_evidence"] = "据原作者描述：上游 videos.json title"
+        item.pop("summary_missing", None)
+        item.pop("summary_checked_at", None)
+    elif title:
+        item.pop("summary_cn", None)
+        item["summary_status"] = "missing"
+        item["summary_missing"] = "上游有 title，还没有对应的中文短译"
+    else:
+        item.pop("summary_cn", None)
+        item["summary_status"] = "missing"
+        item["summary_missing"] = "上游 videos.json 没有 title，也没有 description 字段"
+    if item.get("tech_stack_checked_at"):
+        return
+    stack = item.get("tech_stack") or []
+    tags = item.get("tech_tags") or []
+    if stack:
+        item["tech_stack_status"] = "verified"
+        item["tech_stack_evidence"] = "上游 videos.json tech_tags"
+    elif tags:
+        item["tech_stack_status"] = "unknown"
+        item["tech_stack_evidence"] = "上游 tech_tags 没有可映射的渲染框架"
+    else:
+        item["tech_stack_status"] = "unknown"
+        note = "上游 videos.json 没有 tech_tags"
+        if title_mentions_renderer(title):
+            note += "。标题里的技术名称不当作渲染器证据"
+        item["tech_stack_evidence"] = note
 
 
 def keep_verified(item: dict, previous: dict | None) -> None:
@@ -578,6 +632,7 @@ def sync(root: Path, client, check_only: bool = False, clock=None) -> dict:
     if unchanged or check_only:
         return result
     videos = parse_videos(client.get_file(head["sha"], "data/videos.json"))
+    briefs = load_title_briefs(directory)
     license_bytes = client.get_file(head["sha"], "LICENSE")
     readme_bytes = client.get_file(head["sha"], "README.md")
     try:
@@ -594,6 +649,7 @@ def sync(root: Path, client, check_only: bool = False, clock=None) -> dict:
             continue
         try:
             item = build_item(raw, head["sha"])
+            apply_author_brief(item, briefs)
         except ValueError:
             failed += 1
             continue

@@ -340,6 +340,21 @@ class PublishSafeTests(unittest.TestCase):
         self.assertEqual(self.page_statuses()["kept-approved"], "approved")
         self.assertEqual(self.official_nums(), ["01", "77"])
 
+    def test_card_info_is_copied_without_touching_external(self):
+        info = self.source / "card-info"
+        info.mkdir()
+        (info / "official-overlays.json").write_text('{"items":{"caption-news":{"summary_cn":"字幕新闻短句"}}}\n', encoding="utf-8")
+        (info / "library-overlays.json").write_text('{"items":{"paper-checklist-explainer":{"tech_stack_status":"unknown"}}}\n', encoding="utf-8")
+        (info / "title-briefs.json").write_text('{"items":{"demo":{"title":"Demo","summary_cn":"演示标题"}}}\n', encoding="utf-8")
+        before = (self.pages_external / "catalog.json").read_bytes()
+        result = self.run_publish()
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual((self.pages / "official-overlays.json").read_text(encoding="utf-8"), (info / "official-overlays.json").read_text(encoding="utf-8"))
+        self.assertEqual((self.pages / "library-overlays.json").read_text(encoding="utf-8"), (info / "library-overlays.json").read_text(encoding="utf-8"))
+        self.assertEqual((self.pages / "card-info" / "title-briefs.json").read_text(encoding="utf-8"), (info / "title-briefs.json").read_text(encoding="utf-8"))
+        self.assertEqual((self.pages_external / "catalog.json").read_bytes(), before)
+        self.assert_protected_site()
+
     def test_opt_in_push_is_not_force(self):
         script = PUBLISH.read_text(encoding="utf-8")
         self.assertNotIn("git push --force", script)
@@ -369,6 +384,15 @@ class BundleTests(unittest.TestCase):
             self.assertIn("my-styles-publisher/build.py", names)
             self.assertIn("my-styles-publisher/publish.sh", names)
             self.assertIn("my-styles-publisher/index.html", names)
+            self.assertIn("my-styles-publisher/card-info/official-overlays.json", names)
+            self.assertIn("my-styles-publisher/card-info/library-overlays.json", names)
+            self.assertIn("my-styles-publisher/card-info/title-briefs.json", names)
+            briefs = json.loads(archive.extractfile("my-styles-publisher/card-info/title-briefs.json").read().decode("utf-8"))
+            official = json.loads(archive.extractfile("my-styles-publisher/card-info/official-overlays.json").read().decode("utf-8"))
+            personal = json.loads(archive.extractfile("my-styles-publisher/card-info/library-overlays.json").read().decode("utf-8"))
+            self.assertEqual(len(briefs["items"]), 285)
+            self.assertEqual(len(official["items"]), 66)
+            self.assertEqual(len(personal["items"]), 5)
             self.assertEqual(
                 archive.extractfile("my-styles-publisher/build.py").read(),
                 (ROOT / "publisher" / "build.py").read_bytes(),

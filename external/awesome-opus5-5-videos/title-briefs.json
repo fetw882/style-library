@@ -1,0 +1,1149 @@
+{
+  "schema_version": 1,
+  "source_commit": "92aee2f586ac0715cb3cbcb6384834f98a33383d",
+  "source_field": "title",
+  "attribution": "据原作者描述",
+  "note": "中文只译上游 videos.json 的 title。没有 description 字段。不使用提示词正文，也不把标题里的技术名称当成渲染器。",
+  "items": {
+    "adrianduta96-992248": {
+      "title": "Motion Graphics Music Machine",
+      "summary_cn": "动态图形：一台音乐机器。"
+    },
+    "pagustafsson-566609": {
+      "title": "Krakatoa Volcano WebGL Animation",
+      "summary_cn": "喀拉喀托火山的 WebGL 动画。"
+    },
+    "youwareai-300653": {
+      "title": "Three.js Castle Above Clouds Experience",
+      "summary_cn": "云上城堡的 Three.js 体验。"
+    },
+    "juancarlos17626-429530": {
+      "title": "3D Logo Intro Animation Studio",
+      "summary_cn": "三维标志片头动画工作室。"
+    },
+    "airobertdaily-416945": {
+      "title": "Apple Evolution Motion Graphics",
+      "summary_cn": "苹果演化的动态图形。"
+    },
+    "thusatharan-433543": {
+      "title": "Golden Hour Manor Scene",
+      "summary_cn": "黄金时刻的庄园场景。"
+    },
+    "arixxbt-292438": {
+      "title": "Interactive Zen Garden HTML Animation",
+      "summary_cn": "互动枯山水的 HTML 动画。"
+    },
+    "n01ennn-597182": {
+      "title": "Claude Motion: Opus 5.5 Animated Story",
+      "summary_cn": "Claude Motion：Opus 5.5 动画故事。"
+    },
+    "rubenssoto-ai-802657": {
+      "title": "Cinematic F1 Pit Stop Animation",
+      "summary_cn": "电影感的 F1 进站动画。"
+    },
+    "thusatharan-640926": {
+      "title": "Procedural 3D Elephant in HTML",
+      "summary_cn": "HTML 里的程序化三维大象。"
+    },
+    "utsavchopra30-560359": {
+      "title": "Opus 5.5 Brand Teaser",
+      "summary_cn": "Opus 5.5 品牌预告。"
+    },
+    "0xkarmi-129839": {
+      "title": "Deterministic Frame-Based Video Rendering",
+      "summary_cn": "确定性的逐帧视频渲染。"
+    },
+    "shunshu32385143-944719": {
+      "title": "Temple of Heaven 3D Animation",
+      "summary_cn": "天坛三维动画。"
+    },
+    "chang-200908": {
+      "title": "3D Brake Pedal Stress Simulation Animation",
+      "summary_cn": "三维刹车踏板应力模拟动画。"
+    },
+    "buildfastwithai-844291": {
+      "title": "Opus 5.5 Rust Fframes Audio-Reactive Video",
+      "summary_cn": "Opus 5.5 的 Rust Fframes 音频响应视频。"
+    },
+    "drake5112-661428": {
+      "title": "Interactive HTML Presentation with Narration",
+      "summary_cn": "带旁白的互动 HTML 演示。"
+    },
+    "aichrislee-938609": {
+      "title": "Saturn V Rocket Interactive 3D Model",
+      "summary_cn": "土星五号火箭的互动三维模型。"
+    },
+    "screeendev-981790": {
+      "title": "SaaS Launch Video Animation",
+      "summary_cn": "SaaS 发布视频动画。"
+    },
+    "juancarlos17626-382690": {
+      "title": "Realistic Lava Lamp WebGL Animation",
+      "summary_cn": "写实熔岩灯的 WebGL 动画。"
+    },
+    "cryptowluha-060792": {
+      "title": "House Growth Animation",
+      "summary_cn": "房屋生长动画。"
+    },
+    "fleyta88-443662": {
+      "title": "GSAP Timeline with Frame Checking",
+      "summary_cn": "带逐帧检查的 GSAP 时间轴。"
+    },
+    "flxrnc-251921": {
+      "title": "UI Motion Loop Design",
+      "summary_cn": "界面动效循环设计。"
+    },
+    "tonysurix-596746": {
+      "title": "Blender Previs Car Chase",
+      "summary_cn": "Blender 预演的汽车追逐。"
+    },
+    "ultimaxbt-549714": {
+      "title": "Food Craving Product Launch Film",
+      "summary_cn": "以食欲为主题的产品发布短片。"
+    },
+    "0xverdao-776363": {
+      "title": "Minecraft Street View Animation",
+      "summary_cn": "Minecraft 街景动画。"
+    },
+    "simonasltu1-981181": {
+      "title": "Cinematic Dreams Visual Experience",
+      "summary_cn": "电影感的梦境视觉体验。"
+    },
+    "khlaseek-dsgner-877659": {
+      "title": "Widget Animation Motion Design",
+      "summary_cn": "小组件动画的动态设计。"
+    },
+    "btcup99-311469": {
+      "title": "AI History Motion Video",
+      "summary_cn": "人工智能史动态视频。"
+    },
+    "kewai386772-262769": {
+      "title": "Nobel prize science",
+      "summary_cn": "诺贝尔奖科学。"
+    },
+    "mdaman010-207866": {
+      "title": "Middle-earth Three.js World",
+      "summary_cn": "中土世界的 Three.js 场景。"
+    },
+    "wikiwayne-080350": {
+      "title": "Claymation Desk Scene Comparison",
+      "summary_cn": "黏土动画桌面场景对照。"
+    },
+    "wikiwayne-486055": {
+      "title": "Blender Claymation Script Comparison",
+      "summary_cn": "Blender 黏土动画脚本对照。"
+    },
+    "cgclick-497325": {
+      "title": "Motion Graphics Search Bar Animation",
+      "summary_cn": "动态图形搜索栏动画。"
+    },
+    "wilzerjb-007630": {
+      "title": "Business Motion Explainer",
+      "summary_cn": "商业动态讲解。"
+    },
+    "mdaman010-610173": {
+      "title": "Middle-earth Three.js Cinematic Journey",
+      "summary_cn": "中土世界的 Three.js 电影旅程。"
+    },
+    "federicoaltepo1-312496": {
+      "title": "Product Promo Video Generation",
+      "summary_cn": "产品宣传片生成。"
+    },
+    "eleanorina-653042": {
+      "title": "Manim Math Explainer",
+      "summary_cn": "Manim 数学讲解。"
+    },
+    "okazaky-084783": {
+      "title": "Lyric MV 3D Engine Workflow",
+      "summary_cn": "歌词 MV 的三维引擎流程。"
+    },
+    "twoclipping-041659": {
+      "title": "Pixel Art Voiceover Film",
+      "summary_cn": "像素画配音短片。"
+    },
+    "mrkindey-267498": {
+      "title": "Self-Building 3D House Animation",
+      "summary_cn": "自己搭建起来的三维房屋动画。"
+    },
+    "ilyapion-072443": {
+      "title": "Business Promo",
+      "summary_cn": "商业宣传。"
+    },
+    "tkz-aiart-864352": {
+      "title": "Track Card Video Prompt for Opus 5.5",
+      "summary_cn": "给 Opus 5.5 的曲目卡片视频。"
+    },
+    "thegreatola-738411": {
+      "title": "Opus 5.5 Product Demo",
+      "summary_cn": "Opus 5.5 产品演示。"
+    },
+    "aicreataro-864070": {
+      "title": "Frozen Memoir Narration Animation",
+      "summary_cn": "冰封回忆的旁白动画。"
+    },
+    "nakazakifam-831964": {
+      "title": "Code-Only Psychology Explainer Video",
+      "summary_cn": "纯代码的心理学讲解视频。"
+    },
+    "incognitoprince-849212": {
+      "title": "After Effect Style Kinetic Text Explainer",
+      "summary_cn": "After Effects 风格的动态文字讲解。"
+    },
+    "nft-chen-068069": {
+      "title": "15 Styles of Code-Generated Videos for Claude Opus 5.5",
+      "summary_cn": "给 Claude Opus 5.5 的 15 种代码生成视频风格。"
+    },
+    "tanabe-fragm-322001": {
+      "title": "Tile Mosaic Ad Video Prompt for Claude Opus 5.5",
+      "summary_cn": "给 Claude Opus 5.5 的瓷砖马赛克广告视频。"
+    },
+    "atif-0075-639088": {
+      "title": "Physics-Based Cow Animation",
+      "summary_cn": "基于物理的牛动画。"
+    },
+    "earthwalkerx17-912577": {
+      "title": "Middle-earth 3D Cinematic Journey",
+      "summary_cn": "中土世界的三维电影旅程。"
+    },
+    "techartist-697078": {
+      "title": "Rube Goldberg Domino Physics Sim",
+      "summary_cn": "鲁布·戈德堡多米诺物理模拟。"
+    },
+    "llama3dstudio-918962": {
+      "title": "Procedural Fried Chicken Animation",
+      "summary_cn": "程序化炸鸡动画。"
+    },
+    "rossaxbt-312793": {
+      "title": "Product Promo Motion",
+      "summary_cn": "产品宣传动态。"
+    },
+    "thegawdstiles-738178": {
+      "title": "Code-Built Brand Promo Motion Graphics",
+      "summary_cn": "用代码搭建的品牌宣传动态图形。"
+    },
+    "rafiroutes-596199": {
+      "title": "Anime Style Opening Teaser",
+      "summary_cn": "动画风格的片头预告。"
+    },
+    "jiro-aicompany-487818": {
+      "title": "Short Video Instruction Template",
+      "summary_cn": "短视频说明模板。"
+    },
+    "rashadmirza404-020971": {
+      "title": "Optogenetics Animation Explainer",
+      "summary_cn": "光遗传学动画讲解。"
+    },
+    "aichrislee-922082": {
+      "title": "Interactive 3D V8 Engine Animation",
+      "summary_cn": "互动三维 V8 发动机动画。"
+    },
+    "0xnicc0-516612": {
+      "title": "Product Launch Motion Film",
+      "summary_cn": "产品发布动态短片。"
+    },
+    "ivanainai-190629": {
+      "title": "Iron Man Helmet Three.js Animation",
+      "summary_cn": "钢铁侠头盔的 Three.js 动画。"
+    },
+    "elitzavasileva-591465": {
+      "title": "Opus 5.5 Cinematic Product Promo",
+      "summary_cn": "Opus 5.5 电影感产品宣传。"
+    },
+    "nilou-salehi-458567": {
+      "title": "Across Product Demo Video",
+      "summary_cn": "Across 产品演示视频。"
+    },
+    "aidinzeo-708182": {
+      "title": "Mandelbrot Fractal Zoom Animation",
+      "summary_cn": "曼德博分形缩放动画。"
+    },
+    "rossaxbt-707651": {
+      "title": "Motion Design System",
+      "summary_cn": "动态设计系统。"
+    },
+    "yatudou14-822057": {
+      "title": "Obsidian Plugin Promo Animation",
+      "summary_cn": "Obsidian 插件宣传动画。"
+    },
+    "ligayabeebe-323995": {
+      "title": "Code-Drawn Product Launch Video",
+      "summary_cn": "用代码绘制的产品发布视频。"
+    },
+    "pluvio9yte-662953": {
+      "title": "Particle Effect Video Workflow",
+      "summary_cn": "粒子效果视频流程。"
+    },
+    "ivysparkleai-543294": {
+      "title": "Music Video Generation from Song",
+      "summary_cn": "由歌曲生成音乐视频。"
+    },
+    "kisaka-ki-859326": {
+      "title": "Debris Flow Visualization Model",
+      "summary_cn": "泥石流可视化模型。"
+    },
+    "gdgtify-393073": {
+      "title": "Euclid's Proof Kinetic Typography",
+      "summary_cn": "欧几里得证明的动态字体。"
+    },
+    "mouri45-575311": {
+      "title": "Meta VR Glasses Promo Variations",
+      "summary_cn": "Meta VR 眼镜宣传的几个变体。"
+    },
+    "financeyf5-462150": {
+      "title": "Beat-Synced Music",
+      "summary_cn": "卡点音乐。"
+    },
+    "claudecode-ut-314769": {
+      "title": "2ch Style Video Creation",
+      "summary_cn": "2ch 风格视频制作。"
+    },
+    "konstantinsaifo-169107": {
+      "title": "Animated Warehouse Simulation",
+      "summary_cn": "仓库动画模拟。"
+    },
+    "uinerd-635877": {
+      "title": "Oktoberfest Character Animation",
+      "summary_cn": "啤酒节角色动画。"
+    },
+    "yanivm79-158103": {
+      "title": "Opus 5.5 Remotion",
+      "summary_cn": "Opus 5.5 的 Remotion。"
+    },
+    "sadalbert10-856416": {
+      "title": "Pelican Bicycle Pixel Art Animation",
+      "summary_cn": "鹈鹕骑自行车的像素动画。"
+    },
+    "ayi-ainotes-933194": {
+      "title": "Opus 5.5 Hand-drawn Style SVG Animation",
+      "summary_cn": "Opus 5.5 手绘风格 SVG 动画。"
+    },
+    "thewevr-681887": {
+      "title": "Code-Generated Music Video Animation",
+      "summary_cn": "代码生成的音乐视频动画。"
+    },
+    "archiveexplorer-560622": {
+      "title": "Wireframe-First Ad",
+      "summary_cn": "线框优先的广告。"
+    },
+    "xodud-rkd-160324": {
+      "title": "Pixel Motion History Animation",
+      "summary_cn": "像素动态史动画。"
+    },
+    "leo114119-936422": {
+      "title": "Clawd Moves In Fan-Film Recreation",
+      "summary_cn": "Clawd 搬入的同人短片重制。"
+    },
+    "elkrispis-872980": {
+      "title": "Product Launch Video Creation Workflow",
+      "summary_cn": "产品发布视频的制作流程。"
+    },
+    "shengtang135754-900065": {
+      "title": "Opus 5.5 Remotion Product Promo Video",
+      "summary_cn": "Opus 5.5 的 Remotion 产品宣传片。"
+    },
+    "cryptoxorz-359201": {
+      "title": "Opus 5.5 Educational Explainer Video",
+      "summary_cn": "Opus 5.5 教育讲解视频。"
+    },
+    "kaiyu-ai-762929": {
+      "title": "Spider's Thread motion comic",
+      "summary_cn": "《蜘蛛丝》动态漫画。"
+    },
+    "aichrislee-479847": {
+      "title": "Interactive 3D Jet Engine Animation",
+      "summary_cn": "互动三维喷气发动机动画。"
+    },
+    "ivanainai-245918": {
+      "title": "Interactive Stained-Glass Hibiscus Art",
+      "summary_cn": "互动彩绘玻璃芙蓉。"
+    },
+    "dan-proggg-274533": {
+      "title": "Five-Story Pagoda 3D Build",
+      "summary_cn": "五层宝塔的三维搭建。"
+    },
+    "riyadbkhsh-300736": {
+      "title": "Times Square Launch Video",
+      "summary_cn": "时报广场发布视频。"
+    },
+    "paripune-657175": {
+      "title": "Faith Short Film Animation",
+      "summary_cn": "信仰短片动画。"
+    },
+    "haribuilds-007643": {
+      "title": "Point Nemo Data Animation",
+      "summary_cn": "尼莫点数据动画。"
+    },
+    "tarunyadav9761-053244": {
+      "title": "Product Promo Video Remotion",
+      "summary_cn": "Remotion 产品宣传片。"
+    },
+    "abyssalld-602690": {
+      "title": "Opus 5.5 Medium Rocket Simulation",
+      "summary_cn": "Opus 5.5 中型火箭模拟。"
+    },
+    "flxrnc-619627": {
+      "title": "Opus 5.5 Cat Movie Animation",
+      "summary_cn": "Opus 5.5 猫咪电影动画。"
+    },
+    "ulyssexbt-205279": {
+      "title": "Self-Prompt Film Code",
+      "summary_cn": "自我提示的影片代码。"
+    },
+    "ponzponz15-145882": {
+      "title": "Motion Graphic from LP Image with Opus 5.5",
+      "summary_cn": "由 LP 图像做出的 Opus 5.5 动态图形。"
+    },
+    "henrygsing-050247": {
+      "title": "Kurzgesagt Style Explainer Animation",
+      "summary_cn": "Kurzgesagt 风格讲解动画。"
+    },
+    "twoclipping-551116": {
+      "title": "Launch Trailer Video Generation",
+      "summary_cn": "发布预告片生成。"
+    },
+    "michaelraspuzzi-740595": {
+      "title": "Animated Explainer Video Prompts for Opus 5.5",
+      "summary_cn": "给 Opus 5.5 的动画讲解视频提示。"
+    },
+    "woojinrad-455731": {
+      "title": "Colored-Pencil Explainer",
+      "summary_cn": "彩铅讲解。"
+    },
+    "aimevzulari-256293": {
+      "title": "Galileo Brachistochrone Animation",
+      "summary_cn": "伽利略最速降线动画。"
+    },
+    "testlandblog-617500": {
+      "title": "Steam Engine Explanation",
+      "summary_cn": "蒸汽机讲解。"
+    },
+    "minochan0824-827805": {
+      "title": "Motion Graphics Product Launch Video",
+      "summary_cn": "动态图形产品发布视频。"
+    },
+    "twoclipping-747965": {
+      "title": "Nightshift Product Launch Video",
+      "summary_cn": "Nightshift 产品发布视频。"
+    },
+    "generussai-904308": {
+      "title": "Mathematical Art Animation Video",
+      "summary_cn": "数学艺术动画视频。"
+    },
+    "qianqiongge-246969": {
+      "title": "Remotion Product Demo",
+      "summary_cn": "Remotion 产品演示。"
+    },
+    "oab10don-457273": {
+      "title": "Blender Cloud Dance Video via Python",
+      "summary_cn": "用 Python 在 Blender 里做的云端舞蹈视频。"
+    },
+    "xanares-738984": {
+      "title": "Demoscene Fractal Tech Demo",
+      "summary_cn": "演示场景分形技术演示。"
+    },
+    "koushikde-937635": {
+      "title": "Resume Motion Video Storyboard",
+      "summary_cn": "简历动态视频分镜。"
+    },
+    "imryven-495965": {
+      "title": "Claude Code Multi-Agent Setup",
+      "summary_cn": "Claude Code 多智能体配置。"
+    },
+    "renmu2017-477264": {
+      "title": "Create Future-Themed Video Animation with Sound Effects and Music",
+      "summary_cn": "带音效和音乐的未来主题视频动画。"
+    },
+    "gdgtify-989608": {
+      "title": "Kinetic Typography JFK Speech Film",
+      "summary_cn": "肯尼迪演讲的动态字体短片。"
+    },
+    "wozu-co-893062": {
+      "title": "Simple Motion Design Launch",
+      "summary_cn": "简约动态设计发布。"
+    },
+    "gabzofar-852359": {
+      "title": "Apple-Style Product Motion Film",
+      "summary_cn": "苹果风格的产品动态短片。"
+    },
+    "youwareai-259061": {
+      "title": "Interactive Ink Painting Simulation",
+      "summary_cn": "互动水墨模拟。"
+    },
+    "akakuma0219-658335": {
+      "title": "One-Minute Horror Video Template for Three.js",
+      "summary_cn": "给 Three.js 的一分钟恐怖视频模板。"
+    },
+    "gdgtify-130294": {
+      "title": "Kinetic Typography Speech Visualization",
+      "summary_cn": "动态字体的演讲可视化。"
+    },
+    "mablesjoseph-735781": {
+      "title": "Motion Graphics Explainer",
+      "summary_cn": "动态图形讲解。"
+    },
+    "chudry223-657142": {
+      "title": "Interactive Particle Effects Animation",
+      "summary_cn": "互动粒子效果动画。"
+    },
+    "techartist-021472": {
+      "title": "3D House Construction Animation",
+      "summary_cn": "三维房屋建造动画。"
+    },
+    "gorden-sun-797351": {
+      "title": "Beat-Synced 3D Sphere Animation",
+      "summary_cn": "卡点节拍的三维球体动画。"
+    },
+    "johncodunayo-560372": {
+      "title": "AE MCP Motion Graphics Prompts",
+      "summary_cn": "AE MCP 动态图形提示。"
+    },
+    "gkxspace-923139": {
+      "title": "Opus 5.5 Code-Generated Pixel Short Film",
+      "summary_cn": "Opus 5.5 代码生成的像素短片。"
+    },
+    "jakubantowski-020905": {
+      "title": "Interactive Felt Character in Three.js",
+      "summary_cn": "Three.js 里的互动毛毡角色。"
+    },
+    "q970270495-497923": {
+      "title": "Startup Promo Video",
+      "summary_cn": "创业公司宣传片。"
+    },
+    "grace-sunnyy-486816": {
+      "title": "Solar System Explainer",
+      "summary_cn": "太阳系讲解。"
+    },
+    "x7mdnet-157811": {
+      "title": "Vox-Style Video Generation with Motion Library",
+      "summary_cn": "用动态图形库做的 Vox 风格视频。"
+    },
+    "threeaus-886343": {
+      "title": "Motion Design Comparison: Sol vs Opus 5.5",
+      "summary_cn": "动态设计对照：Sol 与 Opus 5.5。"
+    },
+    "blueoctopusai-270222": {
+      "title": "Explainer Video Prompt for Opus 5.5",
+      "summary_cn": "给 Opus 5.5 的讲解视频。"
+    },
+    "filicroval-168898": {
+      "title": "Voxel Capybara Hot Tub World",
+      "summary_cn": "体素水豚热水浴场世界。"
+    },
+    "notdwd-766641": {
+      "title": "12-Second Code-Based Launch Animation",
+      "summary_cn": "12 秒的代码发布动画。"
+    },
+    "egeberkina-949521": {
+      "title": "Interactive Tectonic Earthquake Simulation Video",
+      "summary_cn": "互动板块地震模拟视频。"
+    },
+    "jdverolme-302685": {
+      "title": "History of AI Motion Video",
+      "summary_cn": "人工智能史动态视频。"
+    },
+    "vic305-885957": {
+      "title": "SpaceX Flight 13 3D Animation",
+      "summary_cn": "SpaceX 第 13 次飞行的三维动画。"
+    },
+    "theparuchh-013286": {
+      "title": "WebGPU Mechanical Watch Animation",
+      "summary_cn": "WebGPU 机械表动画。"
+    },
+    "adomicael-707503": {
+      "title": "Interactive AI Data Flow Explainer Animation",
+      "summary_cn": "互动式人工智能数据流讲解动画。"
+    },
+    "everestchris6-399895": {
+      "title": "High-End Motion Video System",
+      "summary_cn": "高端动态视频系统。"
+    },
+    "kopert0x-098349": {
+      "title": "\"The Last Piano\" Animated Short",
+      "summary_cn": "动画短片《最后的钢琴》。"
+    },
+    "deebeeeff-234301": {
+      "title": "Anniversary Celebration",
+      "summary_cn": "周年庆祝。"
+    },
+    "ai9app-989009": {
+      "title": "Code-Generated Motion Design Showreel",
+      "summary_cn": "代码生成的动态设计作品集。"
+    },
+    "sportyblocks-320796": {
+      "title": "SportyBlocks Launch Video",
+      "summary_cn": "SportyBlocks 发布视频。"
+    },
+    "curieuxexplorer-320803": {
+      "title": "The Humanity Machine Interactive Film",
+      "summary_cn": "互动短片《人性机器》。"
+    },
+    "abhinavflac-251740": {
+      "title": "Manga Traced Music Video",
+      "summary_cn": "描摹漫画的音乐视频。"
+    },
+    "humzaakhalid-011081": {
+      "title": "Premium Motion Graphics Brand Film",
+      "summary_cn": "高端动态图形品牌片。"
+    },
+    "sudo-kiran-670892": {
+      "title": "Distilbook Product Motion Graphic",
+      "summary_cn": "Distilbook 产品动态图形。"
+    },
+    "byaiden-vu-755862": {
+      "title": "Opus 5.5 Battery Stickman Loop Animation",
+      "summary_cn": "Opus 5.5 电池火柴人循环动画。"
+    },
+    "dhanrajdc-602284": {
+      "title": "Handbook Video Creation",
+      "summary_cn": "手册视频制作。"
+    },
+    "vignesh-rav-417649": {
+      "title": "Opus 5.5 Launch Film Code",
+      "summary_cn": "Opus 5.5 发布片代码。"
+    },
+    "apoorvjain25-945542": {
+      "title": "Photon Journey Remotion Animation",
+      "summary_cn": "光子旅程的 Remotion 动画。"
+    },
+    "hahazwei-425483": {
+      "title": "Perler Bead Pixel Style MV",
+      "summary_cn": "拼豆像素风格 MV。"
+    },
+    "obydulme-052905": {
+      "title": "Painting the Night Generative Short",
+      "summary_cn": "生成短片《画夜》。"
+    },
+    "curieuxexplorer-590917": {
+      "title": "Neuroscience Friendship Study Film",
+      "summary_cn": "神经科学友谊研究短片。"
+    },
+    "nofollowers2023-974928": {
+      "title": "Space Outpost Paper Cutout Short Film",
+      "summary_cn": "太空前哨纸雕短片。"
+    },
+    "btc5887899-288258": {
+      "title": "NVIDIA Blackwell GPU 3D Journey",
+      "summary_cn": "NVIDIA Blackwell GPU 的三维旅程。"
+    },
+    "jamee-now-583635": {
+      "title": "His Tanghulu Paper Puppet Story",
+      "summary_cn": "他的糖葫芦纸偶故事。"
+    },
+    "lemcosmos-535145": {
+      "title": "X Profile Show Reel HTML Animation",
+      "summary_cn": "X 个人主页的 HTML 展示片。"
+    },
+    "king1818888-642123": {
+      "title": "Claude Opus 5.5 Animation Workflow Tutorial",
+      "summary_cn": "Claude Opus 5.5 动画工作流教程。"
+    },
+    "mochi-agi-421448": {
+      "title": "Late Night Horror Station Animation",
+      "summary_cn": "深夜恐怖电台动画。"
+    },
+    "lalulu-create-091362": {
+      "title": "Dalí Generative AI Animation",
+      "summary_cn": "达利风格的生成式动画。"
+    },
+    "charlessieg-370949": {
+      "title": "Opus 5.5 Workflow for Marketing Explainer Videos",
+      "summary_cn": "营销讲解视频的 Opus 5.5 工作流。"
+    },
+    "oliahmed205-069378": {
+      "title": "Product Promotional",
+      "summary_cn": "产品宣传。"
+    },
+    "saltyaom-620933": {
+      "title": "WebGL Video Generation from Storyboard",
+      "summary_cn": "由分镜生成的 WebGL 视频。"
+    },
+    "twoclipping-762046": {
+      "title": "Product Launch Motion Design Template",
+      "summary_cn": "产品发布动态设计模板。"
+    },
+    "cipherwrk-451155": {
+      "title": "Premium Product Animation",
+      "summary_cn": "高端产品动画。"
+    },
+    "dotey-773568": {
+      "title": "Manus Alchemy Motion Design Showreel",
+      "summary_cn": "Manus Alchemy 动态设计作品集。"
+    },
+    "jayscambler-495095": {
+      "title": "FundMyCompute Platform Overview Video",
+      "summary_cn": "FundMyCompute 平台概览视频。"
+    },
+    "niirajrshah-163739": {
+      "title": "Life Timeline Motion Graphics Video",
+      "summary_cn": "人生时间线动态图形视频。"
+    },
+    "thinkszyg-886066": {
+      "title": "Huawei Phone Ad Prompt Skeleton",
+      "summary_cn": "华为手机广告的提示骨架。"
+    },
+    "andrewmichaelsa-385936": {
+      "title": "Animated Explainer Video Generator",
+      "summary_cn": "动画讲解视频生成器。"
+    },
+    "deeprajo1-623150": {
+      "title": "High-end Motion Graphics Launch",
+      "summary_cn": "高端动态图形发布。"
+    },
+    "niebin-gg-621849": {
+      "title": "Opus 5.5 UI Motion Loop",
+      "summary_cn": "Opus 5.5 界面动效循环。"
+    },
+    "paulo-kombucha-283883": {
+      "title": "Referral Program Motion Graphics",
+      "summary_cn": "推荐计划动态图形。"
+    },
+    "punit-io-584518": {
+      "title": "Remotion Product Launch Film Code",
+      "summary_cn": "Remotion 产品发布片代码。"
+    },
+    "oxpsats-182908": {
+      "title": "Canvas Video with Web Audio Synthesis",
+      "summary_cn": "带网页音频合成的 Canvas 视频。"
+    },
+    "thilina-a-915273": {
+      "title": "Product Update Motion Graphics",
+      "summary_cn": "产品更新动态图形。"
+    },
+    "buildfastwithai-780900": {
+      "title": "Indian Civilization History Video",
+      "summary_cn": "印度文明史视频。"
+    },
+    "listudio-023803": {
+      "title": "Product Release",
+      "summary_cn": "产品发布。"
+    },
+    "roundtablespace-232366": {
+      "title": "Max Effort Motion Design Showreel",
+      "summary_cn": "全力动态设计作品集。"
+    },
+    "noah-z-zhang-765393": {
+      "title": "Dark Mode Kinetic Typography",
+      "summary_cn": "深色模式动态字体。"
+    },
+    "gandamu-ml-124280": {
+      "title": "Another World Style Animation Player",
+      "summary_cn": "Another World 风格的动画播放器。"
+    },
+    "yanliudesign-839698": {
+      "title": "Seattle Motion Graphics Video by Opus 5.5",
+      "summary_cn": "Opus 5.5 做的西雅图动态图形视频。"
+    },
+    "deedydas-407965": {
+      "title": "SQLite Codebase Explainer Video",
+      "summary_cn": "SQLite 代码库讲解视频。"
+    },
+    "riverroadlabs-269620": {
+      "title": "Weather Gnome App Promo by Opus 5.5",
+      "summary_cn": "Opus 5.5 做的 Weather Gnome 应用宣传。"
+    },
+    "rohanpaul-ai-500542": {
+      "title": "Paul Graham Essay Video with Opus 5.5",
+      "summary_cn": "用 Opus 5.5 做的保罗·格雷厄姆文章视频。"
+    },
+    "johnmckeownn-511049": {
+      "title": "Founder-voiced AI agent comedy clip skill",
+      "summary_cn": "创始人配音的人工智能代理喜剧片段。"
+    },
+    "arjunsh1607-922126": {
+      "title": "Pixel Up Labs Showreel",
+      "summary_cn": "Pixel Up Labs 作品集。"
+    },
+    "muhamma61700589-512003": {
+      "title": "Futuristic City 3D View Generation",
+      "summary_cn": "未来城市三维视图生成。"
+    },
+    "0xcodez-474136": {
+      "title": "Crayon Piano Performance Animation",
+      "summary_cn": "蜡笔钢琴演奏动画。"
+    },
+    "ryan-morr-666741": {
+      "title": "Hoplite Feature Launch",
+      "summary_cn": "Hoplite 功能发布。"
+    },
+    "henkpoley-761980": {
+      "title": "Terrible Motion Designer Showreel Animation",
+      "summary_cn": "糟糕动态设计师的作品集动画。"
+    },
+    "diamai-157697": {
+      "title": "30-Second Motion Design Video in Code",
+      "summary_cn": "用代码做的 30 秒动态设计视频。"
+    },
+    "godsboy7777-005594": {
+      "title": "Pelican Looping SVG Animation Comparison",
+      "summary_cn": "鹈鹕循环 SVG 动画对照。"
+    },
+    "thejohnnyhuy-282154": {
+      "title": "Apple Keynote Launch Film HTML",
+      "summary_cn": "苹果发布会风格的 HTML 发布片。"
+    },
+    "topi-003-659728": {
+      "title": "Opus 5.5 Dynamic Dance",
+      "summary_cn": "Opus 5.5 动态舞蹈。"
+    },
+    "bitcoinrui-812752": {
+      "title": "Voice Input Product Promo Animation",
+      "summary_cn": "语音输入产品宣传动画。"
+    },
+    "nonbiri-ai-110674": {
+      "title": "Motion Graphic Showreel",
+      "summary_cn": "动态图形作品集。"
+    },
+    "koldo2k-741714": {
+      "title": "Color Wheel Motion Graphics",
+      "summary_cn": "色轮动态图形。"
+    },
+    "curieuxexplorer-408141": {
+      "title": "Microscope Zoom Animation",
+      "summary_cn": "显微镜变焦动画。"
+    },
+    "linke1427832-343079": {
+      "title": "Cinematic AI History",
+      "summary_cn": "电影感的人工智能史。"
+    },
+    "subraiz24-994209": {
+      "title": "Perceptron Release Reel",
+      "summary_cn": "感知机发布片。"
+    },
+    "topi-003-055288": {
+      "title": "Opus 5.5 Dance Video from Image",
+      "summary_cn": "由图片做出的 Opus 5.5 舞蹈视频。"
+    },
+    "op7418-021491": {
+      "title": "Mobile Game Highlight Reel Motion Design",
+      "summary_cn": "手游集锦的动态设计。"
+    },
+    "gigabit-million-959719": {
+      "title": "Steam Game News Motion Graphics",
+      "summary_cn": "Steam 游戏新闻动态图形。"
+    },
+    "astroboysoup-861770": {
+      "title": "App Explainer Animation",
+      "summary_cn": "应用讲解动画。"
+    },
+    "bradmillscan-839974": {
+      "title": "Bitcoin Monetary History Animation",
+      "summary_cn": "比特币货币史动画。"
+    },
+    "bogdandragomir-412658": {
+      "title": "Animated Intro with Synced Music",
+      "summary_cn": "音乐对齐的动画片头。"
+    },
+    "yunn260414-016888": {
+      "title": "Git Explainer",
+      "summary_cn": "Git 讲解。"
+    },
+    "tstfully-680192": {
+      "title": "YouTube Transcript Ad Motion",
+      "summary_cn": "YouTube 文稿广告动态。"
+    },
+    "howlemont-503897": {
+      "title": "Educational Animated Explainer",
+      "summary_cn": "教育动画讲解。"
+    },
+    "cagrimbakirci-842869": {
+      "title": "Evolution of Eye Explainer",
+      "summary_cn": "眼睛演化讲解。"
+    },
+    "notdwd-998633": {
+      "title": "Brand Film Prompt Structure",
+      "summary_cn": "品牌片的提示结构。"
+    },
+    "iliareingold-486492": {
+      "title": "Prometheus story animation",
+      "summary_cn": "普罗米修斯故事动画。"
+    },
+    "dan-riverbendai-163640": {
+      "title": "Minimalist Sketch Animation",
+      "summary_cn": "极简素描动画。"
+    },
+    "dotey-927166": {
+      "title": "Epic History Chronology",
+      "summary_cn": "史诗历史年表。"
+    },
+    "charumitradubey-328233": {
+      "title": "SuperLaunch Brand Motion Video",
+      "summary_cn": "SuperLaunch 品牌动态视频。"
+    },
+    "ldataengineer-823010": {
+      "title": "P(DOOM) Cinematic Explainer",
+      "summary_cn": "P(DOOM) 电影感讲解。"
+    },
+    "teleboost-app-521507": {
+      "title": "Opus 5.5 Promo Video Animation",
+      "summary_cn": "Opus 5.5 宣传视频动画。"
+    },
+    "fractadev-861266": {
+      "title": "SaaS Product Launch Motion Graphics",
+      "summary_cn": "SaaS 产品发布动态图形。"
+    },
+    "pluginplay-472343": {
+      "title": "Opus 5.5 Pixel Art Boomerang LLM History",
+      "summary_cn": "Opus 5.5 像素回旋镖式的大模型历史。"
+    },
+    "aichrislee-961335": {
+      "title": "Opus 5.5 Motion Graphics Showreel",
+      "summary_cn": "Opus 5.5 动态图形作品集。"
+    },
+    "kingokings-835071": {
+      "title": "Reactive Resume Motion Graphics Showreel",
+      "summary_cn": "Reactive Resume 动态图形作品集。"
+    },
+    "sdinesh91-159008": {
+      "title": "Professional SaaS Product Launch Video",
+      "summary_cn": "专业的 SaaS 产品发布视频。"
+    },
+    "tanabe-fragm-706979": {
+      "title": "Claude Self-Introduction Motion Graphics",
+      "summary_cn": "Claude 自我介绍动态图形。"
+    },
+    "egawa-ai-design-092323": {
+      "title": "Barber Shop Recruitment Motion Graphics Video",
+      "summary_cn": "理发店招聘动态图形视频。"
+    },
+    "zhu185178-255661": {
+      "title": "Rain Station Animated Short",
+      "summary_cn": "动画短片《雨中车站》。"
+    },
+    "jazzen-chen-894989": {
+      "title": "AgentHud Project Animation",
+      "summary_cn": "AgentHud 项目动画。"
+    },
+    "milos-gis-317580": {
+      "title": "Portland Bus Service Map Animation",
+      "summary_cn": "波特兰公交线路图动画。"
+    },
+    "zigapoto-942208": {
+      "title": "Agentic Analytics Startup",
+      "summary_cn": "代理式分析创业公司。"
+    },
+    "kurahu-capten-054506": {
+      "title": "Evangelion Style Lyric Video",
+      "summary_cn": "新世纪福音战士风格的歌词视频。"
+    },
+    "yuyudora622-858156": {
+      "title": "Dynamic Self-Introduction Motion Graphics",
+      "summary_cn": "动态自我介绍图形。"
+    },
+    "yama-kiyo-134910": {
+      "title": "Psychedelic Motion Graphics",
+      "summary_cn": "迷幻动态图形。"
+    },
+    "wangyinrec-532344": {
+      "title": "Renaissance Naturalist Manuscript Style Video",
+      "summary_cn": "文艺复兴博物志手稿风格视频。"
+    },
+    "mileson07-065690": {
+      "title": "Cheese Camera Concept Animation",
+      "summary_cn": "奶酪相机概念动画。"
+    },
+    "aydenspringer23-227772": {
+      "title": "Logo-Based Motion Graphics",
+      "summary_cn": "基于标志的动态图形。"
+    },
+    "kadaliao-048854": {
+      "title": "Pixar Style AI Battle Animation via Blender",
+      "summary_cn": "用 Blender 做的皮克斯风格人工智能对战动画。"
+    },
+    "tdinh-me-301409": {
+      "title": "TypingMind Logo Reveal Motion Design",
+      "summary_cn": "TypingMind 标志揭示动态设计。"
+    },
+    "dotey-522564": {
+      "title": "What is Transformer Explainer",
+      "summary_cn": "Transformer 是什么的讲解。"
+    },
+    "mizugame-22-719199": {
+      "title": "Shishi Odoshi Motion Graphic",
+      "summary_cn": "惊鹿动态图形。"
+    },
+    "bitfish-539054": {
+      "title": "Napoleon Hill Insight Animated Explainer Video",
+      "summary_cn": "拿破仑·希尔见解的动画讲解视频。"
+    },
+    "aiaircle34052-950750": {
+      "title": "One-Sentence Prompt for 15s Motion Graphics",
+      "summary_cn": "用一句话提示做出的 15 秒动态图形。"
+    },
+    "quickdesignio-338399": {
+      "title": "QuickDesign Brand",
+      "summary_cn": "QuickDesign 品牌。"
+    },
+    "0xvalure-354245": {
+      "title": "PayBox Logo Motion Design",
+      "summary_cn": "PayBox 标志动态设计。"
+    },
+    "okapi-fukugyo-166351": {
+      "title": "UI Motion Design Animation",
+      "summary_cn": "界面动效设计动画。"
+    },
+    "annacher-152174": {
+      "title": "Product Promo UI Motion",
+      "summary_cn": "产品宣传界面动效。"
+    },
+    "yankis0x-174321": {
+      "title": "UI Motion Design Workflow Guide",
+      "summary_cn": "界面动效设计流程指南。"
+    },
+    "nischalsharma-587738": {
+      "title": "Glass Mosaic Animated Film",
+      "summary_cn": "玻璃马赛克动画短片。"
+    },
+    "kisalay-921896": {
+      "title": "Motion Design Showreel from Song",
+      "summary_cn": "由歌曲做出的动态设计作品集。"
+    },
+    "rebutonepress-688099": {
+      "title": "Time Story",
+      "summary_cn": "时间故事。"
+    },
+    "syntheticbeef-389075": {
+      "title": "Impressive Self-Demo",
+      "summary_cn": "醒目的自我演示。"
+    },
+    "amol909s-607293": {
+      "title": "App Feature Motion Graphics Explainer",
+      "summary_cn": "应用功能的动态图形讲解。"
+    },
+    "sanjeevn72-151834": {
+      "title": "UI State Morph Animation",
+      "summary_cn": "界面状态变形动画。"
+    },
+    "hakimieiqbal-762926": {
+      "title": "Purpose of Life Animation",
+      "summary_cn": "人生目的动画。"
+    },
+    "jasondainter-028222": {
+      "title": "AI Wars Stick Figure Video",
+      "summary_cn": "人工智能大战的火柴人视频。"
+    },
+    "typingmusou-160705": {
+      "title": "Remotion Three.js Typing Game CM",
+      "summary_cn": "Remotion 与 Three.js 的打字游戏广告。"
+    },
+    "drishtantk-356656": {
+      "title": "Orbital Lounge Lofi Stream Loop",
+      "summary_cn": "轨道休息室的低保真循环画面。"
+    },
+    "essjaykay755-847163": {
+      "title": "Cinematic Kinetic Typography Reel",
+      "summary_cn": "电影感动态字体作品集。"
+    },
+    "tonka1981jp-288376": {
+      "title": "Brain Death Animation Prompt for Opus 5.5",
+      "summary_cn": "给 Opus 5.5 的脑死亡动画标题。"
+    },
+    "fumiyamizuguchi-500632": {
+      "title": "Dynamic Product Showreel",
+      "summary_cn": "动态产品作品集。"
+    },
+    "enhanced-jp-776726": {
+      "title": "Dynamic Motion Graphics Showreel",
+      "summary_cn": "动态图形作品集。"
+    },
+    "aiwarts-428866": {
+      "title": "Remotion and Python Tech Stack for Video Generation",
+      "summary_cn": "用 Remotion 和 Python 做视频的技术组合。"
+    },
+    "aiwarts-815008": {
+      "title": "Website Promo Video with Remotion and Python Music",
+      "summary_cn": "用 Remotion 和 Python 音乐做的网站宣传片。"
+    },
+    "mtvneo-819281": {
+      "title": "Opus 5.5 Self-Personification Motion Graphics",
+      "summary_cn": "Opus 5.5 自我拟人动态图形。"
+    },
+    "rneayan-417829": {
+      "title": "Population Marbles Data Animation",
+      "summary_cn": "人口弹珠数据动画。"
+    },
+    "curieuxexplorer-016717": {
+      "title": "Type 1 Diabetes Interactive 3D Visualization",
+      "summary_cn": "1 型糖尿病的互动三维可视化。"
+    },
+    "dimoff2000-260969": {
+      "title": "Easy-Peasy AI Launch",
+      "summary_cn": "Easy-Peasy AI 发布。"
+    },
+    "artless101-964679": {
+      "title": "Cinematic 3D rocket launch",
+      "summary_cn": "电影感的三维火箭发射。"
+    },
+    "victortaelin-875778": {
+      "title": "Room to quarks zoom animation",
+      "summary_cn": "从房间缩放到夸克的动画。"
+    },
+    "sammmaing-702076": {
+      "title": "Doctor Doom LEGO Build Instructions Animation",
+      "summary_cn": "毁灭博士乐高搭建说明动画。"
+    },
+    "otatechie-035448": {
+      "title": "Moonwalk Dance Animation",
+      "summary_cn": "太空步舞蹈动画。"
+    },
+    "daverogenmoser-899271": {
+      "title": "Mackenzie Club Fox Chase Hype",
+      "summary_cn": "Mackenzie Club 狐狸追逐预热片。"
+    },
+    "retropunkai-060898": {
+      "title": "The Sphere Las Vegas History Animation",
+      "summary_cn": "拉斯维加斯球体的历史动画。"
+    },
+    "julianpscheid-494027": {
+      "title": "Hedy SaaS Launch",
+      "summary_cn": "Hedy 的 SaaS 发布。"
+    },
+    "pradeepxkapoor-641956": {
+      "title": "Sumi-e Ink Film",
+      "summary_cn": "水墨短片。"
+    },
+    "agioyaz-397647": {
+      "title": "White Space Stained Glass Film",
+      "summary_cn": "留白彩色玻璃短片。"
+    },
+    "agioyaz-986461": {
+      "title": "Yohaku Short Film",
+      "summary_cn": "Yohaku 短片。"
+    },
+    "thallisribeiro-750805": {
+      "title": "Product Video Generation",
+      "summary_cn": "产品视频生成。"
+    },
+    "so-ainsight-225926": {
+      "title": "Claude Code Explainer Animation",
+      "summary_cn": "Claude Code 讲解动画。"
+    },
+    "godsboy7777-150194": {
+      "title": "Marble Computer Animation",
+      "summary_cn": "大理石电脑动画。"
+    },
+    "1234lust-671954": {
+      "title": "Moose in Code Editor Film",
+      "summary_cn": "代码编辑器里的驼鹿短片。"
+    },
+    "superalesha-970412": {
+      "title": "Hedgehog in the Fog Animated Short",
+      "summary_cn": "动画短片《雾中刺猬》。"
+    },
+    "engmoelgaraihy-694832": {
+      "title": "Interactive Boat Scene with Opus 5.5",
+      "summary_cn": "用 Opus 5.5 做的互动船只场景。"
+    },
+    "perezalexa23-414045": {
+      "title": "Trojan Horse Ancient Greek Vase Animation",
+      "summary_cn": "古希腊瓶画风格的特洛伊木马动画。"
+    },
+    "meetarno-782464": {
+      "title": "X Vision Brand Promo",
+      "summary_cn": "X Vision 品牌宣传。"
+    },
+    "fanfulladev-063524": {
+      "title": "Pokemon Intro Animation with AI Mascots",
+      "summary_cn": "带人工智能吉祥物的宝可梦片头动画。"
+    }
+  }
+}
