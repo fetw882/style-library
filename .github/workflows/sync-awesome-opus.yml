@@ -27,7 +27,7 @@ jobs:
           python-version: "3.12"
 
       - name: Test sync rules
-        run: python3 scripts/test_sync_awesome_opus.py
+        run: python3 scripts/test_sync_awesome_opus.py && python3 publisher/test_publish_safe.py
 
       - name: Sync when upstream main moves
         env:

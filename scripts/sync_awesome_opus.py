@@ -4,10 +4,11 @@
 This is the writer for the public site's external-reference catalog.
 It never edits personal styles, official styles, library.json, or official.json.
 
-The site shell lives in index.html. The local generator (build.py, not in this
-repo) rewrites only the <script id="snapshot"> block. Keep external-reference
-UI outside that block. publish.sh on the publisher machine has historically
-copied a whitelist and can delete paths it does not know; see the workflow comment.
+The site shell lives in index.html. publisher/build.py rewrites only the
+<script id="snapshot"> block and refuses a shell that lacks the external tab.
+publisher/publish.sh keeps external/, .github/, scripts/, and publisher/.
+The unmanaged copy on the publish machine still deletes those paths until it
+is replaced from publisher/migration-bundle.tgz.
 
 Schedule: once a day around 09:00 Asia/Shanghai, including weekends.
 If upstream main HEAD is unchanged, this script writes nothing.
