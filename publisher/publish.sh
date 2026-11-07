@@ -113,11 +113,15 @@ for dir in */; do
 done
 
 cp "$M/index.html" "$M/library.json" "$M/official.json" .
-if [ -d "$M/card-info" ]; then
-  mkdir -p card-info
-  find "$M/card-info" -maxdepth 1 -type f -name '*.json' -exec cp {} card-info/ \;
-  [ -f card-info/official-overlays.json ] && cp card-info/official-overlays.json official-overlays.json
-  [ -f card-info/library-overlays.json ] && cp card-info/library-overlays.json library-overlays.json
+# card-info is the source package for data main already tracks. The public
+# files are official-overlays.json and library-overlays.json. Title briefs
+# stay in external/, which this script does not rewrite. Do not create a
+# pages/card-info directory; that path is not on main and would force a commit.
+if [ -f "$M/card-info/official-overlays.json" ]; then
+  cp "$M/card-info/official-overlays.json" official-overlays.json
+fi
+if [ -f "$M/card-info/library-overlays.json" ]; then
+  cp "$M/card-info/library-overlays.json" library-overlays.json
 fi
 mkdir -p _official
 if compgen -G "$M/_official/*.jpg" >/dev/null || compgen -G "$M/_official/*.png" >/dev/null; then
@@ -233,7 +237,6 @@ git add -A -- index.html library.json official.json _official
 for extra in official-overlays.json library-overlays.json; do
   [ -f "$extra" ] && git add -- "$extra"
 done
-[ -d card-info ] && git add -A -- card-info
 for sj in "$M"/*/style.json; do
   [ -f "$sj" ] || continue
   s=$(basename "$(dirname "$sj")")
