@@ -42,8 +42,42 @@ branch=$(git rev-parse --abbrev-ref HEAD)
 [ "$branch" = "main" ] || { echo "pages checkout is '$branch', expected main" >&2; exit 1; }
 before=$(git rev-parse HEAD)
 
-if grep -rIlE 'x-dl|1729249130|睿新品质|ghp_|gho_|github_pat_|password[[:space:]]*=|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git --exclude=publish.sh "$M" "$D" ; then
+# Only files this run will copy are the publish payload. Backups such as
+# publish.sh.bak and the publisher's own test sources are not in that set.
+# Token prefixes must be followed by a token body so the pattern text in this
+# script is not itself a hit. Password assignments still are.
+SECRET_RE='x-dl|1729249130|睿新品质|ghp_[A-Za-z0-9]{16,}|gho_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{16,}|password[[:space:]]*=[[:space:]]*[^[:space:]]|BEGIN [A-Z ]*PRIVATE KEY'
+payload_files() {
+  local root="$1" sj d s f
+  [ -f "$root/index.html" ] && printf '%s\n' "$root/index.html"
+  [ -f "$root/library.json" ] && printf '%s\n' "$root/library.json"
+  [ -f "$root/official.json" ] && printf '%s\n' "$root/official.json"
+  if [ -d "$root/_official" ]; then
+    find "$root/_official" -type f \( -name '*.jpg' -o -name '*.png' \) -print
+  fi
+  for sj in "$root"/*/style.json; do
+    [ -f "$sj" ] || continue
+    d=$(dirname "$sj")
+    s=$(basename "$d")
+    case "$s" in _*|.*) continue ;; esac
+    protected "$s" && continue
+    for f in style.json STYLE.md CHANGES.md DEMO.md test.jpg styleframe.jpg test.mp4; do
+      [ -f "$d/$f" ] && printf '%s\n' "$d/$f"
+    done
+    if [ -d "$d/demo" ]; then
+      find "$d/demo" -maxdepth 1 -type f \( -name '*.mjs' -o -name '*.js' -o -name '*.html' -o -name '*.sh' -o -name '*.srt' -o -name '*.json' -o -name '*.md' \) -size -20M -print
+    fi
+  done
+}
+if payload_files "$M" | while IFS= read -r file; do
+  [ -n "$file" ] || continue
+  grep -IlE "$SECRET_RE" "$file" || true
+done | grep -q . ; then
   echo "SECRET/LEAK CHECK FAILED before publish" >&2
+  payload_files "$M" | while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    grep -IlE "$SECRET_RE" "$file" || true
+  done >&2
   exit 1
 fi
 
@@ -101,9 +135,29 @@ done
 find . -type f -size +20M -not -path './.git/*' -print -exec rm -f {} +
 find . -path ./.git -prune -o -iname '*compare*' -print -exec rm -f {} +
 grep -rIl --exclude-dir=.git "rui lee" . | xargs -r sed -i "s/rui lee/owner/g" || true
-if grep -rIlE 'x-dl|rui lee|1729249130|睿新品质|ghp_|gho_|github_pat_|password[[:space:]]*=|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git --exclude=publish.sh . ; then
+if payload_files "$D" | while IFS= read -r file; do
+  [ -n "$file" ] || continue
+  grep -IlE "$SECRET_RE|rui lee" "$file" || true
+done | grep -q . ; then
   echo "SECRET/LEAK CHECK FAILED" >&2
+  payload_files "$D" | while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    grep -IlE "$SECRET_RE|rui lee" "$file" || true
+  done >&2
   exit 1
+fi
+for kept in external scripts .github; do
+  [ -d "$kept" ] || continue
+  if grep -rIlE "$SECRET_RE|rui lee" --exclude-dir=.git "$kept" ; then
+    echo "SECRET/LEAK CHECK FAILED" >&2
+    exit 1
+  fi
+done
+if [ -d publisher ]; then
+  if grep -rIlE 'ghp_[A-Za-z0-9]{16,}|gho_[A-Za-z0-9]{16,}|github_pat_[A-Za-z0-9_]{16,}|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git publisher ; then
+    echo "SECRET/LEAK CHECK FAILED" >&2
+    exit 1
+  fi
 fi
 find . -path ./.git -prune -o -type f \( -iname '*.wav' -o -iname '*.mp3' -o -iname '*.aac' -o -iname '*.m4a' -o -iname '*.flac' -o -iname '*.ogg' \) -print -exec rm -f {} +
 for v in $(find . -path ./.git -prune -o -name '*.mp4' -print); do

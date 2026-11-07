@@ -243,16 +243,39 @@ class PublishSafeTests(unittest.TestCase):
         self.assertIn('data-t="ext"', (self.pages / "index.html").read_text(encoding="utf-8"))
         self.assertEqual((self.pages_external / "catalog.json").read_text(encoding="utf-8"), '{"items":[{"slug":"seed"}]}\n')
 
-    def test_assigned_secret_stops_before_pages_change(self):
-        (self.source / "kept-approved" / "note.txt").write_text("password=nope\n", encoding="utf-8")
+    def test_assigned_secret_in_publishable_file_stops_before_pages_change(self):
+        assignment = "password" + "=" + "example-not-a-credential"
+        (self.source / "kept-approved" / "STYLE.md").write_text(assignment + "\n", encoding="utf-8")
         external = (self.pages_external / "catalog.json").read_bytes()
         head = self.git(self.pages, "rev-parse", "HEAD").strip()
         result = self.run_publish()
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("SECRET/LEAK CHECK FAILED", result.stderr)
+        self.assertIn("STYLE.md", result.stderr)
+        self.assertNotIn(assignment, result.stderr)
         self.assertEqual((self.pages_external / "catalog.json").read_bytes(), external)
         self.assertEqual(self.git(self.pages, "rev-parse", "HEAD").strip(), head)
         self.assertEqual(self.git(self.pages, "status", "--porcelain"), "")
+
+    def test_backup_script_and_test_placeholder_are_not_published(self):
+        shutil.copy(self.source / "publish.sh", self.source / "publish.sh.bak")
+        (self.source / "kept-approved" / "note.txt").write_text("password" + "=" + "example-not-a-credential\n", encoding="utf-8")
+        placeholder = "password" + "=" + "nope"
+        (self.pages / "publisher" / "test_publish_safe.py").write_text(
+            "def sample():\n    return " + repr(placeholder) + "\n",
+            encoding="utf-8",
+        )
+        self.git(self.pages, "add", "-A")
+        self.git(self.pages, "-c", "user.name=tester", "-c", "user.email=tester@example.com", "commit", "-qm", "test placeholder")
+        self.base = self.git(self.pages, "rev-parse", "HEAD").strip()
+        result = self.run_publish()
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assert_protected_site()
+        listed = self.git(self.pages, "ls-tree", "-r", "HEAD", "--name-only")
+        self.assertNotIn("publish.sh.bak", listed)
+        self.assertNotIn("note.txt", listed)
+        self.assertFalse((self.pages / "publish.sh.bak").exists())
+        self.assertFalse((self.pages / "kept-approved" / "note.txt").exists())
 
     def test_opt_in_push_is_not_force(self):
         script = PUBLISH.read_text(encoding="utf-8")
