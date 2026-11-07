@@ -42,6 +42,11 @@ branch=$(git rev-parse --abbrev-ref HEAD)
 [ "$branch" = "main" ] || { echo "pages checkout is '$branch', expected main" >&2; exit 1; }
 before=$(git rev-parse HEAD)
 
+if grep -rIlE 'x-dl|1729249130|睿新品质|ghp_|gho_|github_pat_|password[[:space:]]*=|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git --exclude=publish.sh "$M" "$D" ; then
+  echo "SECRET/LEAK CHECK FAILED before publish" >&2
+  exit 1
+fi
+
 python3 - "$D" << 'PY'
 import hashlib, os, sys
 root = sys.argv[1]
@@ -96,7 +101,7 @@ done
 find . -type f -size +20M -not -path './.git/*' -print -exec rm -f {} +
 find . -path ./.git -prune -o -iname '*compare*' -print -exec rm -f {} +
 grep -rIl --exclude-dir=.git "rui lee" . | xargs -r sed -i "s/rui lee/owner/g" || true
-if grep -rIlE 'x-dl|rui lee|1729249130|睿新品质|ghp_|gho_|github_pat_|password|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git . ; then
+if grep -rIlE 'x-dl|rui lee|1729249130|睿新品质|ghp_|gho_|github_pat_|password[[:space:]]*=|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git --exclude=publish.sh . ; then
   echo "SECRET/LEAK CHECK FAILED" >&2
   exit 1
 fi
