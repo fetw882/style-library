@@ -261,6 +261,8 @@ class RepoTests(unittest.TestCase):
         self.assertIn('data-t="ext"', html)
         self.assertIn("publicClip", html)
         self.assertIn("打开原站观看", html)
+        self.assertIn('loading="lazy"', html)
+        self.assertIn("cardThumb", html)
         static = html.split("<script>")[0]
         self.assertNotIn("media.skillry", static)
         self.assertNotIn("<iframe", static.lower())
