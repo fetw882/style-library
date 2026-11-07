@@ -277,6 +277,61 @@ class PublishSafeTests(unittest.TestCase):
         self.assertFalse((self.pages / "publish.sh.bak").exists())
         self.assertFalse((self.pages / "kept-approved" / "note.txt").exists())
 
+    def test_anonymize_only_payload_with_backup_and_publisher_rule(self):
+        shutil.copy(PUBLISH, self.source / "publish.sh.bak")
+        (self.source / "kept-approved" / "STYLE.md").write_text("credit rui lee\n", encoding="utf-8")
+        (self.source / "kept-approved" / "demo" / "compare-notes.md").write_text("drop me\n", encoding="utf-8")
+        publisher_script = self.pages / "publisher" / "publish.sh"
+        publisher_script.write_text(PUBLISH.read_text(encoding="utf-8"), encoding="utf-8")
+        (self.pages / "publisher" / "test_publish_safe.py").write_text(
+            'value = "password" + "=" + "nope"\n',
+            encoding="utf-8",
+        )
+        (self.pages / "publisher" / "keep.wav").write_bytes(b"keep-audio")
+        (self.pages / "external" / "notes-compare.txt").write_text("keep compare name\n", encoding="utf-8")
+        self.git(self.pages, "add", "-A")
+        self.git(self.pages, "-c", "user.name=tester", "-c", "user.email=tester@example.com", "commit", "-qm", "publisher rule and decoys")
+        self.base = self.git(self.pages, "rev-parse", "HEAD").strip()
+        protected_before = {
+            path: path.read_bytes()
+            for path in (
+                publisher_script,
+                self.pages / "publisher" / "keep.wav",
+                self.pages / "external" / "notes-compare.txt",
+                self.pages / "external" / "awesome-opus5-5-videos" / "catalog.json",
+                self.pages / ".github" / "workflows" / "sync-awesome-opus.yml",
+                self.pages / "scripts" / "sync_awesome_opus.py",
+            )
+        }
+        bare = self.root / "bare.git"
+        subprocess.check_call(["git", "init", "--bare", "-b", "main", str(bare)])
+        self.git(self.pages, "remote", "add", "origin", str(bare))
+        self.git(self.pages, "push", "-q", "origin", "HEAD:main")
+        remote_before = subprocess.check_output(["git", "--git-dir", str(bare), "rev-parse", "main"], text=True).strip()
+        dry = self.run_publish(apply="0")
+        self.assertEqual(dry.returncode, 0, dry.stderr + dry.stdout)
+        self.assertIn("dry-run", dry.stdout)
+        self.assertEqual(self.git(self.pages, "rev-parse", "HEAD").strip(), self.base)
+        for path, data in protected_before.items():
+            self.assertEqual(path.read_bytes(), data)
+        applied = self.run_publish()
+        self.assertEqual(applied.returncode, 0, applied.stderr + applied.stdout)
+        self.assertIn("push skipped", applied.stdout)
+        self.assertNotIn("git push", applied.stdout)
+        self.assert_protected_site()
+        for path, data in protected_before.items():
+            self.assertEqual(path.read_bytes(), data, path)
+        published = (self.pages / "kept-approved" / "STYLE.md").read_text(encoding="utf-8")
+        self.assertNotIn("rui lee", published)
+        self.assertIn("owner", published)
+        self.assertFalse((self.pages / "kept-approved" / "demo" / "compare-notes.md").exists())
+        self.assertFalse((self.pages / "publish.sh.bak").exists())
+        self.assertEqual(self.git(self.pages, "status", "--porcelain"), "")
+        remote_after = subprocess.check_output(["git", "--git-dir", str(bare), "rev-parse", "main"], text=True).strip()
+        self.assertEqual(remote_after, remote_before)
+        self.assertEqual(self.page_statuses()["kept-approved"], "approved")
+        self.assertEqual(self.official_nums(), ["01", "77"])
+
     def test_opt_in_push_is_not_force(self):
         script = PUBLISH.read_text(encoding="utf-8")
         self.assertNotIn("git push --force", script)
