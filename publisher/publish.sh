@@ -62,6 +62,11 @@ for name in keep:
     open(os.path.join(root, ".publish-keep-" + name.lstrip(".")), "w", encoding="utf-8").write(digest.hexdigest())
 PY
 
+if grep -rIlE 'x-dl|1729249130|睿新品质|ghp_|gho_|github_pat_|password[[:space:]]*=|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git "$M" "$D" ; then
+  echo "SECRET/LEAK CHECK FAILED before publish" >&2
+  exit 1
+fi
+
 rm -f index.html library.json official.json
 rm -rf _official
 for dir in */; do
@@ -96,7 +101,7 @@ done
 find . -type f -size +20M -not -path './.git/*' -print -exec rm -f {} +
 find . -path ./.git -prune -o -iname '*compare*' -print -exec rm -f {} +
 grep -rIl --exclude-dir=.git "rui lee" . | xargs -r sed -i "s/rui lee/owner/g" || true
-if grep -rIlE 'x-dl|rui lee|1729249130|睿新品质|ghp_|gho_|github_pat_|password|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git . ; then
+if grep -rIlE 'x-dl|rui lee|1729249130|睿新品质|ghp_|gho_|github_pat_|password[[:space:]]*=|BEGIN [A-Z ]*PRIVATE KEY' --exclude-dir=.git . ; then
   echo "SECRET/LEAK CHECK FAILED" >&2
   exit 1
 fi

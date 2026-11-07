@@ -234,6 +234,26 @@ class PublishSafeTests(unittest.TestCase):
         self.assertTrue((self.pages / "kept-approved" / "style.json").exists())
         self.assertEqual(self.page_statuses()["kept-approved"], "approved")
 
+    def test_url_password_property_is_not_a_secret(self):
+        page = (self.source / "index.html").read_text(encoding="utf-8")
+        page = page.replace("</body>", "<script>if(x.password)return</script></body>")
+        (self.source / "index.html").write_text(page, encoding="utf-8")
+        result = self.run_publish()
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertIn('data-t="ext"', (self.pages / "index.html").read_text(encoding="utf-8"))
+        self.assertEqual((self.pages_external / "catalog.json").read_text(encoding="utf-8"), '{"items":[{"slug":"seed"}]}\n')
+
+    def test_assigned_secret_stops_before_pages_change(self):
+        (self.source / "kept-approved" / "note.txt").write_text("password=nope\n", encoding="utf-8")
+        external = (self.pages_external / "catalog.json").read_bytes()
+        head = self.git(self.pages, "rev-parse", "HEAD").strip()
+        result = self.run_publish()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("SECRET/LEAK CHECK FAILED", result.stderr)
+        self.assertEqual((self.pages_external / "catalog.json").read_bytes(), external)
+        self.assertEqual(self.git(self.pages, "rev-parse", "HEAD").strip(), head)
+        self.assertEqual(self.git(self.pages, "status", "--porcelain"), "")
+
     def test_opt_in_push_is_not_force(self):
         script = PUBLISH.read_text(encoding="utf-8")
         self.assertNotIn("git push --force", script)
