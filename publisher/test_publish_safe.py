@@ -366,9 +366,13 @@ class BundleTests(unittest.TestCase):
                 (ROOT / "publisher" / "build.py").read_bytes(),
             )
             page = archive.extractfile("my-styles-publisher/index.html").read().decode("utf-8")
+            script = archive.extractfile("my-styles-publisher/publish.sh").read().decode("utf-8")
         self.assertIn('data-t="ext"', page)
         self.assertIn("播放预览", page)
         self.assertIn("打开原站观看", page)
+        self.assertIn('loading="lazy"', page)
+        self.assertIn("payload_files", script)
+        self.assertNotIn('grep -rIl --exclude-dir=.git "rui lee" .', script)
         self.assertIn('cron: "0 1 * * *"', (ROOT / ".github" / "workflows" / "sync-awesome-opus.yml").read_text(encoding="utf-8"))
 
 
