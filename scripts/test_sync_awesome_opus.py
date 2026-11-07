@@ -244,8 +244,10 @@ class SyncTests(unittest.TestCase):
         self.assertEqual(item["visual_techniques"], ["可交互"])
         self.assertEqual(item["tech_stack_status"], "verified")
         self.assertNotIn("summary_cn", item)
-        self.assertEqual(item["summary_status"], "unverified")
+        self.assertEqual(item["summary_status"], "missing")
+        self.assertIn("还没有对应的中文短译", item["summary_missing"])
         self.assertNotIn("Remotion", json.dumps(item))
+        self.assertNotIn("do not store", json.dumps(item))
 
     def test_verified_summary_survives_upstream_change(self):
         client = FakeClient([video("aaa-1", "https://x.com/Ada/status/1", title="Old", tags=["svg"])])
@@ -275,6 +277,59 @@ class SyncTests(unittest.TestCase):
         self.assertEqual(again["tech_stack"], ["SVG"])
         self.assertEqual(again["tech_stack_evidence"], "人工确认")
         self.assertEqual(overlay.read_bytes(), before)
+
+    def test_author_title_brief_does_not_lock_or_invent_a_stack(self):
+        briefs = {
+            "schema_version": 1,
+            "items": {"aaa-1": {"title": "Volcano WebGL Animation", "summary_cn": "喀拉喀托火山的 WebGL 动画。"}},
+        }
+        path = self.root / "external" / "awesome-opus5-5-videos" / "title-briefs.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(briefs, ensure_ascii=False), encoding="utf-8")
+        client = FakeClient([video("aaa-1", "https://x.com/Ada/status/1", title="Volcano WebGL Animation", tags=[])])
+        sync(self.root, client, clock=clock)
+        item = self.catalog()["items"][0]
+        self.assertEqual(item["summary_status"], "author")
+        self.assertEqual(item["summary_cn"], "喀拉喀托火山的 WebGL 动画。")
+        self.assertNotIn("summary_checked_at", item)
+        self.assertEqual(item["tech_stack"], [])
+        self.assertEqual(item["tech_stack_status"], "unknown")
+        self.assertIn("没有 tech_tags", item["tech_stack_evidence"])
+        self.assertIn("不当作渲染器证据", item["tech_stack_evidence"])
+        self.assertNotIn("draw a circle", json.dumps(item))
+        client.sha = "c" * 40
+        client.videos = [video("aaa-1", "https://x.com/Ada/status/1", title="A Different Title", tags=[])]
+        sync(self.root, client, clock=clock)
+        changed = self.catalog()["items"][0]
+        self.assertNotIn("summary_cn", changed)
+        self.assertEqual(changed["summary_status"], "missing")
+        catalog = self.catalog()
+        catalog["items"][0]["summary_cn"] = "人工注释保留。"
+        catalog["items"][0]["summary_status"] = "verified"
+        catalog["items"][0]["summary_evidence"] = "人工"
+        catalog["items"][0]["summary_checked_at"] = "2026-11-08T09:00:00+08:00"
+        (self.root / "external" / "awesome-opus5-5-videos" / "catalog.json").write_text(
+            json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        client.sha = "d" * 40
+        client.videos = [video("aaa-1", "https://x.com/Ada/status/1", title="Volcano WebGL Animation", tags=["threejs"])]
+        sync(self.root, client, clock=clock)
+        kept = self.catalog()["items"][0]
+        self.assertEqual(kept["summary_cn"], "人工注释保留。")
+        self.assertEqual(kept["summary_checked_at"], "2026-11-08T09:00:00+08:00")
+        self.assertEqual(kept["tech_stack"], ["Three.js"])
+
+    def test_missing_title_is_explicit(self):
+        client = FakeClient([video("aaa-1", "https://x.com/Ada/status/1", tags=["shader", "audio"])])
+        client.videos[0].pop("title", None)
+        sync(self.root, client, clock=clock)
+        item = self.catalog()["items"][0]
+        self.assertNotIn("summary_cn", item)
+        self.assertIn("没有 title", item["summary_missing"])
+        self.assertIn("description", item["summary_missing"])
+        self.assertEqual(item["tech_stack"], [])
+        self.assertIn("没有可映射的渲染框架", item["tech_stack_evidence"])
+        self.assertEqual(item["visual_techniques"], ["着色器", "音频"])
 
     def test_same_prompt_group_is_identity_only(self):
         client = FakeClient([
@@ -334,6 +389,30 @@ class RepoTests(unittest.TestCase):
         self.assertIn("Canvas 2D", mine["items"]["film-direct-engrave"]["tech_stack"])
         self.assertEqual(len(off["items"]), 66)
         self.assertEqual(len(mine["items"]), 5)
+        briefs = json.loads((ROOT / "external" / "awesome-opus5-5-videos" / "title-briefs.json").read_text(encoding="utf-8"))
+        catalog = json.loads((ROOT / "external" / "awesome-opus5-5-videos" / "catalog.json").read_text(encoding="utf-8"))
+        titled = [item for item in catalog["items"] if item.get("title")]
+        untitled = [item for item in catalog["items"] if not item.get("title")]
+        self.assertEqual(len(catalog["items"]), 703)
+        self.assertEqual(len(titled), 285)
+        self.assertEqual(len(untitled), 418)
+        self.assertEqual(set(briefs["items"]), {item["slug"] for item in titled})
+        for item in titled:
+            brief = briefs["items"][item["slug"]]
+            self.assertEqual(brief["title"], item["title"])
+            self.assertEqual(item["summary_status"], "author")
+            self.assertEqual(item["summary_cn"], brief["summary_cn"])
+            self.assertNotIn("summary_checked_at", item)
+            self.assertEqual(item["tech_stack"], [])
+            self.assertIn("没有 tech_tags", item["tech_stack_evidence"])
+            self.assertNotIn("prompt", item["summary_cn"].lower())
+        for item in untitled:
+            self.assertEqual(item["summary_status"], "missing")
+            self.assertIn("没有 title", item["summary_missing"])
+            self.assertIn("description", item["summary_missing"])
+            self.assertTrue(item["tech_stack"])
+            self.assertEqual(item["tech_stack_status"], "verified")
+        self.assertNotIn("description", set().union(*[set(item) for item in catalog["items"]]))
 
     def test_page_shell_and_snapshot(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")

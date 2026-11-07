@@ -52,6 +52,9 @@ payload_files() {
   [ -f "$root/index.html" ] && printf '%s\n' "$root/index.html"
   [ -f "$root/library.json" ] && printf '%s\n' "$root/library.json"
   [ -f "$root/official.json" ] && printf '%s\n' "$root/official.json"
+  if [ -d "$root/card-info" ]; then
+    find "$root/card-info" -maxdepth 1 -type f -name '*.json' -print
+  fi
   if [ -d "$root/_official" ]; then
     find "$root/_official" -type f \( -name '*.jpg' -o -name '*.png' \) -print
   fi
@@ -110,6 +113,12 @@ for dir in */; do
 done
 
 cp "$M/index.html" "$M/library.json" "$M/official.json" .
+if [ -d "$M/card-info" ]; then
+  mkdir -p card-info
+  find "$M/card-info" -maxdepth 1 -type f -name '*.json' -exec cp {} card-info/ \;
+  [ -f card-info/official-overlays.json ] && cp card-info/official-overlays.json official-overlays.json
+  [ -f card-info/library-overlays.json ] && cp card-info/library-overlays.json library-overlays.json
+fi
 mkdir -p _official
 if compgen -G "$M/_official/*.jpg" >/dev/null || compgen -G "$M/_official/*.png" >/dev/null; then
   cp "$M"/_official/*.jpg "$M"/_official/*.png _official/ 2>/dev/null || true
@@ -221,6 +230,10 @@ if ! grep -q 'data-t="ext"' index.html || ! grep -q 'external/awesome-opus5-5-vi
 fi
 
 git add -A -- index.html library.json official.json _official
+for extra in official-overlays.json library-overlays.json; do
+  [ -f "$extra" ] && git add -- "$extra"
+done
+[ -d card-info ] && git add -A -- card-info
 for sj in "$M"/*/style.json; do
   [ -f "$sj" ] || continue
   s=$(basename "$(dirname "$sj")")
