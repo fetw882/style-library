@@ -340,20 +340,40 @@ class PublishSafeTests(unittest.TestCase):
         self.assertEqual(self.page_statuses()["kept-approved"], "approved")
         self.assertEqual(self.official_nums(), ["01", "77"])
 
-    def test_card_info_is_copied_without_touching_external(self):
+    def test_card_info_updates_tracked_overlays_and_second_apply_is_clean(self):
         info = self.source / "card-info"
         info.mkdir()
-        (info / "official-overlays.json").write_text('{"items":{"caption-news":{"summary_cn":"字幕新闻短句"}}}\n', encoding="utf-8")
-        (info / "library-overlays.json").write_text('{"items":{"paper-checklist-explainer":{"tech_stack_status":"unknown"}}}\n', encoding="utf-8")
-        (info / "title-briefs.json").write_text('{"items":{"demo":{"title":"Demo","summary_cn":"演示标题"}}}\n', encoding="utf-8")
+        official = (ROOT / "official-overlays.json").read_bytes()
+        personal = (ROOT / "library-overlays.json").read_bytes()
+        briefs = (ROOT / "external" / "awesome-opus5-5-videos" / "title-briefs.json").read_bytes()
+        (info / "official-overlays.json").write_bytes(official)
+        (info / "library-overlays.json").write_bytes(personal)
+        (info / "title-briefs.json").write_bytes(briefs)
         before = (self.pages_external / "catalog.json").read_bytes()
-        result = self.run_publish()
-        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
-        self.assertEqual((self.pages / "official-overlays.json").read_text(encoding="utf-8"), (info / "official-overlays.json").read_text(encoding="utf-8"))
-        self.assertEqual((self.pages / "library-overlays.json").read_text(encoding="utf-8"), (info / "library-overlays.json").read_text(encoding="utf-8"))
-        self.assertEqual((self.pages / "card-info" / "title-briefs.json").read_text(encoding="utf-8"), (info / "title-briefs.json").read_text(encoding="utf-8"))
+        first = self.run_publish()
+        self.assertEqual(first.returncode, 0, first.stderr + first.stdout)
+        self.assertNotIn("no change", first.stdout)
+        self.assertEqual((self.pages / "official-overlays.json").read_bytes(), official)
+        self.assertEqual((self.pages / "library-overlays.json").read_bytes(), personal)
+        self.assertFalse((self.pages / "card-info").exists())
         self.assertEqual((self.pages_external / "catalog.json").read_bytes(), before)
+        self.assertFalse((self.pages_external / "title-briefs.json").exists())
         self.assert_protected_site()
+        head = self.git(self.pages, "rev-parse", "HEAD").strip()
+        second = self.run_publish()
+        self.assertEqual(second.returncode, 0, second.stderr + second.stdout)
+        self.assertIn("no change", second.stdout)
+        self.assertNotIn("committed", second.stdout)
+        self.assertEqual(self.git(self.pages, "rev-parse", "HEAD").strip(), head)
+        self.assertEqual(self.git(self.pages, "status", "--porcelain"), "")
+        self.assertEqual(self.git(self.pages, "diff"), "")
+        self.assertFalse((self.pages / "card-info").exists())
+        self.assertEqual((self.pages / "official-overlays.json").read_bytes(), official)
+        self.assertEqual((self.pages / "library-overlays.json").read_bytes(), personal)
+        self.assertEqual((self.pages_external / "catalog.json").read_bytes(), before)
+        self.assertEqual(self.page_statuses()["kept-approved"], "approved")
+        self.assertEqual(self.page_statuses()["fresh-draft"], "draft")
+        self.assertEqual(self.official_nums(), ["01", "77"])
 
     def test_opt_in_push_is_not_force(self):
         script = PUBLISH.read_text(encoding="utf-8")
@@ -394,6 +414,18 @@ class BundleTests(unittest.TestCase):
             self.assertEqual(len(official["items"]), 66)
             self.assertEqual(len(personal["items"]), 5)
             self.assertEqual(
+                archive.extractfile("my-styles-publisher/card-info/official-overlays.json").read(),
+                (ROOT / "official-overlays.json").read_bytes(),
+            )
+            self.assertEqual(
+                archive.extractfile("my-styles-publisher/card-info/library-overlays.json").read(),
+                (ROOT / "library-overlays.json").read_bytes(),
+            )
+            self.assertEqual(
+                archive.extractfile("my-styles-publisher/card-info/title-briefs.json").read(),
+                (ROOT / "external" / "awesome-opus5-5-videos" / "title-briefs.json").read_bytes(),
+            )
+            self.assertEqual(
                 archive.extractfile("my-styles-publisher/build.py").read(),
                 (ROOT / "publisher" / "build.py").read_bytes(),
             )
@@ -404,8 +436,91 @@ class BundleTests(unittest.TestCase):
         self.assertIn("打开原站观看", page)
         self.assertIn('loading="lazy"', page)
         self.assertIn("payload_files", script)
+        self.assertNotIn("git add -A -- card-info", script)
+        self.assertNotIn("mkdir -p card-info", script)
         self.assertNotIn('grep -rIl --exclude-dir=.git "rui lee" .', script)
         self.assertIn('cron: "0 1 * * *"', (ROOT / ".github" / "workflows" / "sync-awesome-opus.yml").read_text(encoding="utf-8"))
+
+    def test_apply_on_matching_main_files_does_not_commit(self):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(lambda: shutil.rmtree(tmp, ignore_errors=True))
+        source = tmp / "my-styles"
+        pages = tmp / "pages"
+        source.mkdir()
+        pages.mkdir()
+        shutil.copy(ROOT / "publisher" / "build.py", source / "build.py")
+        shutil.copy(ROOT / "publisher" / "publish.sh", source / "publish.sh")
+        os.chmod(source / "publish.sh", 0o755)
+        for name in ("index.html", "library.json", "official.json"):
+            shutil.copy(ROOT / name, source / name)
+        info = source / "card-info"
+        info.mkdir()
+        for src, dest in (
+            (ROOT / "official-overlays.json", info / "official-overlays.json"),
+            (ROOT / "library-overlays.json", info / "library-overlays.json"),
+            (ROOT / "external" / "awesome-opus5-5-videos" / "title-briefs.json", info / "title-briefs.json"),
+        ):
+            shutil.copy(src, dest)
+        for slug in (
+            "anatomy-iso-object",
+            "cartoon-facts",
+            "film-direct-engrave",
+            "light-dot-particles",
+            "paper-checklist-explainer",
+        ):
+            shutil.copytree(ROOT / slug, source / slug)
+        shutil.copytree(ROOT / "external", pages / "external")
+        workflow = pages / ".github" / "workflows"
+        workflow.mkdir(parents=True)
+        shutil.copy(ROOT / ".github" / "workflows" / "sync-awesome-opus.yml", workflow / "sync-awesome-opus.yml")
+        (pages / "publisher").mkdir()
+        (pages / "publisher" / "marker.txt").write_text("keep\n", encoding="utf-8")
+        (pages / "scripts").mkdir()
+        (pages / "scripts" / "sync_awesome_opus.py").write_text("# sync\n", encoding="utf-8")
+        (pages / ".nojekyll").write_text("", encoding="utf-8")
+        (pages / "index.html").write_text((ROOT / "index.html").read_text(encoding="utf-8"), encoding="utf-8")
+        (pages / "library.json").write_text("{}\n", encoding="utf-8")
+        (pages / "official.json").write_text("[]\n", encoding="utf-8")
+        subprocess.check_call(["git", "-C", str(pages), "init", "-b", "main"], stdout=subprocess.DEVNULL)
+        subprocess.check_call(["git", "-C", str(pages), "add", "-A"])
+        subprocess.check_call(["git", "-C", str(pages), "-c", "user.name=tester", "-c", "user.email=tester@example.com", "commit", "-qm", "base"])
+        env = os.environ.copy()
+        env.update({
+            "STYLE_SRC": str(source),
+            "PAGES": str(pages),
+            "PUBLISH_PUSH": "0",
+            "PUBLISH_APPLY": "1",
+            "LEMO_LIB": str(tmp / "missing-lemo"),
+        })
+        first = subprocess.run(["bash", str(source / "publish.sh")], env=env, text=True, capture_output=True)
+        self.assertEqual(first.returncode, 0, first.stderr + first.stdout)
+        self.assertFalse((pages / "card-info").exists())
+        head = subprocess.check_output(["git", "-C", str(pages), "rev-parse", "HEAD"], text=True).strip()
+        second = subprocess.run(["bash", str(source / "publish.sh")], env=env, text=True, capture_output=True)
+        self.assertEqual(second.returncode, 0, second.stderr + second.stdout)
+        self.assertIn("no change", second.stdout)
+        self.assertNotIn("committed", second.stdout)
+        self.assertEqual(subprocess.check_output(["git", "-C", str(pages), "rev-parse", "HEAD"], text=True).strip(), head)
+        self.assertEqual(subprocess.check_output(["git", "-C", str(pages), "status", "--porcelain"], text=True), "")
+        self.assertEqual(subprocess.check_output(["git", "-C", str(pages), "diff", "HEAD"], text=True), "")
+        self.assertFalse((pages / "card-info").exists())
+        catalog = json.loads((pages / "external" / "awesome-opus5-5-videos" / "catalog.json").read_text(encoding="utf-8"))
+        author = sum(1 for item in catalog["items"] if item.get("summary_status") == "author")
+        missing = sum(1 for item in catalog["items"] if item.get("summary_status") == "missing")
+        self.assertEqual((author, missing), (285, 418))
+        self.assertEqual((pages / "official-overlays.json").read_bytes(), (ROOT / "official-overlays.json").read_bytes())
+        self.assertEqual((pages / "library-overlays.json").read_bytes(), (ROOT / "library-overlays.json").read_bytes())
+        statuses = {
+            item["slug"]: item["status"]
+            for item in json.loads((pages / "library.json").read_text(encoding="utf-8"))["styles"]
+        }
+        self.assertEqual(statuses["film-direct-engrave"], "approved")
+        self.assertEqual(statuses["paper-checklist-explainer"], "approved")
+        self.assertEqual(statuses["anatomy-iso-object"], "draft")
+        self.assertEqual(statuses["cartoon-facts"], "draft")
+        self.assertEqual(statuses["light-dot-particles"], "draft")
+        nums = [item["num"] for item in json.loads((pages / "official.json").read_text(encoding="utf-8"))]
+        self.assertEqual((len(nums), nums[0], nums[-1]), (66, "63", "77"))
 
 
 if __name__ == "__main__":
