@@ -132,9 +132,26 @@ for sj in "$M"/*/style.json; do
     find "$d/demo" -maxdepth 1 -type f \( -name '*.mjs' -o -name '*.js' -o -name '*.html' -o -name '*.sh' -o -name '*.srt' -o -name '*.json' -o -name '*.md' \) -size -20M -exec cp {} "$s/demo/" \;
   fi
 done
-find . -type f -size +20M -not -path './.git/*' -print -exec rm -f {} +
-find . -path ./.git -prune -o -iname '*compare*' -print -exec rm -f {} +
-grep -rIl --exclude-dir=.git "rui lee" . | xargs -r sed -i "s/rui lee/owner/g" || true
+# Rewrites stay on the copied payload. Protected trees are not edited to satisfy the check.
+while IFS= read -r file; do
+  [ -n "$file" ] && [ -f "$file" ] || continue
+  base=$(basename "$file")
+  size=$(stat -c%s "$file")
+  if [ "$size" -gt 20971520 ]; then rm -f "$file"; continue; fi
+  if printf '%s' "$base" | grep -qi 'compare'; then rm -f "$file"; continue; fi
+  case "$base" in
+    *.wav|*.mp3|*.aac|*.m4a|*.flac|*.ogg|*.WAV|*.MP3|*.AAC|*.M4A|*.FLAC|*.OGG) rm -f "$file" ;;
+  esac
+done < <(payload_files "$D")
+while IFS= read -r file; do
+  [ -n "$file" ] && [ -f "$file" ] || continue
+  case "$file" in
+    *.jpg|*.png|*.mp4) continue ;;
+  esac
+  if grep -q "rui lee" "$file"; then
+    sed -i "s/rui lee/owner/g" "$file"
+  fi
+done < <(payload_files "$D")
 if payload_files "$D" | while IFS= read -r file; do
   [ -n "$file" ] || continue
   grep -IlE "$SECRET_RE|rui lee" "$file" || true
@@ -159,13 +176,17 @@ if [ -d publisher ]; then
     exit 1
   fi
 fi
-find . -path ./.git -prune -o -type f \( -iname '*.wav' -o -iname '*.mp3' -o -iname '*.aac' -o -iname '*.m4a' -o -iname '*.flac' -o -iname '*.ogg' \) -print -exec rm -f {} +
-for v in $(find . -path ./.git -prune -o -name '*.mp4' -print); do
-  if ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$v" | grep -q .; then
-    echo "AUDIO LEFT IN $v" >&2
-    exit 1
-  fi
-done
+while IFS= read -r file; do
+  [ -n "$file" ] && [ -f "$file" ] || continue
+  case "$file" in
+    *.mp4)
+      if ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$file" | grep -q .; then
+        echo "AUDIO LEFT IN $file" >&2
+        exit 1
+      fi
+      ;;
+  esac
+done < <(payload_files "$D")
 
 python3 - "$D" << 'PY'
 import hashlib, os, sys
@@ -199,7 +220,22 @@ if ! grep -q 'data-t="ext"' index.html || ! grep -q 'external/awesome-opus5-5-vi
   exit 1
 fi
 
-git add -A
+git add -A -- index.html library.json official.json _official
+for sj in "$M"/*/style.json; do
+  [ -f "$sj" ] || continue
+  s=$(basename "$(dirname "$sj")")
+  protected "$s" && continue
+  case "$s" in _*|.*) continue ;; esac
+  git add -A -- "$s"
+done
+git ls-files -d | awk -F/ '{print $1}' | sort -u | while IFS= read -r top; do
+  [ -n "$top" ] || continue
+  protected "$top" && continue
+  case "$top" in
+    index.html|library.json|official.json|_official|.*) continue ;;
+  esac
+  git add -A -- "$top"
+done
 if git diff --cached --quiet; then
   echo "no change"
   exit 0
