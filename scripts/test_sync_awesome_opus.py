@@ -17,6 +17,7 @@ from sync_awesome_opus import (
     SHANGHAI,
     SOURCE_ID,
     SyncError,
+    classify_tags,
     normalize_post_url,
     sync,
 )
@@ -230,6 +231,51 @@ class SyncTests(unittest.TestCase):
         self.assertEqual(self.catalog()["license"]["media_processing"], "paused")
         self.assertTrue(item["post_url"].startswith("https://"))
 
+    def test_tags_split_stack_from_technique_and_do_not_invent_summary(self):
+        stack, techniques, unknown = classify_tags(["threejs", "particles", "hand-drawn"])
+        self.assertEqual(stack, ["Three.js"])
+        self.assertEqual(techniques, ["粒子"])
+        self.assertEqual(unknown, ["hand-drawn"])
+        self.assertEqual(classify_tags([])[0], [])
+        client = FakeClient([video("aaa-1", "https://x.com/Ada/status/1", tags=["canvas", "playable"], title="Only A Title")])
+        sync(self.root, client, clock=clock)
+        item = self.catalog()["items"][0]
+        self.assertEqual(item["tech_stack"], ["Canvas"])
+        self.assertEqual(item["visual_techniques"], ["可交互"])
+        self.assertEqual(item["tech_stack_status"], "verified")
+        self.assertNotIn("summary_cn", item)
+        self.assertEqual(item["summary_status"], "unverified")
+        self.assertNotIn("Remotion", json.dumps(item))
+
+    def test_verified_summary_survives_upstream_change(self):
+        client = FakeClient([video("aaa-1", "https://x.com/Ada/status/1", title="Old", tags=["svg"])])
+        sync(self.root, client, clock=clock)
+        catalog = self.catalog()
+        item = catalog["items"][0]
+        item["summary_cn"] = "这是人工核实的两句简介。看点是图形本身，适合做节奏短片。"
+        item["summary_evidence"] = "人工对照公开标题与技术标签"
+        item["summary_checked_at"] = "2026-11-08T09:00:00+08:00"
+        item["summary_status"] = "verified"
+        item["tech_stack_checked_at"] = "2026-11-08T09:00:00+08:00"
+        item["tech_stack"] = ["SVG"]
+        item["tech_stack_status"] = "verified"
+        item["tech_stack_evidence"] = "人工确认"
+        path = self.root / "external" / "awesome-opus5-5-videos" / "catalog.json"
+        path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        overlay = self.root / "external" / "awesome-opus5-5-videos" / "overlays.json"
+        overlay.write_text('{"schema_version":1,"items":{"aaa-1":{"summary_cn":"保留"}}}\n', encoding="utf-8")
+        before = overlay.read_bytes()
+        client.sha = "c" * 40
+        client.videos = [video("aaa-1", "https://x.com/Ada/status/1", title="New", tags=["threejs", "particles"])]
+        sync(self.root, client, clock=clock)
+        again = self.catalog()["items"][0]
+        self.assertEqual(again["title"], "New")
+        self.assertEqual(again["summary_cn"], "这是人工核实的两句简介。看点是图形本身，适合做节奏短片。")
+        self.assertEqual(again["summary_checked_at"], "2026-11-08T09:00:00+08:00")
+        self.assertEqual(again["tech_stack"], ["SVG"])
+        self.assertEqual(again["tech_stack_evidence"], "人工确认")
+        self.assertEqual(overlay.read_bytes(), before)
+
     def test_same_prompt_group_is_identity_only(self):
         client = FakeClient([
             video("aaa-1", "https://x.com/Ada/status/1", prompt="shared prompt text"),
@@ -254,6 +300,40 @@ class RepoTests(unittest.TestCase):
         self.assertEqual(crons, ["0 1 * * *"])
         self.assertNotIn("secrets.", text)
         self.assertIn("external/awesome-opus5-5-videos", text)
+
+    def test_lemo_overlays_match_live_catalogs(self):
+        official = json.loads((ROOT / "official.json").read_text(encoding="utf-8"))
+        library = json.loads((ROOT / "library.json").read_text(encoding="utf-8"))
+        off = json.loads((ROOT / "official-overlays.json").read_text(encoding="utf-8"))
+        mine = json.loads((ROOT / "library-overlays.json").read_text(encoding="utf-8"))
+        blob = json.dumps(off, ensure_ascii=False) + json.dumps(mine, ensure_ascii=False)
+        self.assertNotIn("/workspace", blob)
+        self.assertNotIn("lemomo-ai/lemo-opuscar/blob", blob)
+        self.assertEqual([item["slug"] for item in official], list(off["items"]))
+        self.assertEqual([item["num"] for item in official], [json.loads((ROOT / "official.json").read_text(encoding="utf-8"))[i]["num"] for i in range(len(official))])
+        unknown = [slug for slug, item in off["items"].items() if item["tech_stack_status"] == "unknown"]
+        self.assertEqual(len(unknown), 21)
+        self.assertIn("caption-news", unknown)
+        self.assertEqual(off["items"]["lowpoly-island"]["tech_stack"], ["Three.js"])
+        self.assertNotIn("Three.js", off["items"]["caption-news"].get("tech_stack", []))
+        for item in off["items"].values():
+            for technique in item.get("visual_techniques") or []:
+                self.assertNotIn(technique, item.get("tech_stack") or [])
+        self.assertEqual(
+            {item["slug"]: item["status"] for item in library["styles"]},
+            {
+                "anatomy-iso-object": "draft",
+                "cartoon-facts": "draft",
+                "film-direct-engrave": "approved",
+                "light-dot-particles": "draft",
+                "paper-checklist-explainer": "approved",
+            },
+        )
+        self.assertEqual(set(mine["items"]), {item["slug"] for item in library["styles"]})
+        self.assertEqual(mine["items"]["paper-checklist-explainer"]["tech_stack_status"], "unknown")
+        self.assertIn("Canvas 2D", mine["items"]["film-direct-engrave"]["tech_stack"])
+        self.assertEqual(len(off["items"]), 66)
+        self.assertEqual(len(mine["items"]), 5)
 
     def test_page_shell_and_snapshot(self):
         html = (ROOT / "index.html").read_text(encoding="utf-8")
