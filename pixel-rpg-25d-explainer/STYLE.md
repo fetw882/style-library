@@ -44,13 +44,46 @@ Not: a retro filter over footage. Not a flat 2D slideshow (the layers sit at dif
 - Mix −14 LUFS integrated, true peak ≈ −1.4 dBFS.
 
 ## 8. Native moves
-- **Slot-wheel title**: "如果你的反应快" types in at 0.04 s per character. Then a reel window with steel rails, end caps, top/bottom fade masks and an amber selection band rolls 2倍 → 10倍 and locks in yellow with a glow. The reel furniture fades out after the lock. Full timing/visual spec: see `TITLE_ANIMATION.md`（逐字整字弹出每字0.04s+打字声 → 「快」打完后 2.05–3.08s 减速滚动 2倍→10倍、相邻行淡出、8声滚轮tick → 3.08–3.30s 过冲回弹吸附 → 3.30s 卡音乐drop锁定变黄发光，主标题≈180px、副标题≈108px）.
+- **Slot-wheel title**: "如果你的反应快" types in at 0.04 s per character. Then a reel window with steel rails, end caps, top/bottom fade masks and an amber selection band rolls 2倍 → 10倍 and locks in yellow with a glow. The reel furniture fades out after the lock. Full timing/visual spec: see the section below and `TITLE_ANIMATION.md`（逐字整字弹出每字0.04s+打字声 → 「快」打完后 2.05–3.08s 减速滚动 2倍→10倍、相邻行淡出、8声滚轮tick → 3.08–3.30s 过冲回弹吸附 → 3.30s 卡音乐drop锁定变黄发光，主标题≈180px、副标题≈108px）.
 - **Bullet-time beat** in three shots: setup (e.g. "苍蝇来袭 / 朋友：啪！没打中", MISS) → bullet time (tag panel "子弹时间 ×0.1 + one-line rule", top-right "现实时间 0.05秒" barely moving, yellow target ring + dashed path, hero reaches first) → result tag ("获得：苍蝇 ×1" / "一滴没洒") + the friend's "？？？".
 - **Status panel**: "状态 / 反应速度 ×1 → ×10" with a filling bar and stars.
 - **Choice box**: two options, a white cursor arrow, a yellow selection fill, and a countdown "剩余0.xx秒" **inside** the box at bottom-right.
 - **Bet / challenge segments**: speech bubbles, a score pill ("你 1:0 朋友"), and a pay-off (the friend hands over the milk tea).
 - **Replay screen**: a filled screen with a solid header bar ("回放" badge + REC dot + timecode) and "×0.1 慢放" in a corner.
 - Cold-open freeze on the decision, then a pixel-mosaic transition into the title.
+
+### 开头标题出现动画（滚轮标题）——设计规范
+
+来源：用户给的参考图方案（逐字打出 + iOS 式滚轮滚到「10倍」），v7 定稿实际做法。以下数值取自 v3–v7 制作记录；渲染源码已删除，只能按本文重做。
+
+#### 时间线（片内绝对时间，24fps）
+| 时间 | 发生什么 | 声音 |
+|---|---|---|
+| 0–约1.8 s | 冷开场：决定瞬间定格 + 选择框（钩子），像素马赛克转场进标题 | — |
+| 约1.0–2.0 s | 「如果你的反应快」逐字出现，每字 0.04 s；每个字**整字弹出**（不渐显、不出半个字），每字一声打字「咔」 | 打字 tick |
+| 2.05 s | 「快」字必须已经打完，滚轮才开始 | — |
+| 2.05–3.08 s | 滚轮从 2倍 往上滚到 10倍：先快后慢（减速缓动），相邻上下两行数字可见并逐渐淡出，每过一格一声「嗒」，全程约 8 声 | 滚轮 tick ×8 |
+| 3.08–3.30 s | 惯性过冲一点再回弹吸附（snap）到 10倍 | 最后一声 tick |
+| 3.30 s | 锁定：正好卡在音乐 drop 上；「10倍」变黄并发光；滚轮外框淡出 | drop |
+| 之后 | 副标题出现 | — |
+
+#### 视觉构成
+- 字体：Fusion Pixel 12px（OFL），整数倍放大，不做亚像素平滑。
+- 主标题字号约 180 px（1080p 下），白字 + 深色投影；副标题约 108 px，白色。
+- 「10倍」锁定后：黄色 + 外发光，居中偏大。
+- 滚轮外框：钢质导轨（左右 rails）+ 上下端盖 + 上下渐隐遮罩 + 琥珀色选中带；相邻行用遮罩淡出，不能缩成看不清的小字。
+- 锁定后滚轮外框淡出，只留下标题文字。
+
+#### 验收（每次必须逐帧核对）
+1. 抽 2.0–3.4 s 每帧拼图，能看到数字是**一格一格连续滚上来**，不是一帧跳一个数。
+2. 滚动时间 ≥ 1 s，有减速，有过冲回弹。
+3. 「快」字打完前滚轮不能动；任何一帧不能出现半个字或残留符号。
+4. 锁定帧落在音乐 drop 上（误差 ≤ 1 帧）。
+5. 找不知情的观看者盲看，确认能说出「10倍是滚出来的」。
+
+#### 踩过的坑
+- v2：一帧跳一个数字、0.45 s 就滚完，相邻行太小 → 观众看不出在滚动（用户退回）。
+- v4：标题下面残留小符号；字是渐显的，会出现半个字 → v5 改成整字弹出。
 
 ## 9. Pitfalls of the medium
 - A half-typed short label ("只有1", "只掉3") reads as truncated: pop it whole.
