@@ -44,7 +44,7 @@ Not: a retro filter over footage. Not a flat 2D slideshow (the layers sit at dif
 - Mix −14 LUFS integrated, true peak ≈ −1.4 dBFS.
 
 ## 8. Native moves
-- **Slot-wheel title**: "如果你的反应快" types in at 0.04 s per character. Then a reel window with steel rails, end caps, top/bottom fade masks and an amber selection band rolls 2倍 → 10倍 and locks in yellow with a glow. The reel furniture fades out after the lock.
+- **Slot-wheel title**: "如果你的反应快" types in at 0.04 s per character. Then a reel window with steel rails, end caps, top/bottom fade masks and an amber selection band rolls 2倍 → 10倍 and locks in yellow with a glow. The reel furniture fades out after the lock. Full timing/visual spec: see `TITLE_ANIMATION.md`（逐字整字弹出每字0.04s+打字声 → 「快」打完后 2.05–3.08s 减速滚动 2倍→10倍、相邻行淡出、8声滚轮tick → 3.08–3.30s 过冲回弹吸附 → 3.30s 卡音乐drop锁定变黄发光，主标题≈180px、副标题≈108px）.
 - **Bullet-time beat** in three shots: setup (e.g. "苍蝇来袭 / 朋友：啪！没打中", MISS) → bullet time (tag panel "子弹时间 ×0.1 + one-line rule", top-right "现实时间 0.05秒" barely moving, yellow target ring + dashed path, hero reaches first) → result tag ("获得：苍蝇 ×1" / "一滴没洒") + the friend's "？？？".
 - **Status panel**: "状态 / 反应速度 ×1 → ×10" with a filling bar and stars.
 - **Choice box**: two options, a white cursor arrow, a yellow selection fill, and a countdown "剩余0.xx秒" **inside** the box at bottom-right.
