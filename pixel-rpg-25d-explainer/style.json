@@ -1,0 +1,24 @@
+{
+ "slug": "pixel-rpg-25d-explainer",
+ "en": "Pixel RPG 2.5D Explainer",
+ "cn": "像素RPG 2.5D 科普",
+ "based_on": "Lemo official style pixel-rpg (16-bit Pixel RPG) — its pixel layers placed in a Three.js 2.5D space",
+ "borrows": [
+  "Lemo official pixel-rpg sprite / tile / UI layers (used from a local copy; shared source untouched)",
+  "16-bit RPG UI grammar: dialogue box, choice box with cursor, status panel"
+ ],
+ "size": "1920x1080 (native 640x360, integer x3 nearest-neighbour)",
+ "test_size": "960x540",
+ "fps": 24,
+ "library_version": "未提供",
+ "created": "2026-11-10",
+ "status": "approved",
+ "approved": "2026-11-10",
+ "approved_by": "owner, 2026-11-10 (v7 finalised and ordered into the library)",
+ "line": "A second-person 'what if' explainer acted out by 16-bit pixel characters in a 2.5D Three.js stage: RPG dialogue and choice boxes, a slot-wheel title, and bullet-time shots with a crawling real-time clock.",
+ "line_cn": "第二人称“如果你……”像素口播科普：16-bit 像素角色在 Three.js 2.5D 舞台里演，RPG 对话框和选择框，滚轮标题，子弹时间慢放配“现实时间”读秒。",
+ "source": "Own finished film《如果你的反应快10倍》v7 (2026-11-10). Story adapted from Ifverse (https://www.youtube.com/watch?v=MroF1XmHOZw) — adaptation reference only; no Ifverse footage or frames are stored here.",
+ "license": "Font: Fusion Pixel 12px (SIL OFL 1.1, https://github.com/TakWolf/fusion-pixel-font). SFX: CC0 (Freesound). Narration: Fish Audio drama-3. BGM 'We Never': licence proof NOT obtained — never published with sound.",
+ "audio": "public test.mp4 is muted (BGM licence proof missing)",
+ "render_source": "deleted at the owner's request on 2026-11-10; not reproducible from this library"
+}
