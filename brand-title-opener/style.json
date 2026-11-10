@@ -1,0 +1,31 @@
+{
+ "slug": "brand-title-opener",
+ "en": "Brand Title Opener (contrast slot-wheel)",
+ "cn": "厂牌滚轮片头",
+ "based_on": "none (own brand opener, code-only Canvas 2D; grew out of the slot-wheel title in our pixel-rpg-25d-explainer film v7)",
+ "borrows": [
+  "Slot-wheel title move from our own《如果你的反应快10倍》v7 opener (own work)"
+ ],
+ "size": "1920x1080 (16:9) or 1080x1920 (9:16)",
+ "test_size": "960x540",
+ "fps": 30,
+ "library_version": "n/a (own style, not derived from a library style)",
+ "created": "2026-11-10",
+ "status": "approved",
+ "approved": "2026-11-10",
+ "approved_by": "owner, 2026-11-10 15:28 Asia/Shanghai: 「可以，如果以后需要最后滚动的关键词不是数字，的时候更好用，都记下来，给风格库」 (v3 contrast-then-spin-back approved)",
+ "line": "A 5-second brand opener: the first half of the title types on the beat, the cursor morphs into a selection band, the wheel rolls past the theme word, rests on a contrast word, spins back and locks the theme word in brand yellow on the music drop. The theme word can be a number (10倍) or any word (暂停).",
+ "line_cn": "5 秒厂牌片头：前半句踏拍打出，光标变成选中带，滚轮滚过主题词、停在反差词上一拍，再旋回主题词在音乐落点锁定变黄；主题词可以是数字（10倍）也可以是词（暂停）。",
+ "source": "Own work: newbeer.lee brand opener v3 (2026-11-10), from the v7 film opener of《如果你的反应快10倍》; direction approved by the owner.",
+ "license": "Fonts, all SIL OFL 1.1: Fusion Pixel 12px (github.com/TakWolf/fusion-pixel-font), ZCOOL KuaiLe 站酷快乐体 (github.com/googlefonts/zcool-kuaile), Smiley Sans Oblique 得意黑 (github.com/atelier-anchor/smiley-sans), Noto Serif SC Black 思源宋体 and Noto Sans SC Black 思源黑体 (github.com/notofonts/noto-cjk), Noto Sans Mono CJK SC (signature). SFX: synthesised in code (sfx.py), no third-party audio.",
+ "audio": "public test.mp4 has no BGM: synthesised SFX only (the public site strips the audio track as well). The internal-review song 'We Never' has no licence proof and is not in this library.",
+ "test_content": "test.mp4 = number example (如果你的反应快 2倍…10倍 → 反差 1倍 → 锁定 10倍, pixel skin) + word example (如果你能 加速…暂停 → 反差 加速 → 锁定 暂停 + 时间, data skin), both 16:9, no BGM, 10.2 s",
+ "params": "--prefix --values (last item = theme word, number or word) --contrast --suffix --sub --drop --skin --aspect; --from/--to/--unit is only a shortcut for number lists",
+ "skins": [
+  "pixel",
+  "cartoon",
+  "data",
+  "cinema"
+ ],
+ "motion_gate": "self-score 65.8 (<90), not a gate-passed film system"
+}

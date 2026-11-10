@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'FusionPixel';src:url('fonts/fusion-pixel.ttf');}
+@font-face{font-family:'KuaiLe';src:url('fonts/ZCOOLKuaiLe.ttf');}
+@font-face{font-family:'Smiley';src:url('fonts/SmileySans-Oblique.ttf');}
+@font-face{font-family:'NotoSerifBlack';font-weight:900;src:url('fonts/NotoSerifSC-Black.otf');}
+@font-face{font-family:'NotoSansBlack';font-weight:900;src:url('fonts/NotoSansSC-Black.otf');}
+html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}
+</style></head><body><canvas id="c"></canvas>
+<script src="opener.js"></script><script src="skins.js"></script>
+<script>
+let P,S,T,L,ctx,W,H;
+async function init(params){
+  P=params; S=SKINS[P.skin]; W=P.W; H=P.H;
+  const cv=document.getElementById('c'); cv.width=W; cv.height=H; ctx=cv.getContext('2d',{willReadFrequently:true});
+  const fams=["'FusionPixel'","'KuaiLe'","'Smiley'","'NotoSerifBlack'","'Noto Sans Mono CJK SC'","'NotoSansBlack'","'Noto Serif CJK SC'"];
+  const sample=P.prefix+P.values.join('')+(P.contrast||'')+(P.suffix||'')+(P.sub||'')+'newbeer.lee';
+  for(const f of fams){ for(const w of [400,500,700,900]) await document.fonts.load(`${w} 40px ${f}`, sample); }
+  T=BRAND.buildTimeline(P); L=BRAND.layout(ctx,P,S,W,H);
+  window.READY=true;
+  return {T, L:{FS:L.FS,FS2:L.FS2,box:L.box,band:L.band,pitch:L.pitch,xw:L.xw,finW:L.finW,cy1:L.cy1,cy2:L.cy2,x0:L.x0,lineX:L.lineX,lineW:L.lineW,valW:L.valW,pre:L.pre,suf:L.suf,sub:L.sub,sig:L.sig,subY:L.subY,subFS:L.subFS}, fontsOK: fams.map(f=>document.fonts.check(`400 40px ${f}`, sample)||document.fonts.check(`900 40px ${f}`, sample))};
+}
+function frame(i){ const t=i/P.fps; BRAND.renderFrame(ctx,W,H,P,S,T,L,t,i); return document.getElementById('c').toDataURL('image/png'); }
+function describe(i){ return BRAND.describe(P,S,T,L,i/P.fps); }
+function wheel(i){ return BRAND.wheelP(T,i/P.fps); }
+</script></body></html>

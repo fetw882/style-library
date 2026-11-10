@@ -105,3 +105,4 @@ Not: a retro filter over footage. Not a flat 2D slideshow (the layers sit at dif
 - BGM licence: use a track with licence proof so the public version can have sound.
 - Topics: any "what if you were 10× faster / stronger / smaller…" hypothetical, reaction / speed / perception explainers.
 - 未提供: a vertical 9:16 version of the stage, and tested durations other than about 2 min.
+- Later brand title openers follow the separate entry `brand-title-opener` (contrast pick, then spin back to the theme word; the theme word can be a word, not only a number). This film's own v7 title history above is unchanged.
