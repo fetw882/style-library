@@ -15,7 +15,13 @@
    "Data shorts"
   ],
   "dur": 59.5,
-  "poster": "_official/caption-news.jpg"
+  "poster": "_official/caption-news.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/caption-news/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/caption-news.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "蜜蜂账本"
  },
  {
   "slug": "newsreel",
@@ -33,7 +39,13 @@
    "Anniversaries"
   ],
   "dur": 54.6,
-  "poster": "_official/newsreel.jpg"
+  "poster": "_official/newsreel.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/newsreel/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/newsreel.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "膝盖警报"
  },
  {
   "slug": "countdown",
@@ -51,7 +63,13 @@
    "Live events"
   ],
   "dur": 59.5,
-  "poster": "_official/countdown.jpg"
+  "poster": "_official/countdown.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/countdown/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/countdown.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "自己倒数"
  },
  {
   "slug": "city-symphony",
@@ -69,7 +87,13 @@
    "Openers"
   ],
   "dur": 52.0,
-  "poster": "_official/city-symphony.jpg"
+  "poster": "_official/city-symphony.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/city-symphony/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/city-symphony.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "纽约的一天"
  },
  {
   "slug": "visual-investigation",
@@ -87,7 +111,13 @@
    "Incident reports"
   ],
   "dur": 60.0,
-  "poster": "_official/visual-investigation.jpg"
+  "poster": "_official/visual-investigation.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/visual-investigation/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/visual-investigation.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "兴登堡号：四分钟与三十二秒"
  },
  {
   "slug": "kino-montage",
@@ -105,7 +135,13 @@
    "Collective effort"
   ],
   "dur": 60.0,
-  "poster": "_official/kino-montage.jpg"
+  "poster": "_official/kino-montage.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/kino-montage/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/kino-montage.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "410 天"
  },
  {
   "slug": "telestrator",
@@ -123,7 +159,13 @@
    "Coaching"
   ],
   "dur": 54.4,
-  "poster": "_official/telestrator.jpg"
+  "poster": "_official/telestrator.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/telestrator/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/telestrator.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "定格"
  },
  {
   "slug": "news-package",
@@ -141,7 +183,13 @@
    "Market updates"
   ],
   "dur": 53.5,
-  "poster": "_official/news-package.jpg"
+  "poster": "_official/news-package.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/news-package/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/news-package.mp4",
+  "play": "embed",
+  "voice_restricted": true,
+  "film_cn": "本周 AI 四件事"
  },
  {
   "slug": "crayon-book",
@@ -159,7 +207,13 @@
    "Kids' learning"
   ],
   "dur": 52.0,
-  "poster": "_official/crayon-book.jpg"
+  "poster": "_official/crayon-book.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/crayon-book/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/crayon-book.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "月亮睡不着"
  },
  {
   "slug": "watercolor",
@@ -177,7 +231,13 @@
    "Science explainers"
   ],
   "dur": 113.6,
-  "poster": "_official/watercolor.jpg"
+  "poster": "_official/watercolor.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/watercolor/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/watercolor.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "跟着雨走"
  },
  {
   "slug": "impasto",
@@ -195,7 +255,13 @@
    "Emotional ads"
   ],
   "dur": 39.7,
-  "poster": "_official/impasto.jpg"
+  "poster": "_official/impasto.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/impasto/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/impasto.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "雨的颜色"
  },
  {
   "slug": "urban-sketch",
@@ -213,7 +279,13 @@
    "Lifestyle brands"
   ],
   "dur": 33.4,
-  "poster": "_official/urban-sketch.jpg"
+  "poster": "_official/urban-sketch.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/urban-sketch/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/urban-sketch.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "风去了哪里"
  },
  {
   "slug": "colored-pencil",
@@ -231,7 +303,13 @@
    "Hidden structures and processes"
   ],
   "dur": 50.8,
-  "poster": "_official/colored-pencil.jpg"
+  "poster": "_official/colored-pencil.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/colored-pencil/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/colored-pencil.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "树的另一半"
  },
  {
   "slug": "one-line",
@@ -249,7 +327,13 @@
    "Minimal ads"
   ],
   "dur": 47.5,
-  "poster": "_official/one-line.jpg"
+  "poster": "_official/one-line.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/one-line/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/one-line.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "笔不离纸"
  },
  {
   "slug": "whiteboard",
@@ -267,7 +351,13 @@
    "Science"
   ],
   "dur": 111.0,
-  "poster": "_official/whiteboard.jpg"
+  "poster": "_official/whiteboard.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/whiteboard/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/whiteboard.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "口袋里的爱因斯坦"
  },
  {
   "slug": "chalkboard",
@@ -285,7 +375,13 @@
    "Lessons"
   ],
   "dur": 49.3,
-  "poster": "_official/chalkboard.jpg"
+  "poster": "_official/chalkboard.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/chalkboard/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/chalkboard.mp4",
+  "play": "embed",
+  "voice_restricted": true,
+  "film_cn": "汉字的故事"
  },
  {
   "slug": "sketchnote",
@@ -303,7 +399,13 @@
    "One-page summaries"
   ],
   "dur": 51.0,
-  "poster": "_official/sketchnote.jpg"
+  "poster": "_official/sketchnote.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/sketchnote/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/sketchnote.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "蜜蜂怎样酿蜜"
  },
  {
   "slug": "stick-explainer",
@@ -321,7 +423,13 @@
    "Data comparisons"
   ],
   "dur": 52.0,
-  "poster": "_official/stick-explainer.jpg"
+  "poster": "_official/stick-explainer.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/stick-explainer/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/stick-explainer.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "隔着几只手"
  },
  {
   "slug": "ipad-sketch",
@@ -339,7 +447,13 @@
    "Lifestyle science"
   ],
   "dur": 51.0,
-  "poster": "_official/ipad-sketch.jpg"
+  "poster": "_official/ipad-sketch.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/ipad-sketch/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/ipad-sketch.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "一杯咖啡，从一颗果子开始"
  },
  {
   "slug": "marker-paper",
@@ -357,7 +471,13 @@
    "Lessons"
   ],
   "dur": 52.0,
-  "poster": "_official/marker-paper.jpg"
+  "poster": "_official/marker-paper.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/marker-paper/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/marker-paper.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "你能看多远？"
  },
  {
   "slug": "ink-wash",
@@ -375,7 +495,13 @@
    "Poetry"
   ],
   "dur": 48.0,
-  "poster": "_official/ink-wash.jpg"
+  "poster": "_official/ink-wash.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/ink-wash/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/ink-wash.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "剑客与江"
  },
  {
   "slug": "shadow-puppet",
@@ -393,7 +519,13 @@
    "Festivals"
   ],
   "dur": 54.4,
-  "poster": "_official/shadow-puppet.jpg"
+  "poster": "_official/shadow-puppet.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/shadow-puppet/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/shadow-puppet.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "后羿射日"
  },
  {
   "slug": "ukiyoe",
@@ -411,7 +543,13 @@
    "Poetry"
   ],
   "dur": 44.0,
-  "poster": "_official/ukiyoe.jpg"
+  "poster": "_official/ukiyoe.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/ukiyoe/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/ukiyoe.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "走向远山"
  },
  {
   "slug": "papercut-red",
@@ -429,7 +567,13 @@
    "Folk tales"
   ],
   "dur": 49.0,
-  "poster": "_official/papercut-red.jpg"
+  "poster": "_official/papercut-red.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/papercut-red/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/papercut-red.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "年兽进村"
  },
  {
   "slug": "paper-lantern",
@@ -447,7 +591,13 @@
    "Places and their stories"
   ],
   "dur": 51.0,
-  "poster": "_official/paper-lantern.jpg"
+  "poster": "_official/paper-lantern.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/paper-lantern/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/paper-lantern.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "末班夜车"
  },
  {
   "slug": "stained-glass",
@@ -465,7 +615,13 @@
    "Holiday stories"
   ],
   "dur": 56.5,
-  "poster": "_official/stained-glass.jpg"
+  "poster": "_official/stained-glass.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/stained-glass/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/stained-glass.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "东窗之龙"
  },
  {
   "slug": "gilded-illumination",
@@ -483,7 +639,13 @@
    "Brand and origin stories"
   ],
   "dur": 46.8,
-  "poster": "_official/gilded-illumination.jpg"
+  "poster": "_official/gilded-illumination.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/gilded-illumination/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/gilded-illumination.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "借来的光"
  },
  {
   "slug": "risograph",
@@ -501,7 +663,13 @@
    "Lifestyle"
   ],
   "dur": 40.0,
-  "poster": "_official/risograph.jpg"
+  "poster": "_official/risograph.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/risograph/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/risograph.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "周日骑行"
  },
  {
   "slug": "halftone-dossier",
@@ -519,7 +687,13 @@
    "Social shorts"
   ],
   "dur": 30.0,
-  "poster": "_official/halftone-dossier.jpg"
+  "poster": "_official/halftone-dossier.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/halftone-dossier/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/halftone-dossier.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "胖橘案卷"
  },
  {
   "slug": "woodcut",
@@ -537,7 +711,13 @@
    "Book trailers"
   ],
   "dur": 58.5,
-  "poster": "_official/woodcut.jpg"
+  "poster": "_official/woodcut.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/woodcut/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/woodcut.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "铸钟人"
  },
  {
   "slug": "engraving",
@@ -555,7 +735,13 @@
    "Brand heritage"
   ],
   "dur": 40.0,
-  "poster": "_official/engraving.jpg"
+  "poster": "_official/engraving.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/engraving/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/engraving.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "蜜蜂，图版七"
  },
  {
   "slug": "silkscreen-poster",
@@ -573,7 +759,13 @@
    "Event posters"
   ],
   "dur": 50.0,
-  "poster": "_official/silkscreen-poster.jpg"
+  "poster": "_official/silkscreen-poster.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/silkscreen-poster/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/silkscreen-poster.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "绕远路回家"
  },
  {
   "slug": "printed-long-take",
@@ -591,7 +783,13 @@
    "Landscapes"
   ],
   "dur": 60.0,
-  "poster": "_official/printed-long-take.jpg"
+  "poster": "_official/printed-long-take.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/printed-long-take/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/printed-long-take.mp4",
+  "play": "embed",
+  "voice_restricted": true,
+  "film_cn": "三十三只"
  },
  {
   "slug": "pop-art",
@@ -609,7 +807,13 @@
    "Small data stories"
   ],
   "dur": 52.0,
-  "poster": "_official/pop-art.jpg"
+  "poster": "_official/pop-art.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/pop-art/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/pop-art.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "同一根香蕉"
  },
  {
   "slug": "vintage-collage",
@@ -627,7 +831,13 @@
    "Archive and collecting stories"
   ],
   "dur": 52.0,
-  "poster": "_official/vintage-collage.jpg"
+  "poster": "_official/vintage-collage.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/vintage-collage/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/vintage-collage.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "倒置的珍妮"
  },
  {
   "slug": "swiss-motion",
@@ -645,7 +855,13 @@
    "Design education"
   ],
   "dur": 44.0,
-  "poster": "_official/swiss-motion.jpg"
+  "poster": "_official/swiss-motion.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/swiss-motion/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/swiss-motion.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "海报的五条规则"
  },
  {
   "slug": "spy-titles",
@@ -663,7 +879,13 @@
    "Trailers"
   ],
   "dur": 44.1,
-  "poster": "_official/spy-titles.jpg"
+  "poster": "_official/spy-titles.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/spy-titles/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/spy-titles.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "天鹅绒密码"
  },
  {
   "slug": "art-deco",
@@ -681,7 +903,13 @@
    "Invitations"
   ],
   "dur": 58.4,
-  "poster": "_official/art-deco.jpg"
+  "poster": "_official/art-deco.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/art-deco/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/art-deco.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "星光饭店的午夜"
  },
  {
   "slug": "pictogram-motion",
@@ -699,7 +927,13 @@
    "Explainers told through signs and objects"
   ],
   "dur": 50.0,
-  "poster": "_official/pictogram-motion.jpg"
+  "poster": "_official/pictogram-motion.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/pictogram-motion/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/pictogram-motion.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "被落下的伞"
  },
  {
   "slug": "bauhaus-shapes",
@@ -717,7 +951,13 @@
    "Titles and chapter cards"
   ],
   "dur": 52.0,
-  "poster": "_official/bauhaus-shapes.jpg"
+  "poster": "_official/bauhaus-shapes.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/bauhaus-shapes/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/bauhaus-shapes.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "复利是怎么滚起来的"
  },
  {
   "slug": "flat-space-explainer",
@@ -735,7 +975,13 @@
    "Classroom"
   ],
   "dur": 52.0,
-  "poster": "_official/flat-space-explainer.jpg"
+  "poster": "_official/flat-space-explainer.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/flat-space-explainer/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/flat-space-explainer.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "一路往下缩"
  },
  {
   "slug": "text-flash-cuts",
@@ -753,7 +999,13 @@
    "Manifesto films"
   ],
   "dur": 46.2,
-  "poster": "_official/text-flash-cuts.jpg"
+  "poster": "_official/text-flash-cuts.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/text-flash-cuts/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/text-flash-cuts.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "身后"
  },
  {
   "slug": "silhouette-rhythm",
@@ -771,7 +1023,13 @@
    "Nature and festival openers"
   ],
   "dur": 49.0,
-  "poster": "_official/silhouette-rhythm.jpg"
+  "poster": "_official/silhouette-rhythm.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/silhouette-rhythm/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/silhouette-rhythm.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "慢半拍"
  },
  {
   "slug": "blueprint",
@@ -789,7 +1047,13 @@
    "Tech explainers"
   ],
   "dur": 46.7,
-  "poster": "_official/blueprint.jpg"
+  "poster": "_official/blueprint.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/blueprint/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/blueprint.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "专利申请中：接云机"
  },
  {
   "slug": "iso-infographic",
@@ -807,7 +1071,13 @@
    "Annual reports"
   ],
   "dur": 58.8,
-  "poster": "_official/iso-infographic.jpg"
+  "poster": "_official/iso-infographic.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/iso-infographic/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/iso-infographic.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "从豆到杯"
  },
  {
   "slug": "teardown",
@@ -825,7 +1095,13 @@
    "Spec explainers"
   ],
   "dur": 38.8,
-  "poster": "_official/teardown.jpg"
+  "poster": "_official/teardown.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/teardown/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/teardown.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "二十一键"
  },
  {
   "slug": "hardcore-info",
@@ -843,7 +1119,13 @@
    "Science education"
   ],
   "dur": 52.0,
-  "poster": "_official/hardcore-info.jpg"
+  "poster": "_official/hardcore-info.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/hardcore-info/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/hardcore-info.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "你手机的天线在哪"
  },
  {
   "slug": "precise-mechanism",
@@ -861,7 +1143,13 @@
    "Science teaching"
   ],
   "dur": 52.0,
-  "poster": "_official/precise-mechanism.jpg"
+  "poster": "_official/precise-mechanism.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/precise-mechanism/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/precise-mechanism.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "三套系统走时"
  },
  {
   "slug": "instruction-manual",
@@ -879,7 +1167,13 @@
    "Product onboarding"
   ],
   "dur": 50.6,
-  "poster": "_official/instruction-manual.jpg"
+  "poster": "_official/instruction-manual.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/instruction-manual/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/instruction-manual.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "第十步"
  },
  {
   "slug": "pen-plotter",
@@ -897,7 +1191,13 @@
    "Generative and data drawings"
   ],
   "dur": 49.9,
-  "poster": "_official/pen-plotter.jpg"
+  "poster": "_official/pen-plotter.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/pen-plotter/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/pen-plotter.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "8848.86"
  },
  {
   "slug": "assembly-line-diagram",
@@ -915,7 +1215,13 @@
    "Supply chains and pipelines"
   ],
   "dur": 54.9,
-  "poster": "_official/assembly-line-diagram.jpg"
+  "poster": "_official/assembly-line-diagram.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/assembly-line-diagram/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/assembly-line-diagram.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "拆解流水线"
  },
  {
   "slug": "rubber-hose",
@@ -933,7 +1239,13 @@
    "Kids"
   ],
   "dur": 50.0,
-  "poster": "_official/rubber-hose.jpg"
+  "poster": "_official/rubber-hose.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/rubber-hose/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/rubber-hose.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "咖啡杯追方糖"
  },
  {
   "slug": "cel-anime-80s",
@@ -951,7 +1263,13 @@
    "Nostalgia"
   ],
   "dur": 59.0,
-  "poster": "_official/cel-anime-80s.jpg"
+  "poster": "_official/cel-anime-80s.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/cel-anime-80s/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/cel-anime-80s.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "城市灯火，1987"
  },
  {
   "slug": "scifi-toon",
@@ -969,7 +1287,13 @@
    "Social shorts"
   ],
   "dur": 57.5,
-  "poster": "_official/scifi-toon.jpg"
+  "poster": "_official/scifi-toon.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/scifi-toon/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/scifi-toon.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "跑腿买咖啡"
  },
  {
   "slug": "midcentury-toon",
@@ -987,7 +1311,13 @@
    "How-to"
   ],
   "dur": 40.0,
-  "poster": "_official/midcentury-toon.jpg"
+  "poster": "_official/midcentury-toon.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/midcentury-toon/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/midcentury-toon.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "认识一下 Pip"
  },
  {
   "slug": "comic-history",
@@ -1005,7 +1335,13 @@
    "Market share and turf-war stories"
   ],
   "dur": 51.0,
-  "poster": "_official/comic-history.jpg"
+  "poster": "_official/comic-history.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/comic-history/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/comic-history.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "一块纸"
  },
  {
   "slug": "manga-panels",
@@ -1023,7 +1359,13 @@
    "Anime openings"
   ],
   "dur": 48.0,
-  "poster": "_official/manga-panels.jpg"
+  "poster": "_official/manga-panels.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/manga-panels/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/manga-panels.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "KOMA ONE · 一秒三十格"
  },
  {
   "slug": "pixel-rpg",
@@ -1041,7 +1383,13 @@
    "Nostalgia"
   ],
   "dur": 54.5,
-  "poster": "_official/pixel-rpg.jpg"
+  "poster": "_official/pixel-rpg.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/pixel-rpg/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/pixel-rpg.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "最后的存档点"
  },
  {
   "slug": "hd-2d",
@@ -1059,7 +1407,13 @@
    "Story films"
   ],
   "dur": 76.5,
-  "poster": "_official/hd-2d.jpg"
+  "poster": "_official/hd-2d.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/hd-2d/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/hd-2d.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "守灯人"
  },
  {
   "slug": "microgame",
@@ -1077,7 +1431,13 @@
    "Social shorts"
   ],
   "dur": 59.8,
-  "poster": "_official/microgame.jpg"
+  "poster": "_official/microgame.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/microgame/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/microgame.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "五秒宇航员"
  },
  {
   "slug": "game-show",
@@ -1095,7 +1455,13 @@
    "Variety shows"
   ],
   "dur": 148.8,
-  "poster": "_official/game-show.jpg"
+  "poster": "_official/game-show.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/game-show/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/game-show.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "AI 进化节拍"
  },
  {
   "slug": "ascii-crt",
@@ -1113,7 +1479,13 @@
    "Tech brands"
   ],
   "dur": 59.8,
-  "poster": "_official/ascii-crt.jpg"
+  "poster": "_official/ascii-crt.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/ascii-crt/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/ascii-crt.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "静海日志"
  },
  {
   "slug": "silent-film",
@@ -1131,7 +1503,13 @@
    "Silent storytelling"
   ],
   "dur": 54.2,
-  "poster": "_official/silent-film.jpg"
+  "poster": "_official/silent-film.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/silent-film/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/silent-film.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "逃跑的面包"
  },
  {
   "slug": "backrooms",
@@ -1149,7 +1527,13 @@
    "Game teasers"
   ],
   "dur": 59.7,
-  "poster": "_official/backrooms.jpg"
+  "poster": "_official/backrooms.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/backrooms/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/backrooms.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "夜班入职培训"
  },
  {
   "slug": "scratch-film",
@@ -1167,7 +1551,13 @@
    "Small adventures told in light and shadow"
   ],
   "dur": 52.0,
-  "poster": "_official/scratch-film.jpg"
+  "poster": "_official/scratch-film.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/scratch-film/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/scratch-film.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "夜里往上游"
  },
  {
   "slug": "double-exposure",
@@ -1185,7 +1575,13 @@
    "Music video intros"
   ],
   "dur": 50.5,
-  "poster": "_official/double-exposure.jpg"
+  "poster": "_official/double-exposure.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/double-exposure/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/double-exposure.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "山海"
  },
  {
   "slug": "dark-keynote",
@@ -1203,7 +1599,13 @@
    "Keynotes"
   ],
   "dur": 42.0,
-  "poster": "_official/dark-keynote.jpg"
+  "poster": "_official/dark-keynote.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/dark-keynote/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/dark-keynote.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "思考的空间"
  },
  {
   "slug": "living-screencast",
@@ -1221,7 +1623,13 @@
    "Onboarding"
   ],
   "dur": 59.4,
-  "poster": "_official/living-screencast.jpg"
+  "poster": "_official/living-screencast.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/living-screencast/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/living-screencast.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "Clawd 搬进来了"
  },
  {
   "slug": "hologram-hud",
@@ -1239,7 +1647,13 @@
    "Trade shows"
   ],
   "dur": 39.0,
-  "poster": "_official/hologram-hud.jpg"
+  "poster": "_official/hologram-hud.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/hologram-hud/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/hologram-hud.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "Volt 规格扫描"
  },
  {
   "slug": "desktop-flythrough",
@@ -1257,7 +1671,13 @@
    "Products"
   ],
   "dur": 60.0,
-  "poster": "_official/desktop-flythrough.jpg"
+  "poster": "_official/desktop-flythrough.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/desktop-flythrough/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/desktop-flythrough.mp4",
+  "play": "embed",
+  "voice_restricted": true,
+  "film_cn": "叮之前"
  },
  {
   "slug": "spreadsheet",
@@ -1275,7 +1695,13 @@
    "Analytics explainers"
   ],
   "dur": 52.0,
-  "poster": "_official/spreadsheet.jpg"
+  "poster": "_official/spreadsheet.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/spreadsheet/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/spreadsheet.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "藏起来的那一列"
  },
  {
   "slug": "one-bit-dither",
@@ -1293,7 +1719,13 @@
    "Night scenes and space"
   ],
   "dur": 50.0,
-  "poster": "_official/one-bit-dither.jpg"
+  "poster": "_official/one-bit-dither.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/one-bit-dither/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/one-bit-dither.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "月亮的传真"
  },
  {
   "slug": "circuit-board",
@@ -1311,7 +1743,13 @@
    "Devices"
   ],
   "dur": 60.0,
-  "poster": "_official/circuit-board.jpg"
+  "poster": "_official/circuit-board.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/circuit-board/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/circuit-board.mp4",
+  "play": "embed",
+  "voice_restricted": true,
+  "film_cn": "七毫秒"
  },
  {
   "slug": "firefly-pointillism",
@@ -1329,7 +1767,13 @@
    "Night and nature lyric"
   ],
   "dur": 50.6,
-  "poster": "_official/firefly-pointillism.jpg"
+  "poster": "_official/firefly-pointillism.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/firefly-pointillism/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/firefly-pointillism.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "你亮，我就亮"
  },
  {
   "slug": "flow-field",
@@ -1347,7 +1791,13 @@
    "Any flow measured against a threshold"
   ],
   "dur": 52.0,
-  "poster": "_official/flow-field.jpg"
+  "poster": "_official/flow-field.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/flow-field/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/flow-field.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "摩羯过琼州"
  },
  {
   "slug": "oscilloscope-math",
@@ -1365,7 +1815,13 @@
    "Science explainers"
   ],
   "dur": 51.1,
-  "poster": "_official/oscilloscope-math.jpg"
+  "poster": "_official/oscilloscope-math.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/oscilloscope-math/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/oscilloscope-math.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "吉布斯现象"
  },
  {
   "slug": "neon-tubes",
@@ -1383,7 +1839,13 @@
    "City and festival night idents"
   ],
   "dur": 48.0,
-  "poster": "_official/neon-tubes.jpg"
+  "poster": "_official/neon-tubes.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/neon-tubes/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/neon-tubes.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "夜宵"
  },
  {
   "slug": "brick-toy",
@@ -1401,7 +1863,13 @@
    "Space"
   ],
   "dur": 54.0,
-  "poster": "_official/brick-toy.jpg"
+  "poster": "_official/brick-toy.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/brick-toy/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/brick-toy.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "零件拼出的火箭"
  },
  {
   "slug": "paper-popup",
@@ -1419,7 +1887,13 @@
    "Story films"
   ],
   "dur": 133.0,
-  "poster": "_official/paper-popup.jpg"
+  "poster": "_official/paper-popup.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/paper-popup/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/paper-popup.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "小精灵冒险记"
  },
  {
   "slug": "tilt-shift",
@@ -1437,7 +1911,13 @@
    "Transport"
   ],
   "dur": 38.0,
-  "poster": "_official/tilt-shift.jpg"
+  "poster": "_official/tilt-shift.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/tilt-shift/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/tilt-shift.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "玩具城早高峰"
  },
  {
   "slug": "lowpoly-island",
@@ -1455,7 +1935,13 @@
    "Calm content"
   ],
   "dur": 53.0,
-  "poster": "_official/lowpoly-island.jpg"
+  "poster": "_official/lowpoly-island.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/lowpoly-island/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/lowpoly-island.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "长出来的岛"
  },
  {
   "slug": "glass-product",
@@ -1473,7 +1959,13 @@
    "Beauty"
   ],
   "dur": 32.0,
-  "poster": "_official/glass-product.jpg"
+  "poster": "_official/glass-product.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/glass-product/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/glass-product.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "Aura：听见光"
  },
  {
   "slug": "memphis-diorama",
@@ -1491,7 +1983,17 @@
    "Seasons"
   ],
   "dur": 45.0,
-  "poster": "_official/memphis-diorama.jpg"
+  "poster": "_official/memphis-diorama.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/memphis-diorama/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/memphis-diorama.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "by": {
+   "name": "EianLu",
+   "url": "https://x.com/EianLu"
+  },
+  "film_cn": "柚子城的四季"
  },
  {
   "slug": "isometric-picture-book",
@@ -1509,7 +2011,13 @@
    "Comparisons"
   ],
   "dur": 59.8,
-  "poster": "_official/isometric-picture-book.jpg"
+  "poster": "_official/isometric-picture-book.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/isometric-picture-book/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/isometric-picture-book.mp4",
+  "play": "embed",
+  "voice_restricted": true,
+  "film_cn": "七十二个座位"
  },
  {
   "slug": "crayon-world",
@@ -1527,7 +2035,17 @@
    "Journeys"
   ],
   "dur": 64.5,
-  "poster": "_official/crayon-world.jpg"
+  "poster": "_official/crayon-world.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/crayon-world/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/crayon-world.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "by": {
+   "name": "2nd1st",
+   "url": "https://github.com/2nd1st"
+  },
+  "film_cn": "蝴蝶"
  },
  {
   "slug": "satellite-briefing",
@@ -1545,7 +2063,13 @@
    "Geography"
   ],
   "dur": 37.8,
-  "poster": "_official/satellite-briefing.jpg"
+  "poster": "_official/satellite-briefing.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/satellite-briefing/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/satellite-briefing.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "地图上还写着海"
  },
  {
   "slug": "briefing-board",
@@ -1563,7 +2087,13 @@
    "Briefings"
   ],
   "dur": 40.0,
-  "poster": "_official/briefing-board.jpg"
+  "poster": "_official/briefing-board.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/briefing-board/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/briefing-board.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "船说了算"
  },
  {
   "slug": "lidar-survey",
@@ -1581,7 +2111,13 @@
    "Site surveys"
   ],
   "dur": 40.0,
-  "poster": "_official/lidar-survey.jpg"
+  "poster": "_official/lidar-survey.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/lidar-survey/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/lidar-survey.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "林下的田"
  },
  {
   "slug": "microscope",
@@ -1599,7 +2135,13 @@
    "Skincare science"
   ],
   "dur": 39.5,
-  "poster": "_official/microscope.jpg"
+  "poster": "_official/microscope.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/microscope/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/microscope.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "量出来的蓝"
  },
  {
   "slug": "archive-lighttable",
@@ -1617,7 +2159,13 @@
    "Museums"
   ],
   "dur": 40.0,
-  "poster": "_official/archive-lighttable.jpg"
+  "poster": "_official/archive-lighttable.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/archive-lighttable/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/archive-lighttable.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "差两秒"
  },
  {
   "slug": "security-xray",
@@ -1635,7 +2183,13 @@
    "Product internals"
   ],
   "dur": 51.9,
-  "poster": "_official/security-xray.jpg"
+  "poster": "_official/security-xray.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/security-xray/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/security-xray.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "安检口的夜班"
  },
  {
   "slug": "dark-documentary",
@@ -1653,7 +2207,13 @@
    "Astronomy, deep space and survey"
   ],
   "dur": 52.0,
-  "poster": "_official/dark-documentary.jpg"
+  "poster": "_official/dark-documentary.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/dark-documentary/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/dark-documentary.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "狂风里接住登月直播"
  },
  {
   "slug": "thermal-camera",
@@ -1671,7 +2231,13 @@
    "Machines and electrics"
   ],
   "dur": 49.0,
-  "poster": "_official/thermal-camera.jpg"
+  "poster": "_official/thermal-camera.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/thermal-camera/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/thermal-camera.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "冬夜，一栋楼的体温"
  },
  {
   "slug": "dataviz",
@@ -1689,7 +2255,13 @@
    "Climate & science"
   ],
   "dur": 50.0,
-  "poster": "_official/dataviz.jpg"
+  "poster": "_official/dataviz.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/dataviz/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/dataviz.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "一百个夏天"
  },
  {
   "slug": "white-model",
@@ -1707,7 +2279,13 @@
    "City data"
   ],
   "dur": 40.0,
-  "poster": "_official/white-model.jpg"
+  "poster": "_official/white-model.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/white-model/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/white-model.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "被炸平的城市怎样长回来"
  },
  {
   "slug": "data-physical",
@@ -1725,7 +2303,13 @@
    "Energy data"
   ],
   "dur": 39.4,
-  "poster": "_official/data-physical.jpg"
+  "poster": "_official/data-physical.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/data-physical/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/data-physical.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "两条螺旋"
  },
  {
   "slug": "transit-map",
@@ -1743,7 +2327,13 @@
    "Networks"
   ],
   "dur": 47.0,
-  "poster": "_official/transit-map.jpg"
+  "poster": "_official/transit-map.jpg",
+  "is_new": false,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/transit-map/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/transit-map.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "6 公里"
  },
  {
   "slug": "map-explainer",
@@ -1761,7 +2351,13 @@
    "Rivers, borders and terrain"
   ],
   "dur": 52.0,
-  "poster": "_official/map-explainer.jpg"
+  "poster": "_official/map-explainer.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/map-explainer/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/map-explainer.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "霍尔木兹海峡"
  },
  {
   "slug": "pip-simulation",
@@ -1779,6 +2375,12 @@
    "Epidemics, queues and markets"
   ],
   "dur": 52.0,
-  "poster": "_official/pip-simulation.jpg"
+  "poster": "_official/pip-simulation.jpg",
+  "is_new": true,
+  "official_page": "https://lemomo-ai.github.io/lemo-opuscar/zh/styles/pip-simulation/",
+  "film_url": "https://lemomo-ai.github.io/lemo-opuscar-films/pip-simulation.mp4",
+  "play": "embed",
+  "voice_restricted": false,
+  "film_cn": "跑得快，就更好吗？"
  }
 ]
