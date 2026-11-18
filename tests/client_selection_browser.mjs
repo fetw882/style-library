@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 import { spawn } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -64,15 +64,16 @@ async function main() {
     track(page, bag);
     await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: 1 });
     const privateFetches = [];
+    const externalFetches = [];
     page.on("request", (req) => {
       const url = req.url();
       if (/library(?:-overlays)?\.json/.test(url)) privateFetches.push(url);
+      if (/awesome-opus5-5-videos|media\.skillry\.dev/.test(url)) externalFetches.push(url);
     });
     await page.goto(base + "/index.html", { waitUntil: "domcontentloaded", timeout: 30000 });
-    await page.waitForSelector("[data-off]");
     await page.waitForFunction(() => {
       try {
-        return activeItems().length === 703 && document.querySelectorAll("#authorf option").length > 10;
+        return document.querySelectorAll("[data-off]").length === 99 && (document.querySelector("#status")?.textContent || "").includes("共 99 条");
       } catch (err) {
         return false;
       }
@@ -89,6 +90,10 @@ async function main() {
         shown: document.querySelectorAll(".grid [data-off], .grid [data-ext]").length,
         status: document.querySelector("#status")?.textContent || "",
         kindChips: document.querySelectorAll("#kinds .tab").length,
+        kindCount: document.querySelectorAll("#kind option").length,
+        pagerButtons: document.querySelectorAll("#pager button").length,
+        gridVideos: document.querySelectorAll("#grid video").length,
+        extCards: document.querySelectorAll("[data-ext]").length,
         offNote: !!document.querySelector("#offnote"),
         creditBox: !!document.querySelector(".credit-box"),
         creditLinks: document.querySelectorAll('a[href*="credits.html"]').length,
@@ -107,9 +112,9 @@ async function main() {
       };
     });
     report.logic.push(["private-cards-hidden", counts.mine === 0, counts.mine]);
-    report.logic.push(["catalog-802", counts.total === 802 && counts.off === 99 && counts.ext === 703, counts]);
-    report.logic.push(["library-status", counts.status.includes("共 802 条") && counts.status.includes("/ 34 页") && counts.shown === 24 && counts.kindChips >= 16, counts]);
-    report.logic.push(["client-filters", counts.hasPaint && counts.hasMotion && counts.authors > 2 && counts.hasContributors]);
+    report.logic.push(["catalog-99", counts.total === 99 && counts.off === 99 && counts.ext === 0, counts]);
+    report.logic.push(["all-on-one-page", counts.status.includes("共 99 条") && !counts.status.includes("页") && counts.shown === 99 && counts.pagerButtons === 0 && counts.gridVideos === 0 && counts.extCards === 0 && counts.kindChips === 16, counts]);
+    report.logic.push(["client-filters", counts.hasPaint && counts.hasMotion === false && counts.kindCount === 16 && counts.authors === 2 && counts.hasContributors]);
     report.logic.push(["first-screen-client", counts.banned.length === 0 && counts.lead === "看样片，选画面。" && counts.detailsOpen === false && counts.en === 0, counts.banned]);
     report.logic.push(["no-offnote", counts.offNote === false]);
     report.logic.push(["no-credit-box", counts.creditBox === false]);
@@ -164,9 +169,10 @@ async function main() {
     report.logic.push(["private-absent-html", coverage.hiddenInHtml.length === 0, coverage.hiddenInHtml]);
     report.logic.push(["private-absent-snapshot", coverage.snapSlugs.length === 0, coverage.snapSlugs]);
     report.logic.push(["private-absent-dom", coverage.mineDom === 0, coverage.mineDom]);
-    report.logic.push(["all-public-browsable", coverage.total === 802 && coverage.seen === 802 && coverage.missing.length === 0, coverage]);
-    report.logic.push(["category-complete", coverage.paint.length === 5 && coverage.paintShown.length === 5 && coverage.paintStatus.includes("共 5 条"), coverage]);
+    report.logic.push(["all-official-visible", coverage.total === 99 && coverage.seen === 99 && coverage.shown === 99 && coverage.missing.length === 0 && coverage.pagerButtons === 0 && coverage.extDom === 0, coverage]);
+    report.logic.push(["category-complete", coverage.paint.length === 5 && coverage.paintShown.length === 5 && coverage.paintStatus.includes("共 5 条") && !coverage.paintStatus.includes("页"), coverage]);
     report.logic.push(["no-private-fetch", privateFetches.length === 0, privateFetches]);
+    report.logic.push(["no-external-fetch", externalFetches.length === 0, externalFetches]);
 
     await page.evaluate(() => openOff("caption-news"));
     await page.waitForSelector("#off-player");
@@ -288,66 +294,16 @@ async function main() {
     report.logic.push(["dataviz-src-restored", restored.includes("/dataviz.mp4"), restored]);
     await page.click("#pan .x");
 
-    await page.click('[data-t="ext"]');
-    await page.waitForFunction(() => document.querySelectorAll("[data-ext]").length > 0, { timeout: 15000 });
-    const ext = await page.evaluate(() => {
-      const shown = document.querySelectorAll("[data-ext]").length;
-      const visible = [...document.querySelectorAll("[data-ext]")].find((node) => node.querySelector("[data-preview]"));
-      let sample = visible ? visible.getAttribute("data-ext") : "";
-      if (!sample) {
-        document.querySelector("#remake").value = "yes";
-        setView({ tab: "ext", kind: "", q: "", fit: "" });
-        sample = document.querySelector("[data-preview]")?.closest("[data-ext]")?.getAttribute("data-ext") || "";
-      }
+    const catalog = JSON.parse(await readFile(path.join(root, "external/awesome-opus5-5-videos/catalog.json"), "utf8"));
+    const externalLeak = await page.evaluate((slugs) => {
+      const html = document.documentElement.innerHTML;
+      const official = new Set((OFF || []).map((item) => item.slug));
       return {
-        shown,
-        total: activeItems().length,
-        remakes: activeItems().filter((it) => it.has_remake).length,
-        sample,
+        cards: document.querySelectorAll("[data-ext]").length,
+        leaked: slugs.filter((slug) => !official.has(slug) && html.includes(slug)).slice(0, 5),
       };
-    });
-    report.logic.push(["external-page-24", ext.shown === 24, ext.shown]);
-    report.logic.push(["external-total-703", ext.total === 703, ext.total]);
-    report.logic.push(["external-remakes-418", ext.remakes === 418, ext.remakes]);
-    if (ext.sample) {
-      await page.click(`[data-ext="${ext.sample}"]`);
-      await page.waitForSelector("#preview-slot video", { timeout: 5000 }).catch(() => null);
-      const clip = await page.evaluate((slug) => {
-        const v = document.querySelector("#preview-slot video");
-        return { src: v ? v.getAttribute("src") : "", controls: !!(v && v.hasAttribute("controls")), slug };
-      }, ext.sample);
-      const expected = `https://media.skillry.dev/opus-5-5/${ext.sample}/remake.mp4`;
-      report.logic.push(["external-src-logic", clip.src === expected, clip.src]);
-      report.logic.push(["external-controls", clip.controls === true]);
-      const extLock = await page.evaluate(() => {
-        const video = document.querySelector("#preview-slot video");
-        const list = (video.getAttribute("controlsList") || "").toLowerCase();
-        const menu = new MouseEvent("contextmenu", { bubbles: true, cancelable: true });
-        return {
-          nodownload: list.includes("nodownload"),
-          noremote: list.includes("noremoteplayback"),
-          pip: video.disablePictureInPicture === true,
-          prevented: video.dispatchEvent(menu) === false,
-          textHasUrl: /https?:\/\//.test(document.querySelector("#pan")?.innerText || ""),
-        };
-      });
-      report.logic.push(["external-video-lock", extLock.nodownload && extLock.noremote && extLock.pip && extLock.prevented && !extLock.textHasUrl, extLock]);
-      const played = await page.evaluate(() => new Promise((resolve) => {
-        const v = document.querySelector("#preview-slot video");
-        if (!v) return resolve("no-element");
-        const timer = setTimeout(() => resolve(v.error ? "error" : "pending"), 4000);
-        v.addEventListener("error", () => { clearTimeout(timer); resolve("error"); }, { once: true });
-        v.addEventListener("loadeddata", () => { clearTimeout(timer); resolve("loaded"); }, { once: true });
-      }));
-      if (played === "loaded") report.logic.push(["external-playback", true]);
-      else report.network.push(["external-playback", played, "logic src checked separately"]);
-      const extCredit = await page.evaluate(() => /署名|制作说明|作者主页|版权归原作者/.test(document.querySelector("#pan")?.innerText || ""));
-      report.logic.push(["external-no-credit", extCredit === false]);
-      report.logic.push(["external-no-anchor", (await externalAnchors(page)).length === 0]);
-      await page.click("#pan .x");
-      const extClosed = await page.evaluate(() => [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")));
-      report.logic.push(["external-close-unloads", extClosed.every((src) => !src), extClosed]);
-    }
+    }, catalog.items.filter((item) => item && item.slug).map((item) => item.slug));
+    report.logic.push(["no-external-entries", externalLeak.cards === 0 && externalLeak.leaked.length === 0, externalLeak]);
 
     await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
     await page.click('[data-t="off"]');
@@ -375,10 +331,12 @@ async function main() {
     await page.click("#pan .x");
     await page.click('[data-t="off"]');
     await page.waitForSelector("[data-off]");
-    report.logic.push(["narrow-official", (await overflow(page)).ok]);
-    await page.click('[data-t="ext"]');
-    await page.waitForSelector("[data-ext]");
-    report.logic.push(["narrow-external", (await overflow(page)).ok]);
+    const narrowOfficial = await page.evaluate(() => ({
+      cards: document.querySelectorAll("[data-off]").length,
+      pager: document.querySelectorAll("#pager button").length,
+      overflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+    }));
+    report.logic.push(["narrow-official", narrowOfficial.cards === 99 && narrowOfficial.pager === 0 && narrowOfficial.overflow, narrowOfficial]);
 
     report.console = { index: bag };
     const failed = report.logic.filter((row) => row[1] !== true);
