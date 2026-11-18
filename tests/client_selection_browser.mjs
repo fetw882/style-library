@@ -61,15 +61,43 @@ async function main() {
     await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: 1 });
     await page.goto(base + "/index.html", { waitUntil: "domcontentloaded", timeout: 30000 });
     await page.waitForSelector("[data-mine]");
+    await page.waitForFunction(() => {
+      try {
+        return activeItems().length === 703 && document.querySelectorAll("#authorf option").length > 10;
+      } catch (err) {
+        return false;
+      }
+    }, { timeout: 15000 });
 
-    const counts = await page.evaluate(() => ({
-      mine: document.querySelectorAll("[data-mine]").length,
-      offNote: !!document.querySelector("#offnote"),
-      creditBox: !!document.querySelector(".credit-box"),
-      creditLinks: document.querySelectorAll('a[href*="credits.html"]').length,
-      creditText: /署名|Lemo-Opuscar|CC BY|制作说明/.test(document.body.innerText),
-    }));
+    const counts = await page.evaluate(() => {
+      const text = document.body.innerText;
+      const banned = ["官方风格参考", "外部作品参考", "可制作的风格", "草稿", "已认可", "Anatomy Iso Object", "Brand Title Opener", "Lemo-Opuscar", "EianLu", "2nd1st", "署名", "制作说明"];
+      const all = allEntries();
+      const authors = [...document.querySelectorAll("#authorf option")].map((opt) => opt.value).filter(Boolean);
+      const kinds = [...document.querySelectorAll("#kind option")].map((opt) => opt.value);
+      return {
+        mine: document.querySelectorAll("[data-mine]").length,
+        offNote: !!document.querySelector("#offnote"),
+        creditBox: !!document.querySelector(".credit-box"),
+        creditLinks: document.querySelectorAll('a[href*="credits.html"]').length,
+        creditText: /署名|Lemo-Opuscar|CC BY|制作说明/.test(text),
+        banned: banned.filter((word) => text.includes(word)),
+        lead: document.querySelector(".lead")?.textContent || "",
+        detailsOpen: document.querySelector("#more")?.open === true,
+        en: document.querySelectorAll(".grid .en").length,
+        total: all.length,
+        off: all.filter((item) => item.source === "off").length,
+        ext: all.filter((item) => item.source === "ext").length,
+        authors: authors.length,
+        hasContributors: authors.includes("2nd1st") && authors.includes("EianLu"),
+        hasPaint: kinds.includes("绘画插画"),
+        hasMotion: kinds.includes("动态图形"),
+      };
+    });
     report.logic.push(["mine-count-7", counts.mine === 7, counts.mine]);
+    report.logic.push(["catalog-809", counts.total === 809 && counts.off === 99 && counts.ext === 703, counts]);
+    report.logic.push(["client-filters", counts.hasPaint && counts.hasMotion && counts.authors > 2 && counts.hasContributors]);
+    report.logic.push(["first-screen-client", counts.banned.length === 0 && counts.lead === "看样片，选画面。" && counts.detailsOpen === false && counts.en === 0, counts.banned]);
     report.logic.push(["no-offnote", counts.offNote === false]);
     report.logic.push(["no-credit-box", counts.creditBox === false]);
     report.logic.push(["no-credit-links", counts.creditLinks === 0, counts.creditLinks]);
@@ -77,6 +105,10 @@ async function main() {
 
     await page.screenshot({ path: path.join(outDir, "selection-desktop-1280.png") });
     report.shots.push("selection-desktop-1280.png");
+    await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
+    await page.screenshot({ path: path.join(outDir, "selection-mobile-390.png") });
+    report.shots.push("selection-mobile-390.png");
+    await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: 1 });
 
     await page.evaluate(() => {
       window.__log = [];
@@ -94,7 +126,7 @@ async function main() {
       text: document.querySelector("#pan .scope")?.textContent || "",
     }));
     report.logic.push(["anatomy-no-player", anatomy.videos === 0, anatomy.videos]);
-    report.logic.push(["anatomy-not-ours", anatomy.text.includes("不是我们自己的成片")]);
+    report.logic.push(["anatomy-not-ours", anatomy.text.includes("不是我们自己的成片") && anatomy.text.includes("也不能当作我们已经能做这个风格的证明"), anatomy.text]);
     await page.click("#pan .x");
     await page.waitForSelector("#dlg.on", { hidden: true });
 
@@ -144,26 +176,32 @@ async function main() {
     const closed = await page.evaluate(() => [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")));
     report.logic.push(["close-unloads-src", closed.every((src) => !src), closed]);
 
+    await page.click("#more summary");
     await page.click('[data-t="off"]');
     await page.waitForSelector("[data-off]");
     const groups = await page.evaluate(() => {
-      const cats = (S.official_gallery.categories || []).map((c) => c.cn);
-      const heads = [...document.querySelectorAll(".station h2")].map((h) => h.textContent.trim());
-      const section = [...document.querySelectorAll(".station")].find((node) => node.querySelector("h2")?.textContent.includes("绘画插画"));
-      const first = section?.querySelector("[data-off]")?.getAttribute("data-off");
-      const ordered = sortOfficialGroup(OFF.filter((s) => s.cat === "绘画插画")).map((s) => s.slug);
+      setView({ tab: "all", kind: "", q: "", fit: "品牌" });
+      const brand = filtered().map((item) => item.slug);
+      setView({ tab: "all", kind: "", q: "caption-news", fit: "" });
+      const found = filtered().map((item) => item.slug);
+      setView({ tab: "off", kind: "绘画插画", q: "", fit: "" });
+      const rows = filtered().map((item) => item.slug);
+      const ordered = sortOfficialGroup(OFF.filter((item) => item.cat === "绘画插画")).map((item) => item.slug);
+      const first = document.querySelector("[data-off]")?.getAttribute("data-off");
+      setView({ tab: "off", kind: "", q: "", fit: "" });
       return {
-        heads,
-        cats,
-        count: document.querySelectorAll("[data-off]").length,
+        brand,
+        found,
         first,
-        ordered: ordered[0],
-        newFirst: ordered.filter((slug) => OFF.find((s) => s.slug === slug)?.is_new).length,
+        rows,
+        ordered,
+        offCount: allEntries().filter((item) => item.source === "off").length,
       };
     });
-    report.logic.push(["official-count-99", groups.count === 99, groups.count]);
-    report.logic.push(["official-group-order", JSON.stringify(groups.heads) === JSON.stringify(groups.cats)]);
-    report.logic.push(["official-new-first", groups.first === "colored-pencil" && groups.ordered === "colored-pencil"]);
+    report.logic.push(["fit-brand", groups.brand.includes("brand-title-opener"), groups.brand.slice(0, 6)]);
+    report.logic.push(["search-slug", groups.found.length === 1 && groups.found[0] === "caption-news", groups.found]);
+    report.logic.push(["official-count-99", groups.offCount === 99, groups.offCount]);
+    report.logic.push(["official-new-first", groups.first === "colored-pencil" && JSON.stringify(groups.rows) === JSON.stringify(groups.ordered), groups]);
 
     await page.click('[data-off="caption-news"]');
     await page.waitForSelector("#off-player");
@@ -176,20 +214,31 @@ async function main() {
     report.logic.push(["official-switch-src", offSwitch.length === 1 && offSwitch[0].includes("newsreel.mp4") && !offSwitch[0].includes("caption-news")]);
     await page.evaluate(() => openOff("crayon-world"));
     const offCredit = await page.evaluate(() => ({
-      leak: /署名|Lemo-Opuscar|CC BY|制作说明|EianLu|2nd1st/.test(document.body.innerText),
+      leak: /署名|Lemo-Opuscar|CC BY|制作说明|EianLu|2nd1st/.test(document.querySelector("#pan")?.innerText || ""),
       title: document.querySelector("#pan h2")?.textContent || "",
+      englishSubtitle: !!document.querySelector("#pan .en"),
     }));
-    report.logic.push(["official-no-credit", offCredit.leak === false && offCredit.title.includes("蜡笔"), offCredit]);
+    report.logic.push(["official-no-credit", offCredit.leak === false && offCredit.englishSubtitle === false && offCredit.title.includes("蜡笔"), offCredit]);
     await page.click("#pan .x");
 
     await page.click('[data-t="ext"]');
     await page.waitForFunction(() => document.querySelectorAll("[data-ext]").length > 0, { timeout: 15000 });
-    const ext = await page.evaluate(() => ({
-      shown: document.querySelectorAll("[data-ext]").length,
-      total: activeItems().length,
-      remakes: activeItems().filter((it) => it.has_remake).length,
-      sample: activeItems().find((it) => it.has_remake)?.slug || "",
-    }));
+    const ext = await page.evaluate(() => {
+      const shown = document.querySelectorAll("[data-ext]").length;
+      const visible = [...document.querySelectorAll("[data-ext]")].find((node) => node.querySelector("[data-preview]"));
+      let sample = visible ? visible.getAttribute("data-ext") : "";
+      if (!sample) {
+        document.querySelector("#remake").value = "yes";
+        setView({ tab: "ext", kind: "", q: "", fit: "" });
+        sample = document.querySelector("[data-preview]")?.closest("[data-ext]")?.getAttribute("data-ext") || "";
+      }
+      return {
+        shown,
+        total: activeItems().length,
+        remakes: activeItems().filter((it) => it.has_remake).length,
+        sample,
+      };
+    });
     report.logic.push(["external-page-24", ext.shown === 24, ext.shown]);
     report.logic.push(["external-total-703", ext.total === 703, ext.total]);
     report.logic.push(["external-remakes-418", ext.remakes === 418, ext.remakes]);
@@ -224,8 +273,6 @@ async function main() {
     await page.waitForSelector("[data-mine]");
     const narrowMine = await overflow(page);
     report.logic.push(["narrow-mine", narrowMine.ok, narrowMine]);
-    await page.screenshot({ path: path.join(outDir, "selection-mobile-390.png") });
-    report.shots.push("selection-mobile-390.png");
     await page.click('[data-mine="brand-title-opener"]');
     await page.waitForSelector("#pan video");
     const narrowDetail = await overflow(page);
@@ -241,7 +288,7 @@ async function main() {
     report.shots.push("detail-mobile-390.png");
     await page.click("#pan .x");
     await page.click('[data-t="off"]');
-    await page.waitForSelector(".station");
+    await page.waitForSelector("[data-off]");
     report.logic.push(["narrow-official", (await overflow(page)).ok]);
     await page.click('[data-t="ext"]');
     await page.waitForSelector("[data-ext]");
