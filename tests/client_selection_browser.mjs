@@ -43,6 +43,10 @@ async function overflow(page) {
   });
 }
 
+async function externalAnchors(page) {
+  return page.evaluate(() => [...document.querySelectorAll("a[href]")].filter((anchor) => /^https?:/i.test(anchor.getAttribute("href") || "")).map((anchor) => `${anchor.textContent.trim().slice(0, 40)} ${anchor.getAttribute("href")}`));
+}
+
 async function main() {
   await mkdir(outDir, { recursive: true });
   const server = await startServer();
@@ -102,6 +106,31 @@ async function main() {
     report.logic.push(["no-credit-box", counts.creditBox === false]);
     report.logic.push(["no-credit-links", counts.creditLinks === 0, counts.creditLinks]);
     report.logic.push(["no-credit-text", counts.creditText === false]);
+    const homeAnchors = await externalAnchors(page);
+    report.logic.push(["home-no-external-anchor", homeAnchors.length === 0, homeAnchors]);
+    const templateLeaks = await page.evaluate(() => {
+      const found = [];
+      const take = (label, html) => {
+        const box = document.createElement("div");
+        box.innerHTML = html || "";
+        const links = [...box.querySelectorAll("a[href]")].filter((anchor) => /^https?:/i.test(anchor.getAttribute("href") || ""));
+        if (links.length) found.push(`${label} ${links[0].getAttribute("href")}`);
+      };
+      (LIB.styles || []).forEach((item) => take(`mine:${item.slug}`, cardMine(item)));
+      (OFF || []).forEach((item) => {
+        take(`off-card:${item.slug}`, cardOff(item));
+        take(`off-player:${item.slug}`, officialPlayer(item));
+      });
+      if (OFF[0]) take("off-no-embed", officialPlayer({ ...OFF[0], play: "link" }));
+      activeItems().forEach((item) => {
+        take(`ext-card:${item.slug}`, cardExt(item));
+        take(`ext-thumb:${item.slug}`, cardThumb(item));
+        take(`ext-fail:${item.slug}`, previewFail(item));
+      });
+      take("md", md("说明 https://example.com/license 结束"));
+      return found.slice(0, 8);
+    });
+    report.logic.push(["templates-no-external-anchor", templateLeaks.length === 0, templateLeaks]);
 
     await page.screenshot({ path: path.join(outDir, "selection-desktop-1280.png") });
     report.shots.push("selection-desktop-1280.png");
@@ -127,6 +156,7 @@ async function main() {
     }));
     report.logic.push(["anatomy-no-player", anatomy.videos === 0, anatomy.videos]);
     report.logic.push(["anatomy-not-ours", anatomy.text.includes("不是我们自己的成片") && anatomy.text.includes("也不能当作我们已经能做这个风格的证明"), anatomy.text]);
+    report.logic.push(["anatomy-no-external-anchor", (await externalAnchors(page)).length === 0]);
     await page.click("#pan .x");
     await page.waitForSelector("#dlg.on", { hidden: true });
 
@@ -219,6 +249,25 @@ async function main() {
       englishSubtitle: !!document.querySelector("#pan .en"),
     }));
     report.logic.push(["official-no-credit", offCredit.leak === false && offCredit.englishSubtitle === false && offCredit.title.includes("蜡笔"), offCredit]);
+    report.logic.push(["crayon-no-external-anchor", (await externalAnchors(page)).length === 0]);
+    await page.evaluate(() => openOff("dataviz"));
+    await page.waitForSelector("#off-player");
+    const dataviz = await page.evaluate(() => ({
+      src: document.querySelector("#off-player")?.getAttribute("src") || "",
+      text: document.querySelector("#pan")?.innerText || "",
+    }));
+    const datavizAnchors = await externalAnchors(page);
+    report.logic.push(["dataviz-src", dataviz.src.includes("/dataviz.mp4"), dataviz.src]);
+    report.logic.push(["dataviz-no-outbound", datavizAnchors.length === 0 && !/打开官方风格原片页|官方成片文件|原作者风格页|creativecommons|github\.com/.test(dataviz.text), datavizAnchors]);
+    await page.screenshot({ path: path.join(outDir, "detail-official-desktop-1280.png") });
+    report.shots.push("detail-official-desktop-1280.png");
+    await page.evaluate(() => mountOfficialPlayerError());
+    const failedPlayer = await page.evaluate(() => document.querySelector("#off-player-slot")?.innerText || "");
+    report.logic.push(["official-error-no-outbound", (await externalAnchors(page)).length === 0 && !/https?:\/\//.test(failedPlayer), failedPlayer]);
+    await page.evaluate(() => openOff("dataviz"));
+    await page.waitForSelector("#off-player");
+    const restored = await page.$eval("#off-player", (video) => video.getAttribute("src") || "");
+    report.logic.push(["dataviz-src-restored", restored.includes("/dataviz.mp4"), restored]);
     await page.click("#pan .x");
 
     await page.click('[data-t="ext"]');
@@ -261,8 +310,9 @@ async function main() {
       }));
       if (played === "loaded") report.logic.push(["external-playback", true]);
       else report.network.push(["external-playback", played, "logic src checked separately"]);
-      const extCredit = await page.evaluate(() => /署名|制作说明|作者主页|版权归原作者/.test(document.body.innerText));
+      const extCredit = await page.evaluate(() => /署名|制作说明|作者主页|版权归原作者/.test(document.querySelector("#pan")?.innerText || ""));
       report.logic.push(["external-no-credit", extCredit === false]);
+      report.logic.push(["external-no-anchor", (await externalAnchors(page)).length === 0]);
       await page.click("#pan .x");
       const extClosed = await page.evaluate(() => [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")));
       report.logic.push(["external-close-unloads", extClosed.every((src) => !src), extClosed]);
@@ -286,6 +336,11 @@ async function main() {
     report.logic.push(["narrow-controls-clear", narrowLayout.titleAbove && narrowLayout.scopeBelow && narrowLayout.videoRight, narrowLayout]);
     await page.screenshot({ path: path.join(outDir, "detail-mobile-390.png") });
     report.shots.push("detail-mobile-390.png");
+    await page.evaluate(() => openOff("dataviz"));
+    await page.waitForSelector("#off-player");
+    report.logic.push(["narrow-dataviz-no-anchor", (await externalAnchors(page)).length === 0 && (await overflow(page)).ok]);
+    await page.screenshot({ path: path.join(outDir, "detail-official-mobile-390.png") });
+    report.shots.push("detail-official-mobile-390.png");
     await page.click("#pan .x");
     await page.click('[data-t="off"]');
     await page.waitForSelector("[data-off]");

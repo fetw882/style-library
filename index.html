@@ -347,7 +347,7 @@ if(!window._cardKeys){
     card.click();
   });
 }
-function md(t){t=esc(t);const L=t.split('\n');let o='',tb=null,ul=false;const inl=s=>s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<i>$1</i>').replace(/(https?:\/\/[^\s)<]+)/g,'<a href="$1" target="_blank">$1</a>');
+function md(t){t=esc(t);const L=t.split('\n');let o='',tb=null,ul=false;const inl=s=>s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<i>$1</i>').replace(/(https?:\/\/[^\s)<]+)/g,'');
 for(const l of L){if(/^\|/.test(l)){if(/^\|[\s\-:|]+\|$/.test(l))continue;const c=l.slice(1,-1).split('|').map(x=>inl(x.trim()));if(!tb){tb=1;o+='<table><tr>'+c.map(x=>'<th>'+x+'</th>').join('')+'</tr>'}else o+='<tr>'+c.map(x=>'<td>'+x+'</td>').join('')+'</tr>';continue}if(tb){o+='</table>';tb=null}
 if(/^- /.test(l)){if(!ul){o+='<ul>';ul=true}o+='<li>'+inl(l.slice(2))+'</li>';continue}if(ul){o+='</ul>';ul=false}
 let m;if(m=l.match(/^(#{1,3}) (.*)/))o+=`<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`;else if(/^&gt; /.test(l))o+='<p style="color:#a59d92">'+inl(l.slice(5))+'</p>';else if(l.trim())o+='<p>'+inl(l)+'</p>'}
@@ -447,14 +447,11 @@ function syncTools(){
 }
 function officialPlayer(s){
   const film=officialFilmUrl(s);
-  const page=officialPageUrl(s);
-  const pageLink=page?`<a href="${esc(page)}" target="_blank" rel="noopener noreferrer">打开官方风格原片页</a>`:"";
-  const fileLink=film?`<a href="${esc(film)}" target="_blank" rel="noopener noreferrer">官方成片文件</a>`:"";
-  if(!canEmbedOfficial(s)) return `<div class="player-wrap" id="off-player-slot"><p>这条不能在页内播放。${pageLink||"官方原片入口暂缺。"} ${fileLink}</p></div>`;
+  if(!canEmbedOfficial(s)) return `<div class="player-wrap" id="off-player-slot"><p>这条不能在页内播放。</p></div>`;
   return `<div class="player-wrap" id="off-player-slot"><video id="off-player" controls playsinline preload="metadata" poster="${esc(s.poster||"")}" src="${esc(film)}"></video></div>`;
 }
 
-function mountOfficialPlayerError(){const box=$("#off-player-slot");if(!box||!window._offItem)return;const s=window._offItem;const page=officialPageUrl(s);const film=officialFilmUrl(s);box.innerHTML=`<p>官方样片加载失败，未放空播放器。请改用 ${page?`<a href="${esc(page)}" target="_blank" rel="noopener noreferrer">官方风格原片页</a>`:"官方原片入口"} ${film?`或 <a href="${esc(film)}" target="_blank" rel="noopener noreferrer">官方成片文件</a>`:""}。</p>`}
+function mountOfficialPlayerError(){const box=$("#off-player-slot");if(!box||!window._offItem)return;box.innerHTML="<p>官方样片加载失败。</p>"}
 function cardOff(s){
   const v=offView(s);
   const title=clientTitle(s.cn,s.en);
@@ -497,7 +494,7 @@ function drawOff(){const g=$("#grid");g.className="stations";const gal=S.officia
 const EXT_PAGE=24;let EXT=null,extErr='',extPage=0,listPage=0,extLoaded=false,OVERLAYS={},TECHMAP={stack:{},technique:{}},OFFOVER={},offOverlayLoaded=false;
 const CAT_CN={motion:'动态图形',explainer:'讲解','3d':'3D',interactive:'交互 / 游戏'};
 function safeUrl(u){if(typeof u!=='string'||u.length>500)return '';try{const x=new URL(u);if(x.protocol!=='https:'||x.username||x.password)return '';return x.href}catch(e){return ''}}
-function extLink(url,label){const h=safeUrl(url);if(!h)return '';return `<a href="${esc(h)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`}
+function extLink(url,label){return ""}
 function activeItems(){return ((EXT&&EXT.items)||[]).filter(it=>it&&!it.tombstone)}
 async function loadExt(){if(extLoaded||extErr)return;extLoaded=true;try{const r=await fetch('external/awesome-opus5-5-videos/catalog.json',{cache:'no-store'});if(!r.ok)throw new Error('http');const j=await r.json();if(!j||!Array.isArray(j.items))throw new Error('shape');EXT=j;try{const tm=await fetch('external/awesome-opus5-5-videos/tech-map.json',{cache:'no-store'});if(tm.ok){const m=await tm.json();TECHMAP={stack:m.stack||{},technique:m.technique||{}}}}catch(e){}try{const ov=await fetch('external/awesome-opus5-5-videos/overlays.json',{cache:'no-store'});if(ov.ok){const o=await ov.json();OVERLAYS=o.items||{}}}catch(e){}if(tab==="ext")syncTools()}catch(e){EXT=null;extErr='外部参考目录加载失败。个人风格和官方风格没有改动。'}}
 function extSummary(it){const extra=OVERLAYS[it.slug]||{};if(extra.summary_checked_at&&extra.summary_cn)return {text:extra.summary_cn,kind:"human",note:extra.summary_evidence||"人工核实"};if(it.summary_checked_at&&it.summary_cn)return {text:it.summary_cn,kind:"human",note:it.summary_evidence||"人工核实"};if(it.summary_status==="author"&&it.summary_cn)return {text:it.summary_cn,kind:"author",note:"据原作者描述"};return {text:it.summary_missing||(it.title?"上游有 title，还没有对应的中文短译":"上游 videos.json 没有 title，也没有 description 字段"),kind:"missing",note:it.summary_missing||"上游没有 title 或 description"}}
