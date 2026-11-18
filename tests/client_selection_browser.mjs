@@ -63,8 +63,13 @@ async function main() {
     const page = await browser.newPage();
     track(page, bag);
     await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: 1 });
+    const privateFetches = [];
+    page.on("request", (req) => {
+      const url = req.url();
+      if (/library(?:-overlays)?\.json/.test(url)) privateFetches.push(url);
+    });
     await page.goto(base + "/index.html", { waitUntil: "domcontentloaded", timeout: 30000 });
-    await page.waitForSelector("[data-mine]");
+    await page.waitForSelector("[data-off]");
     await page.waitForFunction(() => {
       try {
         return activeItems().length === 703 && document.querySelectorAll("#authorf option").length > 10;
@@ -81,6 +86,9 @@ async function main() {
       const kinds = [...document.querySelectorAll("#kind option")].map((opt) => opt.value);
       return {
         mine: document.querySelectorAll("[data-mine]").length,
+        shown: document.querySelectorAll(".grid [data-off], .grid [data-ext]").length,
+        status: document.querySelector("#status")?.textContent || "",
+        kindChips: document.querySelectorAll("#kinds .tab").length,
         offNote: !!document.querySelector("#offnote"),
         creditBox: !!document.querySelector(".credit-box"),
         creditLinks: document.querySelectorAll('a[href*="credits.html"]').length,
@@ -98,8 +106,9 @@ async function main() {
         hasMotion: kinds.includes("动态图形"),
       };
     });
-    report.logic.push(["mine-count-7", counts.mine === 7, counts.mine]);
-    report.logic.push(["catalog-809", counts.total === 809 && counts.off === 99 && counts.ext === 703, counts]);
+    report.logic.push(["private-cards-hidden", counts.mine === 0, counts.mine]);
+    report.logic.push(["catalog-802", counts.total === 802 && counts.off === 99 && counts.ext === 703, counts]);
+    report.logic.push(["library-status", counts.status.includes("共 802 条") && counts.status.includes("/ 34 页") && counts.shown === 24 && counts.kindChips >= 16, counts]);
     report.logic.push(["client-filters", counts.hasPaint && counts.hasMotion && counts.authors > 2 && counts.hasContributors]);
     report.logic.push(["first-screen-client", counts.banned.length === 0 && counts.lead === "看样片，选画面。" && counts.detailsOpen === false && counts.en === 0, counts.banned]);
     report.logic.push(["no-offnote", counts.offNote === false]);
@@ -148,60 +157,69 @@ async function main() {
       };
     });
 
-    await page.click('[data-mine="anatomy-iso-object"]');
-    await page.waitForSelector("#dlg.on");
-    const anatomy = await page.evaluate(() => ({
-      videos: document.querySelectorAll("#pan video").length,
-      text: document.querySelector("#pan .scope")?.textContent || "",
-    }));
-    report.logic.push(["anatomy-no-player", anatomy.videos === 0, anatomy.videos]);
-    report.logic.push(["anatomy-not-ours", anatomy.text.includes("不是我们自己的成片") && anatomy.text.includes("也不能当作我们已经能做这个风格的证明"), anatomy.text]);
-    report.logic.push(["anatomy-no-external-anchor", (await externalAnchors(page)).length === 0]);
-    await page.click("#pan .x");
-    await page.waitForSelector("#dlg.on", { hidden: true });
+    const coverage = await page.evaluate(() => publicCoverage());
+    const pageHtml = await page.content();
+    const hidden = ["anatomy-iso-object", "brand-title-opener", "cartoon-facts", "film-direct-engrave", "light-dot-particles", "paper-checklist-explainer", "pixel-rpg-25d-explainer"];
+    coverage.hiddenInHtml = hidden.filter((slug) => pageHtml.includes(slug));
+    report.logic.push(["private-absent-html", coverage.hiddenInHtml.length === 0, coverage.hiddenInHtml]);
+    report.logic.push(["private-absent-snapshot", coverage.snapSlugs.length === 0, coverage.snapSlugs]);
+    report.logic.push(["private-absent-dom", coverage.mineDom === 0, coverage.mineDom]);
+    report.logic.push(["all-public-browsable", coverage.total === 802 && coverage.seen === 802 && coverage.missing.length === 0, coverage]);
+    report.logic.push(["category-complete", coverage.paint.length === 5 && coverage.paintShown.length === 5 && coverage.paintStatus.includes("共 5 条"), coverage]);
+    report.logic.push(["no-private-fetch", privateFetches.length === 0, privateFetches]);
 
-    await page.click('[data-mine="brand-title-opener"]');
-    await page.waitForSelector("#pan video");
-    const brandSrc = await page.$eval("#pan video", (v) => v.getAttribute("src") || "");
-    const brandControls = await page.$eval("#pan video", (v) => v.hasAttribute("controls"));
-    report.logic.push(["brand-src", brandSrc.includes("brand-title-opener/test.mp4"), brandSrc]);
-    report.logic.push(["brand-controls", brandControls === true]);
+    await page.evaluate(() => openOff("caption-news"));
+    await page.waitForSelector("#off-player");
+    const locked = await page.evaluate(() => {
+      const video = document.querySelector("#off-player");
+      const list = (video.getAttribute("controlsList") || "").toLowerCase();
+      const menu = new MouseEvent("contextmenu", { bubbles: true, cancelable: true });
+      const allowed = video.dispatchEvent(menu);
+      return {
+        controls: video.hasAttribute("controls"),
+        nodownload: list.includes("nodownload"),
+        noremote: list.includes("noremoteplayback"),
+        pip: video.disablePictureInPicture === true,
+        nofullscreen: list.includes("nofullscreen"),
+        prevented: allowed === false,
+        textHasUrl: /https?:\/\//.test(document.querySelector("#pan")?.innerText || ""),
+        downloadEntry: !!document.querySelector("#pan a[download], #pan a[href^='http']"),
+      };
+    });
+    report.logic.push(["video-lock", locked.controls && locked.nodownload && locked.noremote && locked.pip && locked.prevented && !locked.nofullscreen && !locked.textHasUrl && !locked.downloadEntry, locked]);
     try {
-      await page.waitForFunction(() => document.querySelector("#pan video")?.readyState >= 1, { timeout: 8000 });
+      await page.waitForFunction(() => document.querySelector("#off-player")?.readyState >= 1, { timeout: 8000 });
       await page.evaluate(() => {
-        const v = document.querySelector("#pan video");
-        v.currentTime = Math.min(0.4, (v.duration || 1) / 2);
+        const video = document.querySelector("#off-player");
+        video.currentTime = Math.min(0.4, (video.duration || 1) / 2);
       });
       await page.waitForFunction(() => {
-        const v = document.querySelector("#pan video");
-        return v && v.currentTime > 0.05;
+        const video = document.querySelector("#off-player");
+        return video && video.currentTime > 0.05;
       }, { timeout: 4000 });
-      report.logic.push(["brand-seek", true]);
+      report.logic.push(["official-seek", true]);
     } catch (err) {
-      report.network.push(["brand-seek-or-decode", String(err).split("\n")[0]]);
-      report.logic.push(["brand-seek", false, "see network"]);
+      report.network.push(["official-seek-or-decode", String(err).split("\n")[0]]);
+      report.logic.push(["official-seek", false, "see network"]);
     }
-    const brandLayout = await page.evaluate(() => {
+    const playLayout = await page.evaluate(() => {
       const video = document.querySelector("#pan video").getBoundingClientRect();
       const title = document.querySelector("#pan h2").getBoundingClientRect();
       const scope = document.querySelector("#pan .scope").getBoundingClientRect();
-      return {
-        titleAbove: title.bottom <= video.top + 1,
-        scopeBelow: scope.top >= video.bottom - 1,
-      };
+      return { titleAbove: title.bottom <= video.top + 1, scopeBelow: scope.top >= video.bottom - 1 };
     });
-    report.logic.push(["desktop-controls-clear-title", brandLayout.titleAbove && brandLayout.scopeBelow, brandLayout]);
+    report.logic.push(["desktop-controls-clear-title", playLayout.titleAbove && playLayout.scopeBelow, playLayout]);
     await page.screenshot({ path: path.join(outDir, "detail-desktop-1280.png") });
     report.shots.push("detail-desktop-1280.png");
 
-    await page.evaluate(() => openS("pixel-rpg-25d-explainer"));
-    await page.waitForFunction(() => (document.querySelector("#pan video")?.getAttribute("src") || "").includes("pixel-rpg"));
+    await page.evaluate(() => openOff("newsreel"));
+    await page.waitForFunction(() => (document.querySelector("#off-player")?.getAttribute("src") || "").includes("newsreel"));
     const switched = await page.evaluate(() => ({
       srcs: [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")),
       log: window.__log,
     }));
-    report.logic.push(["switch-stops-previous", switched.log.some((row) => row[0] === "stop" && (row[1][0] || "").includes("brand-title-opener"))]);
-    report.logic.push(["switch-only-new-src", switched.srcs.length === 1 && switched.srcs[0].includes("pixel-rpg") && !switched.srcs[0].includes("brand-title")]);
+    report.logic.push(["switch-stops-previous", switched.log.some((row) => row[0] === "stop" && (row[1][0] || "").includes("caption-news"))]);
+    report.logic.push(["switch-only-new-src", switched.srcs.length === 1 && switched.srcs[0].includes("newsreel") && !switched.srcs[0].includes("caption-news")]);
     await page.click("#pan .x");
     const closed = await page.evaluate(() => [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")));
     report.logic.push(["close-unloads-src", closed.every((src) => !src), closed]);
@@ -228,7 +246,7 @@ async function main() {
         offCount: allEntries().filter((item) => item.source === "off").length,
       };
     });
-    report.logic.push(["fit-brand", groups.brand.includes("brand-title-opener"), groups.brand.slice(0, 6)]);
+    report.logic.push(["fit-brand-public-only", groups.brand.every((slug) => !/anatomy-iso-object|brand-title-opener|cartoon-facts|film-direct-engrave|light-dot-particles|paper-checklist|pixel-rpg-25d/.test(slug)), groups.brand.slice(0, 6)]);
     report.logic.push(["search-slug", groups.found.length === 1 && groups.found[0] === "caption-news", groups.found]);
     report.logic.push(["official-count-99", groups.offCount === 99, groups.offCount]);
     report.logic.push(["official-new-first", groups.first === "colored-pencil" && JSON.stringify(groups.rows) === JSON.stringify(groups.ordered), groups]);
@@ -301,6 +319,19 @@ async function main() {
       const expected = `https://media.skillry.dev/opus-5-5/${ext.sample}/remake.mp4`;
       report.logic.push(["external-src-logic", clip.src === expected, clip.src]);
       report.logic.push(["external-controls", clip.controls === true]);
+      const extLock = await page.evaluate(() => {
+        const video = document.querySelector("#preview-slot video");
+        const list = (video.getAttribute("controlsList") || "").toLowerCase();
+        const menu = new MouseEvent("contextmenu", { bubbles: true, cancelable: true });
+        return {
+          nodownload: list.includes("nodownload"),
+          noremote: list.includes("noremoteplayback"),
+          pip: video.disablePictureInPicture === true,
+          prevented: video.dispatchEvent(menu) === false,
+          textHasUrl: /https?:\/\//.test(document.querySelector("#pan")?.innerText || ""),
+        };
+      });
+      report.logic.push(["external-video-lock", extLock.nodownload && extLock.noremote && extLock.pip && extLock.prevented && !extLock.textHasUrl, extLock]);
       const played = await page.evaluate(() => new Promise((resolve) => {
         const v = document.querySelector("#preview-slot video");
         if (!v) return resolve("no-element");
@@ -319,11 +350,11 @@ async function main() {
     }
 
     await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
-    await page.click('[data-t="mine"]');
-    await page.waitForSelector("[data-mine]");
+    await page.click('[data-t="off"]');
+    await page.waitForSelector("[data-off]");
     const narrowMine = await overflow(page);
-    report.logic.push(["narrow-mine", narrowMine.ok, narrowMine]);
-    await page.click('[data-mine="brand-title-opener"]');
+    report.logic.push(["narrow-grid", narrowMine.ok, narrowMine]);
+    await page.evaluate(() => openOff("caption-news"));
     await page.waitForSelector("#pan video");
     const narrowDetail = await overflow(page);
     const narrowLayout = await page.evaluate(() => {

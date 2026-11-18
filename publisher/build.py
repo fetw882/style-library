@@ -101,6 +101,23 @@ def official():
     return rows
 
 
+def public_library():
+    """Personal styles stay in library.json. The public page snapshot does not carry them."""
+    return {"hash": "", "count": 0, "styles": []}
+
+
+def embedded_gallery(html):
+    match = re.search(r'<script id="snapshot" type="application/json">(.*?)</script>', html, re.S)
+    if not match:
+        return None
+    try:
+        data = json.loads(match.group(1).replace("<\\/", "</"))
+    except json.JSONDecodeError:
+        return None
+    gallery = data.get("official_gallery")
+    return gallery if isinstance(gallery, dict) else None
+
+
 def main():
     page = os.path.join(M, "index.html")
     html = rd(page)
@@ -126,7 +143,11 @@ def main():
     with open(official_path, "w", encoding="utf-8") as handle:
         json.dump(off, handle, ensure_ascii=False, indent=1)
         handle.write("\n")
-    snapshot = json.dumps({"library": data, "official": off}, ensure_ascii=False).replace("</", "<\\/")
+    public = {"library": public_library(), "official": off}
+    gallery = embedded_gallery(html)
+    if gallery:
+        public["official_gallery"] = gallery
+    snapshot = json.dumps(public, ensure_ascii=False).replace("</", "<\\/")
     updated = re.sub(
         r'(<script id="snapshot" type="application/json">).*?(</script>)',
         lambda match: match.group(1) + snapshot + match.group(2),
