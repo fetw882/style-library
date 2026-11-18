@@ -259,21 +259,6 @@ details.more summary{cursor:pointer;color:var(--muted);min-height:44px;display:f
   </label>
 </div>
 <div id="kinds" class="kinds"></div>
-<details class="more" id="more">
-  <summary>按来源或作者找</summary>
-  <div class="source-row">
-    <div class="tabs" id="source-tabs">
-      <button class="tab on" type="button" data-t="all">全部</button>
-      <button class="tab" type="button" data-t="off">官方样片</button>
-    </div>
-    <label>作者
-      <select id="authorf" onchange="listPage=0;draw()"><option value="">全部</option></select>
-    </label>
-    <label>预览
-      <select id="remake" onchange="listPage=0;draw()"><option value="">全部</option><option value="yes">有片可看</option><option value="no">先看图</option></select>
-    </label>
-  </div>
-</details>
 <div id="status"></div>
 <div class="grid" id="grid"></div>
 <div id="pager" class="pager"></div>
@@ -304,9 +289,6 @@ function techniqueLine(list){
   return {main:all.slice(0,6).map(esc).join("、"),extra:all.slice(6).map(esc).join("、")};
 }
 function mineScope(){return "";}
-function offScope(){
-  return "这是官方样片，用来对照这种画面，不是我们自己的成片。";
-}
 function paintTabs(){
   document.querySelectorAll("#source-tabs .tab").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
 }
@@ -439,7 +421,7 @@ function officialPlayer(s){
   return `<div class="player-wrap" id="off-player-slot"><video id="off-player" controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline preload="metadata" oncontextmenu="event.preventDefault()" poster="${esc(s.poster||"")}" src="${esc(film)}"></video></div>`;
 }
 
-function mountOfficialPlayerError(){const box=$("#off-player-slot");if(!box||!window._offItem)return;box.innerHTML="<p>官方样片加载失败。</p>"}
+function mountOfficialPlayerError(){const box=$("#off-player-slot");if(!box||!window._offItem)return;box.innerHTML="<p>画面加载失败。</p>"}
 function cardOff(s){
   const v=offView(s);
   const title=clientTitle(s.cn,s.en);
@@ -458,7 +440,7 @@ function openOff(slug){
   const techLine=techniqueLine(v.techniques);
   const uses=(s.uses||[]).filter(Boolean);
   const badge=s.is_new?'<span class="badge-new">上新</span>':"";
-  $("#pan").innerHTML=`<button class="x" type="button" onclick="closeD()">×</button><h2>${badge}${esc(clientTitle(s.cn,s.en))}</h2>${officialPlayer(s)}<p class="ln">${esc(v.summary||s.line_cn||"")}</p>${uses.length?`<p class="fit"><span>适合</span>${esc(uses.join("、"))}</p>`:""}${techLine.main?`<p>画面手法：${techLine.main}</p>`:""}<p class="scope">${esc(offScope())}</p>`;
+  $("#pan").innerHTML=`<button class="x" type="button" onclick="closeD()">×</button><h2>${badge}${esc(clientTitle(s.cn,s.en))}</h2>${officialPlayer(s)}<p class="ln">${esc(v.summary||s.line_cn||"")}</p>${uses.length?`<p class="fit"><span>适合</span>${esc(uses.join("、"))}</p>`:""}${techLine.main?`<p>画面手法：${techLine.main}</p>`:""}`;
   $("#dlg").classList.add("on");
   const vid=$("#off-player");
   if(vid){
@@ -519,7 +501,7 @@ function openExt(slug,mode){
   const blurb=known?tv.summary:"没有文字简介，直接看画面。";
   const techLine=techniqueLine(tv.techniques);
   const stage=s.has_remake?'<p class="links"><button type="button" class="mini" onclick="mountClip(window._extItem,\'remake.mp4\')">播放重制</button> <button type="button" class="mini" onclick="mountClip(window._extItem,\'original.mp4\')">播放原片</button></p><div id="preview-slot"><p class="src">还没加载。点播放才会取出画面。</p></div>':'<div id="preview-slot"><p>这条没有页内预览。</p></div><p><button type="button" class="mini" onclick="mountPoster(window._extItem)">查看封面</button></p>';
-  $("#pan").innerHTML=`<button class="x" type="button" onclick="closeD()">×</button><h2>${esc(s.title||s.slug)}</h2>${stage}<p class="ln">${esc(blurb)}</p>${techLine.main?`<p>画面手法：${techLine.main}</p>`:""}<p class="scope">这是别人的作品，用来看画面感觉，不是我们可以按同款做的片子。</p>`;
+  $("#pan").innerHTML=`<button class="x" type="button" onclick="closeD()">×</button><h2>${esc(s.title||s.slug)}</h2>${stage}<p class="ln">${esc(blurb)}</p>${techLine.main?`<p>画面手法：${techLine.main}</p>`:""}`;
   $("#dlg").classList.add("on");
   if(mode==="remake") mountClip(s,"remake.mp4");
   else if(mode==="original") mountClip(s,"original.mp4");
@@ -586,7 +568,7 @@ function openS(slug){
   const v=mineView(s);
   const techLine=techniqueLine(v.techniques);
   const media=s.video?`<video controls controlsList="nodownload noremoteplayback" disablePictureInPicture playsinline preload="metadata" oncontextmenu="event.preventDefault()" src="${esc(s.video)}?h=${LIB.hash}" poster="${esc(s.poster||"")}"></video>`:(s.poster?`<img class="cover" alt="" src="${esc(s.poster)}?h=${LIB.hash}">`:"");
-  $("#pan").innerHTML=`<button class="x" type="button" onclick="closeD()">×</button><h2>${esc(clientTitle(s.cn,s.en))}</h2>${media}<p class="ln">${esc(view.look)}</p>${view.fit?`<p class="fit"><span>适合</span>${esc(view.fit)}</p>`:""}${techLine.main?`<p>画面手法：${techLine.main}</p>`:""}<p class="scope">${esc(mineScope(s))}</p>`;
+  $("#pan").innerHTML=`<button class="x" type="button" onclick="closeD()">×</button><h2>${esc(clientTitle(s.cn,s.en))}</h2>${media}<p class="ln">${esc(view.look)}</p>${view.fit?`<p class="fit"><span>适合</span>${esc(view.fit)}</p>`:""}${techLine.main?`<p>画面手法：${techLine.main}</p>`:""}`;
   $("#dlg").classList.add("on");
   const vid=$("#pan video");
   if(vid){

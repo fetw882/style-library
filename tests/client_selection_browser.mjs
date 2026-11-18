@@ -101,6 +101,8 @@ async function main() {
         banned: banned.filter((word) => text.includes(word)),
         lead: document.querySelector(".lead")?.textContent || "",
         detailsOpen: document.querySelector("#more")?.open === true,
+        sourceGone: !document.querySelector("#more") && !text.includes("按来源或作者找"),
+        disclaimer: !text.includes("这是官方样片") && !text.includes("不是我们自己的成片"),
         en: document.querySelectorAll(".grid .en").length,
         total: all.length,
         off: all.filter((item) => item.source === "off").length,
@@ -114,7 +116,7 @@ async function main() {
     report.logic.push(["private-cards-hidden", counts.mine === 0, counts.mine]);
     report.logic.push(["catalog-99", counts.total === 99 && counts.off === 99 && counts.ext === 0, counts]);
     report.logic.push(["all-on-one-page", counts.status.includes("共 99 条") && !counts.status.includes("页") && counts.shown === 99 && counts.pagerButtons === 0 && counts.gridVideos === 0 && counts.extCards === 0 && counts.kindChips === 16, counts]);
-    report.logic.push(["client-filters", counts.hasPaint && counts.hasMotion === false && counts.kindCount === 16 && counts.authors === 2 && counts.hasContributors]);
+    report.logic.push(["client-filters", counts.hasPaint && counts.hasMotion === false && counts.kindCount === 16 && counts.sourceGone && counts.disclaimer]);
     report.logic.push(["first-screen-client", counts.banned.length === 0 && counts.lead === "看样片，选画面。" && counts.detailsOpen === false && counts.en === 0, counts.banned]);
     report.logic.push(["no-offnote", counts.offNote === false]);
     report.logic.push(["no-credit-box", counts.creditBox === false]);
@@ -211,10 +213,10 @@ async function main() {
     const playLayout = await page.evaluate(() => {
       const video = document.querySelector("#pan video").getBoundingClientRect();
       const title = document.querySelector("#pan h2").getBoundingClientRect();
-      const scope = document.querySelector("#pan .scope").getBoundingClientRect();
-      return { titleAbove: title.bottom <= video.top + 1, scopeBelow: scope.top >= video.bottom - 1 };
+      const copy = document.querySelector("#pan .ln").getBoundingClientRect();
+      return { titleAbove: title.bottom <= video.top + 1, copyBelow: copy.top >= video.bottom - 1, disclaimer: /这是官方样片|不是我们自己的成片|按来源或作者找/.test(document.querySelector("#pan")?.innerText || "") };
     });
-    report.logic.push(["desktop-controls-clear-title", playLayout.titleAbove && playLayout.scopeBelow, playLayout]);
+    report.logic.push(["desktop-controls-clear-title", playLayout.titleAbove && playLayout.copyBelow && playLayout.disclaimer === false, playLayout]);
     await page.screenshot({ path: path.join(outDir, "detail-desktop-1280.png") });
     report.shots.push("detail-desktop-1280.png");
 
@@ -230,8 +232,6 @@ async function main() {
     const closed = await page.evaluate(() => [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")));
     report.logic.push(["close-unloads-src", closed.every((src) => !src), closed]);
 
-    await page.click("#more summary");
-    await page.click('[data-t="off"]');
     await page.waitForSelector("[data-off]");
     const groups = await page.evaluate(() => {
       setView({ tab: "all", kind: "", q: "", fit: "品牌" });
@@ -306,7 +306,6 @@ async function main() {
     report.logic.push(["no-external-entries", externalLeak.cards === 0 && externalLeak.leaked.length === 0, externalLeak]);
 
     await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
-    await page.click('[data-t="off"]');
     await page.waitForSelector("[data-off]");
     const narrowMine = await overflow(page);
     report.logic.push(["narrow-grid", narrowMine.ok, narrowMine]);
@@ -316,11 +315,11 @@ async function main() {
     const narrowLayout = await page.evaluate(() => {
       const video = document.querySelector("#pan video").getBoundingClientRect();
       const title = document.querySelector("#pan h2").getBoundingClientRect();
-      const scope = document.querySelector("#pan .scope").getBoundingClientRect();
-      return { titleAbove: title.bottom <= video.top + 1, scopeBelow: scope.top >= video.bottom - 1, videoRight: video.right <= window.innerWidth + 1 };
+      const copy = document.querySelector("#pan .ln").getBoundingClientRect();
+      return { titleAbove: title.bottom <= video.top + 1, copyBelow: copy.top >= video.bottom - 1, videoRight: video.right <= window.innerWidth + 1 };
     });
     report.logic.push(["narrow-detail", narrowDetail.ok, narrowDetail]);
-    report.logic.push(["narrow-controls-clear", narrowLayout.titleAbove && narrowLayout.scopeBelow && narrowLayout.videoRight, narrowLayout]);
+    report.logic.push(["narrow-controls-clear", narrowLayout.titleAbove && narrowLayout.copyBelow && narrowLayout.videoRight, narrowLayout]);
     await page.screenshot({ path: path.join(outDir, "detail-mobile-390.png") });
     report.shots.push("detail-mobile-390.png");
     await page.evaluate(() => openOff("dataviz"));
@@ -329,7 +328,6 @@ async function main() {
     await page.screenshot({ path: path.join(outDir, "detail-official-mobile-390.png") });
     report.shots.push("detail-official-mobile-390.png");
     await page.click("#pan .x");
-    await page.click('[data-t="off"]');
     await page.waitForSelector("[data-off]");
     const narrowOfficial = await page.evaluate(() => ({
       cards: document.querySelectorAll("[data-off]").length,
@@ -337,6 +335,69 @@ async function main() {
       overflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
     }));
     report.logic.push(["narrow-official", narrowOfficial.cards === 99 && narrowOfficial.pager === 0 && narrowOfficial.overflow, narrowOfficial]);
+    const clientHtml = await page.content();
+    report.logic.push(["client-no-private-link", !clientHtml.includes("private.html") && !/anatomy-iso-object|brand-title-opener|cartoon-facts|film-direct-engrave|light-dot-particles|paper-checklist-explainer|pixel-rpg-25d-explainer/.test(clientHtml)]);
+
+    await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: 1 });
+    await page.goto(base + "/private.html", { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.waitForFunction(() => document.querySelectorAll("[data-slug]").length === 7, { timeout: 15000 });
+    const mine = await page.evaluate(() => ({
+      cards: document.querySelectorAll("[data-slug]").length,
+      status: document.querySelector("#status")?.textContent || "",
+      robots: document.querySelector('meta[name="robots"]')?.content || "",
+      anchors: [...document.querySelectorAll("a[href]")].filter((a) => /^https?:/i.test(a.getAttribute("href") || "")).length,
+      draft: [...document.querySelectorAll(".pill")].filter((el) => el.textContent === "草稿").length,
+      approved: [...document.querySelectorAll(".pill")].filter((el) => el.textContent === "已认可").length,
+      videos: document.querySelectorAll("#grid video").length,
+    }));
+    report.logic.push(["private-page-7", mine.cards === 7 && mine.status === "共 7 条" && mine.draft === 3 && mine.approved === 4 && mine.videos === 0 && mine.anchors === 0 && /noindex/.test(mine.robots), mine]);
+    await page.screenshot({ path: path.join(outDir, "private-desktop-1280.png") });
+    report.shots.push("private-desktop-1280.png");
+    await page.click('[data-slug="anatomy-iso-object"]');
+    await page.waitForSelector("#dlg.on");
+    const anatomy = await page.evaluate(() => ({
+      videos: document.querySelectorAll("#pan video").length,
+      note: document.querySelector("#pan .note")?.textContent || "",
+      anchors: [...document.querySelectorAll("a[href]")].length,
+    }));
+    report.logic.push(["anatomy-screenshot-note", anatomy.videos === 0 && anatomy.note.includes("别人的示例截图") && anatomy.anchors === 0, anatomy]);
+    await page.click("#pan .x");
+    await page.click('[data-slug="brand-title-opener"]');
+    await page.waitForSelector("#pan video");
+    const mineLock = await page.evaluate(() => {
+      const video = document.querySelector("#pan video");
+      const list = (video.getAttribute("controlsList") || "").toLowerCase();
+      const menu = new MouseEvent("contextmenu", { bubbles: true, cancelable: true });
+      return {
+        src: video.getAttribute("src") || "",
+        controls: video.hasAttribute("controls"),
+        nodownload: list.includes("nodownload"),
+        noremote: list.includes("noremoteplayback"),
+        pip: video.disablePictureInPicture === true,
+        prevented: video.dispatchEvent(menu) === false,
+        textHasUrl: /https?:\/\//.test(document.querySelector("#pan")?.innerText || ""),
+      };
+    });
+    report.logic.push(["private-video-lock", mineLock.src.includes("brand-title-opener/test.mp4") && mineLock.controls && mineLock.nodownload && mineLock.noremote && mineLock.pip && mineLock.prevented && !mineLock.textHasUrl, mineLock]);
+    try {
+      await page.waitForFunction(() => document.querySelector("#pan video")?.readyState >= 1, { timeout: 8000 });
+      await page.evaluate(() => {
+        const video = document.querySelector("#pan video");
+        video.currentTime = Math.min(0.4, (video.duration || 1) / 2);
+      });
+      await page.waitForFunction(() => document.querySelector("#pan video")?.currentTime > 0.05, { timeout: 4000 });
+      report.logic.push(["private-seek", true]);
+    } catch (err) {
+      report.network.push(["private-seek", String(err).split("\n")[0]]);
+      report.logic.push(["private-seek", false, "see network"]);
+    }
+    await page.click("#pan .x");
+    const mineClosed = await page.evaluate(() => [...document.querySelectorAll("#pan video")].map((v) => v.getAttribute("src")));
+    report.logic.push(["private-close-unloads", mineClosed.every((src) => !src), mineClosed]);
+    await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
+    report.logic.push(["private-narrow", (await overflow(page)).ok]);
+    await page.screenshot({ path: path.join(outDir, "private-mobile-390.png") });
+    report.shots.push("private-mobile-390.png");
 
     report.console = { index: bag };
     const failed = report.logic.filter((row) => row[1] !== true);
