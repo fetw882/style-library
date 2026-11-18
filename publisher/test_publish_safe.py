@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -521,6 +522,31 @@ class BundleTests(unittest.TestCase):
         self.assertEqual(statuses["light-dot-particles"], "draft")
         nums = [item["num"] for item in json.loads((pages / "official.json").read_text(encoding="utf-8"))]
         self.assertEqual((len(nums), nums[0], nums[-1]), (66, "63", "77"))
+
+
+class PublicSnapshotTests(unittest.TestCase):
+    def test_public_snapshot_keeps_personal_styles_out_of_the_page(self):
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location("style_public_snapshot", BUILD)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        public = module.public_library()
+        self.assertEqual(public, {"hash": "", "count": 0, "styles": []})
+        library = json.loads((ROOT / "library.json").read_text(encoding="utf-8"))
+        self.assertGreaterEqual(len(library["styles"]), 7)
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        gallery = module.embedded_gallery(html)
+        self.assertEqual(len(gallery["categories"]), 15)
+        for item in library["styles"]:
+            self.assertNotIn(item["slug"], html)
+        snapshot = json.loads(
+            re.search(r'<script id="snapshot" type="application/json">(.*?)</script>', html, re.S)
+            .group(1)
+            .replace("<\\/", "</")
+        )
+        self.assertEqual(snapshot["library"]["styles"], [])
+        self.assertEqual(len(snapshot["official"]), 99)
 
 
 if __name__ == "__main__":
